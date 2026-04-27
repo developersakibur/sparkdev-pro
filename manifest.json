@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "SparkDev Pro",
+  "version": "1.0.0",
+  "description": "Unified toolset: clamp() Generator, WebP Pro, and WP Quick Tools",
+  "icons": {
+    "128": "assets/icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "assets/icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "core/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["core/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "downloads",
+    "contextMenus",
+    "scripting",
+    "browsingData",
+    "tabs",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://*.freepik.com/*",
+    "https://*.watermarkremover.io/*"
+  ]
+}

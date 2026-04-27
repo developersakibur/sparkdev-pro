@@ -1,0 +1,132 @@
+/* Scoped WP Tools Styles */
+
+#tab-wp .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#tab-wp h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #00ffff;
+}
+
+#tab-wp .container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#tab-wp .section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#tab-wp .position-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background: #141416;
+  border-radius: 10px;
+  padding: 4px;
+  border: 1px solid #27272a;
+}
+
+#tab-wp .position-btn {
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #a1a1aa;
+  font-family: inherit;
+}
+
+#tab-wp .position-btn:hover {
+  color: #e5e5e5;
+}
+
+#tab-wp .position-btn.active {
+  background: linear-gradient(135deg, #00ffff 0%, #06b6d4 100%);
+  color: #0a0a0b;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+}
+
+#tab-wp .link-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+#tab-wp .link-item {
+  background: #141416;
+  border: 1px solid #27272a;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#tab-wp .link-item:hover {
+  border-color: #00ffff;
+  background: #18181b;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.1);
+}
+
+#tab-wp .link-label {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#tab-wp .tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+#tab-wp .btn {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #141416;
+  color: #a1a1aa;
+  border: 1px solid #27272a;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+#tab-wp .btn:hover {
+  border-color: #3f3f46;
+  color: #e5e5e5;
+  background: #18181b;
+}
+
+#tab-wp .btn-primary {
+  background: linear-gradient(135deg, #00ffff 0%, #06b6d4 100%);
+  color: #0a0a0b;
+  border: none;
+  box-shadow: 0 4px 12px rgba(34, 211, 238, 0.2);
+  width: 100%;
+}
