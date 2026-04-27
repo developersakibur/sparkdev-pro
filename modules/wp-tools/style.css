@@ -67,20 +67,20 @@
 }
 
 #tab-wp .link-item {
-  background: #141416;
-  border: 1px solid #27272a;
+  background: rgba(0, 255, 255, 0.03);
+  border: 1px solid rgba(0, 255, 255, 0.2);
   border-radius: 10px;
   padding: 12px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 #tab-wp .link-item:hover {
   border-color: #00ffff;
-  background: #18181b;
+  background: rgba(0, 255, 255, 0.08);
   box-shadow: 0 0 20px rgba(34, 211, 238, 0.1);
 }
 
@@ -88,7 +88,8 @@
   display: flex;
   align-items: center;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
+  color: #00ffff;
   white-space: nowrap;
   overflow: hidden;
 }

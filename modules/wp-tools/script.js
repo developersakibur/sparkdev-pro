@@ -38,14 +38,6 @@
     }
   }
 
-  function showToast(message) {
-    const toast = document.createElement("div");
-    toast.className = "toast";
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 1500);
-  }
-
   function generateNoCacheParam() {
     const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
     let result = "";
@@ -109,7 +101,7 @@
     if (!currentUrl.startsWith("http://") && !currentUrl.startsWith("https://")) {
       const container = document.querySelector("#tab-wp .container");
       if (container) {
-        container.innerHTML = '<div class="toast" style="position:static; transform:none; animation:none; margin:20px;">Please use on a website</div>';
+        container.innerHTML = '<div style="color: #f87171; text-align: center; margin: 20px; font-size: 13px; font-weight: 500;">Please use on a website</div>';
       }
       return;
     }
@@ -140,7 +132,6 @@
         
         // Refresh page to apply/remove
         chrome.tabs.reload(tab.id);
-        showToast(loaderToggle.checked ? "✓ Loader Hidden (Reloading)" : "✓ Loader Restored (Reloading)");
       });
     }
 
@@ -148,7 +139,6 @@
     document.getElementById("beforeBtn")?.addEventListener("click", async () => {
       if (await saveTabPosition("before")) {
         updateTabPositionButtons("before");
-        showToast("← Tabs: Before");
       }
     });
 
@@ -156,7 +146,6 @@
     document.getElementById("afterBtn")?.addEventListener("click", async () => {
       if (await saveTabPosition("after")) {
         updateTabPositionButtons("after");
-        showToast("→ Tabs: After");
       }
     });
 
@@ -217,9 +206,6 @@
           await navigator.clipboard.writeText(hqUrl);
           const watermarkRemoverUrl = `https://www.watermarkremover.io/?url=${encodeURIComponent(hqUrl)}`;
           chrome.windows.create({ url: watermarkRemoverUrl, incognito: true });
-          showToast("✓ Image Link Copied & Opening Tool");
-        } else {
-          showToast("❌ No Image Found");
         }
       } else if (url.includes("watermarkremover.io")) {
         // WatermarkRemover Download Logic
@@ -242,11 +228,9 @@
             window.URL.revokeObjectURL(downloadUrl);
           }
         });
-        showToast("✓ Download Started");
       } else {
         // Default Copy URL Logic
         navigator.clipboard.writeText(url);
-        showToast("✓ URL Copied");
       }
     });
   }
