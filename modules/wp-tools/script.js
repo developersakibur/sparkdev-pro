@@ -121,6 +121,29 @@
     await loadTabPosition();
     updateTabPositionButtons(tabPosition);
 
+    // --- Elementor Loader Toggle Logic ---
+    const loaderToggle = document.getElementById("elementorLoaderToggle");
+    if (loaderToggle) {
+      const { elementorHideSettings } = await chrome.storage.local.get(["elementorHideSettings"]);
+      const settings = elementorHideSettings || {};
+      loaderToggle.checked = !!settings[domain];
+
+      loaderToggle.addEventListener("change", async () => {
+        const { elementorHideSettings: currentSettings } = await chrome.storage.local.get(["elementorHideSettings"]);
+        const updatedSettings = currentSettings || {};
+        if (loaderToggle.checked) {
+          updatedSettings[domain] = true;
+        } else {
+          delete updatedSettings[domain];
+        }
+        await chrome.storage.local.set({ elementorHideSettings: updatedSettings });
+        
+        // Refresh page to apply/remove
+        chrome.tabs.reload(tab.id);
+        showToast(loaderToggle.checked ? "✓ Loader Hidden (Reloading)" : "✓ Loader Restored (Reloading)");
+      });
+    }
+
     // Before button handler
     document.getElementById("beforeBtn")?.addEventListener("click", async () => {
       if (await saveTabPosition("before")) {

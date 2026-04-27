@@ -115,3 +115,21 @@ function buildFilename(url) {
 
   return `img_${ts}.webp`;
 }
+
+// --- Elementor Loader Hider ---
+(async function() {
+  const domain = window.location.hostname;
+  try {
+    const result = await chrome.storage.local.get(['elementorHideSettings']);
+    const settings = result.elementorHideSettings || {};
+    
+    if (settings[domain]) {
+      const style = document.createElement('style');
+      style.id = 'sparkdev-hide-elementor-loader';
+      style.textContent = '#elementor-panel-state-loading { display: none !important; }';
+      document.documentElement.appendChild(style);
+    }
+  } catch (e) {
+    console.error('[SparkDev Pro]', e);
+  }
+})();
