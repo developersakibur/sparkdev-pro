@@ -115,6 +115,17 @@
   box-shadow: 0 0 20px rgba(34, 211, 238, 0.1);
 }
 
+/* Hide spin buttons */
+#tab-webp input[type="number"]::-webkit-outer-spin-button,
+#tab-webp input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#tab-webp input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 #tab-webp .range-wrap {
   display: flex;
   align-items: center;

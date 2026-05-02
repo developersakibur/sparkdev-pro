@@ -31,6 +31,14 @@
     - **WatermarkRemover.io Integration**: Automates the download of processed images.
 - **Domain Analysis**: Integrated DNS checking and Google PageSpeed Insights analysis.
 
+### 4. Secure Password Generator
+*A robust utility for creating cryptographically secure passwords.*
+- **Advanced Entropy**: Uses `window.crypto.getRandomValues()` for high-security randomness.
+- **Customizable Complexity**: Toggle between Uppercase, Lowercase, Numbers, and Symbols.
+- **Adjustable Length**: Generate passwords from 8 up to 64 characters.
+- **Interactive Controls**: Features live-generation on setting changes and scroll-wheel support for length adjustment.
+- **One-Click Copy**: Quickly copy your new password to the clipboard with visual feedback.
+
 ---
 
 ## 🛠 Installation Guide

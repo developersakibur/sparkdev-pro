@@ -341,13 +341,25 @@
   function handleWheel(e, inputEl) {
     if (document.activeElement === inputEl) {
       e.preventDefault();
-      const currentValue = parseInt(inputEl.value) || 0;
-      const min = parseInt(inputEl.min);
-      const max = parseInt(inputEl.max);
-      let newValue = e.deltaY < 0 ? currentValue + 1 : currentValue - 1;
-      if (!isNaN(min)) newValue = Math.max(min, newValue);
-      if (!isNaN(max)) newValue = Math.min(max, newValue);
-      inputEl.value = newValue;
+      let currentValue = parseInt(inputEl.value);
+      const isUp = e.deltaY < 0;
+      
+      if (inputEl.id === "maxSizeClamp" && inputEl.value === "") {
+        // Initialize to 20 ONLY when starting from an empty field
+        inputEl.value = 20;
+      } else {
+        // Normal increment/decrement
+        currentValue = isNaN(currentValue) ? 0 : currentValue;
+        const min = parseInt(inputEl.min);
+        const max = parseInt(inputEl.max);
+        let newValue = isUp ? currentValue + 1 : currentValue - 1;
+        
+        if (!isNaN(min)) newValue = Math.max(min, newValue);
+        if (!isNaN(max)) newValue = Math.min(max, newValue);
+        
+        inputEl.value = newValue;
+      }
+      
       inputEl.dispatchEvent(new Event('input'));
     }
   }

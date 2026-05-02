@@ -8,12 +8,14 @@
   <link rel="stylesheet" href="modules/clamp/style.css">
   <link rel="stylesheet" href="modules/webp/style.css">
   <link rel="stylesheet" href="modules/wp-tools/style.css">
+  <link rel="stylesheet" href="modules/pass/style.css">
 </head>
 <body>
   <div class="tabs-nav">
     <button class="tab-btn active" data-tab="tab-clamp">Clamp</button>
     <button class="tab-btn" data-tab="tab-webp">WebP</button>
     <button class="tab-btn" data-tab="tab-wp">WP Tools</button>
+    <button class="tab-btn" data-tab="tab-pass">Pass</button>
   </div>
 
   <div id="tab-clamp" class="tab-content active">
@@ -32,7 +34,7 @@
         <input id="minSize" type="number" value="" step="1" placeholder="Min">
       </div>
       <div class="input-group">
-        <input id="maxSizeClamp" type="number" value="20" step="1" placeholder="Max" autofocus>
+        <input id="maxSizeClamp" type="number" value="" step="1" placeholder="Max" autofocus>
       </div>
     </div>
 
@@ -204,10 +206,61 @@
     </div>
   </div>
 
+  <div id="tab-pass" class="tab-content">
+    <div class="header">
+      <h1>Pass Generator</h1>
+      <button class="regen-btn" id="regenPassBtn" title="Regenerate">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><polyline points="21 3 21 8 16 8"></polyline></svg>
+      </button>
+    </div>
+
+    <div class="pass-display" id="passDisplay">
+      <span class="placeholder">Click Regenerate</span>
+    </div>
+
+    <div class="settings-list">
+      <div class="setting-row">
+        <span class="setting-label">Length</span>
+        <div class="input-container">
+          <input type="number" id="passLength" min="8" max="64" value="16" class="length-num-input">
+        </div>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">Uppercase</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="passUpper" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">Lowercase</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="passLower" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">Numbers</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="passNumbers" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">Symbols</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="passSymbols" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+
   <script src="assets/libs/jszip.min.js"></script>
   <script src="core/tab-manager.js"></script>
   <script src="modules/clamp/script.js"></script>
   <script src="modules/webp/script.js"></script>
   <script src="modules/wp-tools/script.js"></script>
+  <script src="modules/pass/script.js"></script>
 </body>
 </html>

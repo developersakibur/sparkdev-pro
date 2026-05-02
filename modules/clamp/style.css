@@ -124,6 +124,17 @@
   border-color: #3f3f46;
 }
 
+/* Hide spin buttons */
+#tab-clamp input[type="number"]::-webkit-outer-spin-button,
+#tab-clamp input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#tab-clamp input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 #tab-clamp .radio-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
