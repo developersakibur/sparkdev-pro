@@ -15,28 +15,44 @@ body {
 }
 
 /* Tabs Navigation */
-.tabs-nav {
-  display: flex;
-  gap: 8px;
+.tabs-container {
+  width: 100%;
   margin-bottom: 20px;
   background: #141416;
   padding: 5px;
   border-radius: 12px;
   border: 1px solid #27272a;
+  overflow: hidden; /* Hide scrollbar */
+}
+
+.tabs-nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.tabs-nav::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .tab-btn {
-  flex: 1;
+  flex: 0 0 calc((100% - 24px) / 4); /* Display exactly 4 items (3 gaps of 8px = 24px) */
   background: transparent;
   border: none;
   border-radius: 8px;
-  padding: 8px;
+  padding: 8px 4px;
   color: #a1a1aa;
-  font-size: 13px;
+  font-size: 12px; /* Slightly smaller to fit better */
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tab-btn:hover {

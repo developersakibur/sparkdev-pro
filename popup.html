@@ -7,15 +7,19 @@
   <link rel="stylesheet" href="popup.css">
   <link rel="stylesheet" href="modules/clamp/style.css">
   <link rel="stylesheet" href="modules/webp/style.css">
+  <link rel="stylesheet" href="modules/svg/style.css">
   <link rel="stylesheet" href="modules/wp-tools/style.css">
   <link rel="stylesheet" href="modules/pass/style.css">
 </head>
 <body>
-  <div class="tabs-nav">
-    <button class="tab-btn active" data-tab="tab-clamp">Clamp</button>
-    <button class="tab-btn" data-tab="tab-webp">WebP</button>
-    <button class="tab-btn" data-tab="tab-wp">WP Tools</button>
-    <button class="tab-btn" data-tab="tab-pass">Pass</button>
+  <div class="tabs-container">
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-tab="tab-clamp">Clamp</button>
+      <button class="tab-btn" data-tab="tab-webp">WebP</button>
+      <button class="tab-btn" data-tab="tab-svg">Svg</button>
+      <button class="tab-btn" data-tab="tab-wp">WP Tools</button>
+      <button class="tab-btn" data-tab="tab-pass">Pass</button>
+    </div>
   </div>
 
   <div id="tab-clamp" class="tab-content active">
@@ -128,6 +132,212 @@
 
     <div class="btn-row">
       <button class="btn btn-primary" id="convertBtn" disabled>Convert & Download</button>
+    </div>
+  </div>
+
+  <div id="tab-svg" class="tab-content">
+    <div class="header">
+      <h1>Svg Vault</h1>
+      <button class="regen-btn" id="svgClearBtn" title="Clear All">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+      </button>
+    </div>
+
+    <div class="tab-scroll-area">
+      <!-- Input -->
+      <div class="textarea-wrap" style="margin-bottom: 12px;">
+        <textarea id="svgInput" spellcheck="false" placeholder="Paste <svg> code here..."></textarea>
+      </div>
+
+      <!-- Preview Section -->
+      <div class="svg-preview-section">
+        <div id="svgPreviewBox" class="preview-box-main">
+          <span class="preview-hint">Paste SVG</span>
+        </div>
+        <div id="svgFilenameDisplay" class="filename-display">—</div>
+      </div>
+
+      <!-- Settings List -->
+      <div class="svg-settings-list">
+        
+        <!-- Color -->
+        <div class="svg-setting-item">
+          <div class="row-header">
+            <div class="row-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M12 12h10"/></svg>
+              <span>Color</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="svgColorEnabled" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="row-content" id="svgColorContent">
+            <div class="color-row">
+              <input type="color" id="svgColorPicker" value="#7c6aff">
+              <input type="text" id="svgColorHex" class="hex-input" value="#7c6aff">
+              <button class="ghost-btn" id="svgResetColor" title="Reset Color">↺</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size -->
+        <div class="svg-setting-item">
+          <div class="row-header">
+            <div class="row-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M21 12H3"/><path d="M12 3v18"/></svg>
+              <span>Size</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="svgSizeEnabled">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="row-content" id="svgSizeContent">
+            <div class="size-presets">
+              <button class="preset-btn" data-size="16">16</button>
+              <button class="preset-btn" data-size="32">32</button>
+              <button class="preset-btn" data-size="64">64</button>
+              <button class="preset-btn" data-size="128">128</button>
+            </div>
+            <div class="size-input-row">
+              <input type="number" id="svgSizeW" placeholder="W" class="size-input">
+              <span class="size-sep">×</span>
+              <input type="number" id="svgSizeH" placeholder="H" class="size-input">
+              <label class="lock-toggle" id="svgLockAR" title="Lock AR">
+                <input type="checkbox" checked>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Background -->
+        <div class="svg-setting-item">
+          <div class="row-header">
+            <div class="row-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+              <span>Background</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="svgBgEnabled">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="row-content" id="svgBgContent">
+            <div class="info-text">Master background feature</div>
+          </div>
+        </div>
+
+        <!-- Shape -->
+        <div class="svg-setting-item">
+          <div class="row-header">
+            <div class="row-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              <span>Shape</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="svgShapeEnabled" disabled>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="row-content" id="svgShapeContent">
+            <div id="svgShapeGrid" class="shape-grid"></div>
+          </div>
+        </div>
+
+        <!-- Layout -->
+        <div class="svg-setting-item">
+          <div class="row-header">
+            <div class="row-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M9 3v18"/><path d="M3 9h18"/></svg>
+              <span>Layout</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="svgLayoutEnabled" disabled>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="row-content" id="svgLayoutContent">
+            <div class="slider-group">
+              <div class="slider-header"><span>Padding</span><span id="svgBgPaddingVal">20</span></div>
+              <input type="range" id="svgBgPadding" min="0" max="80" value="20">
+            </div>
+          </div>
+        </div>
+
+        <!-- Fill Color -->
+        <div class="svg-setting-item">
+          <div class="row-header">
+            <div class="row-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.5 8.5a5.5 5.5 0 0 0 7.78 7.78L19 11z"/><path d="m5 2 5 5"/></svg>
+              <span>Fill Color</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="svgFillEnabled" disabled>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="row-content" id="svgFillContent">
+            <div class="color-row">
+              <input type="color" id="svgBgColor1" value="#1a1a20">
+              <input type="text" id="svgBgHex1" class="hex-input" value="#1a1a20">
+            </div>
+            <div class="slider-group" style="margin-top: 8px;">
+              <div class="slider-header"><span>Opacity</span><span id="svgBgOpacityVal">100%</span></div>
+              <input type="range" id="svgBgOpacity" min="0" max="100" value="100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Stroke -->
+        <div class="svg-setting-item">
+          <div class="row-header">
+            <div class="row-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+              <span>Stroke</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="svgStrokeEnabled">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="row-content" id="svgStrokeContent">
+            <div class="color-row">
+              <input type="color" id="svgStrokeColor" value="#ffffff">
+              <input type="text" id="svgStrokeHex" class="hex-input" value="#ffffff">
+            </div>
+            <div class="slider-group" style="margin-top: 8px;">
+              <div class="slider-header"><span>Width</span><span id="svgStrokeWidthVal">2</span></div>
+              <input type="range" id="svgStrokeWidth" min="0" max="24" value="2">
+            </div>
+          </div>
+        </div>
+
+        <!-- Shadow -->
+        <div class="svg-setting-item">
+          <div class="row-header">
+            <div class="row-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8.5 9 12l-3.5 3.5L2 12l3.5-3.5z"/><path d="m12 2 3.5 3.5L12 9 8.5 5.5 12 2z"/><path d="M18.5 8.5 22 12l-3.5 3.5L15 12l3.5-3.5z"/><path d="m12 15 3.5 3.5L12 22l-3.5-3.5L12 15z"/></svg>
+              <span>Shadow</span>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="svgShadowEnabled">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="row-content" id="svgShadowContent">
+            <div class="slider-group">
+              <div class="slider-header"><span>Blur</span><span id="svgShadowBlurVal">10</span></div>
+              <input type="range" id="svgShadowBlur" min="0" max="40" value="10">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sticky-footer">
+      <button class="btn btn-primary" id="svgDownloadBtn" style="width: 100%;">Download SVG</button>
     </div>
   </div>
 
@@ -260,6 +470,7 @@
   <script src="core/tab-manager.js"></script>
   <script src="modules/clamp/script.js"></script>
   <script src="modules/webp/script.js"></script>
+  <script src="modules/svg/script.js"></script>
   <script src="modules/wp-tools/script.js"></script>
   <script src="modules/pass/script.js"></script>
 </body>

@@ -27,6 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activeTab && activeContent) {
       activeTab.classList.add('active');
       activeContent.classList.add('active');
+      
+      // Scroll active tab into view
+      activeTab.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center'
+      });
     }
   }
 });
