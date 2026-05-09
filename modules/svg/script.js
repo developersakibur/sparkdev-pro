@@ -285,9 +285,11 @@
         }
 
         const shapeSize = (canvasSize * 0.94) + (shSpread * 2);
-        ctx.beginPath();
-        const shapeObj = SHAPES.find(s => s.id === selectedShapeId);
-        if (shapeObj) shapeObj.draw(ctx, shapeSize);
+        if (svgShapeEnabled.checked) {
+          ctx.beginPath();
+          const shapeObj = SHAPES.find(s => s.id === selectedShapeId);
+          if (shapeObj) shapeObj.draw(ctx, shapeSize);
+        }
 
         if (doGradient) {
           let grad;
@@ -481,7 +483,6 @@
     wireSlider(svgGradAngle, svgGradAngleVal, '°');
     wireSlider(svgGradStop1, svgGradStop1Val, '%');
     wireSlider(svgGradStop2, svgGradStop2Val, '%');
-    wireSlider(svgStrokeWidth, svgStrokeWidthVal, '');
     wireSlider(svgShadowBlur, svgShadowBlurVal, '');
     wireSlider(svgShadowSpread, svgShadowSpreadVal, '');
     wireSlider(svgShadowOffsetX, svgShadowOffsetXVal, '');
@@ -491,7 +492,6 @@
     wireColor(svgColorPicker, svgColorHex);
     wireColor(svgBgColor1, svgBgHex1);
     wireColor(svgBgColor2, svgBgHex2);
-    wireColor(svgStrokeColor, svgStrokeHex);
     wireColor(svgShadowColor, svgShadowHex);
 
     svgBgGradient.addEventListener('change', () => {
