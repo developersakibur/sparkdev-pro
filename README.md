@@ -41,16 +41,20 @@
     - **Speed Analysis**: Instant deep-links to Google PageSpeed Insights and DNS records for the current active tab.
 
 ### 5. 🎨 SVG Downloader & Modulator
-*Advanced SVG processing, style modulation, and conversion.*
+*A robust, browser-native workspace for SVG icon manipulation, stylistic modulation, and export.*
 
-- **The Problem**: Web icons often come in varied formats, styles, and color schemes, making them difficult to integrate into a cohesive design system.
-- **The Solution**: A complete SVG workspace for real-time modulation, shadow generation, and optimization.
-- **Detailed Use Case**:
-    - **Color Synchronization**: Instantly sync all SVG strokes, fills, and colors to your design system's primary color with one click.
-    - **Shape Transformation**: Wrap raw SVG icons in aesthetic container shapes like Squircles, Shields, or Stars for a uniform look across your UI components.
-    - **Advanced Effects**: Apply configurable dropshadows, blurs, and background gradients to flat SVG icons to add depth.
-    - **Export Flexibility**: Modulate size and export in perfectly formatted SVG, ready for production use.
-- **Pro Feature**: Instant copy-to-clipboard for quick CSS/UI integration.
+- **The Problem**: Web icons often arrive in fragmented formats, inconsistent styles, or incompatible color schemes, leading to tedious manual editing in external software like Illustrator or Figma.
+- **The Solution**: An integrated, high-performance SVG workspace that allows for real-time visual modulation, container shaping, and optimization directly within your browser.
+- **Advanced Capabilities**:
+    - **Dynamic Color Modulation**: Automatically parse and replace `currentColor` or specific HEX values across nested elements, allowing for instant brand-color synchronization.
+    - **Intelligent Container Shaping**: Wrap flat, raw SVG icons in predefined container geometries (Squircles, Shields, Stars, Crosses, etc.) to enforce uniform UI design patterns.
+    - **Visual Depth Engine**: Non-destructive, configurable drop-shadows, blurs, and spread effects to add spatial depth to icons.
+    - **Gradient & Background Synthesis**: Apply sophisticated linear or radial gradients, rotation, and padding to icon backgrounds to create unique visual assets from basic shapes.
+- **Workflow & Productivity**:
+    - **Real-Time Preview**: Instantly view the impact of every modulation change in a high-fidelity preview canvas before export.
+    - **Zero-Latency Export**: Download perfectly formatted, clean SVG files or use the instant copy-to-clipboard functionality for seamless integration into CSS, React, or Vue projects.
+    - **Filename Intelligence**: Automatic icon-name detection based on `id`, `class`, `aria-label`, or `<title>` tags ensures your exported files are always organized.
+- **Performance**: Optimized DOMParser and XMLSerializer workflows ensure fluid performance even with complex, multi-path SVG icons.
 
 ---
 
