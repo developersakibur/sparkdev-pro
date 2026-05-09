@@ -40,15 +40,17 @@
     - **Asset Extraction**: Extract high-res links from sites like Freepik and integrate directly with watermark removal workflows.
     - **Speed Analysis**: Instant deep-links to Google PageSpeed Insights and DNS records for the current active tab.
 
-### 4. 🔐 Secure Password Generator
-*Cryptographically secure credentials on demand.*
+### 5. 🎨 SVG Downloader & Modulator
+*Advanced SVG processing, style modulation, and conversion.*
 
-- **The Problem**: Weak passwords are the #1 vulnerability in web development.
-- **The Solution**: Leverages `window.crypto.getRandomValues()`—the industry standard for hardware-backed randomness.
+- **The Problem**: Web icons often come in varied formats, styles, and color schemes, making them difficult to integrate into a cohesive design system.
+- **The Solution**: A complete SVG workspace for real-time modulation, shadow generation, and optimization.
 - **Detailed Use Case**:
-    - **Database Setup**: Quickly generate a 32-character complex string for `.env` files or database users.
-    - **Client Handoff**: Generate secure temporary passwords for client staging sites with one click.
-- **UX Features**: Scroll-wheel adjustment for length and instant visual feedback on copy.
+    - **Color Synchronization**: Instantly sync all SVG strokes, fills, and colors to your design system's primary color with one click.
+    - **Shape Transformation**: Wrap raw SVG icons in aesthetic container shapes like Squircles, Shields, or Stars for a uniform look across your UI components.
+    - **Advanced Effects**: Apply configurable dropshadows, blurs, and background gradients to flat SVG icons to add depth.
+    - **Export Flexibility**: Modulate size and export in perfectly formatted SVG, ready for production use.
+- **Pro Feature**: Instant copy-to-clipboard for quick CSS/UI integration.
 
 ---
 
