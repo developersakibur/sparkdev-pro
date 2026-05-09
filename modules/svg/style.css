@@ -1,7 +1,7 @@
 #tab-svg {
   display: none;
   flex-direction: column;
-  height: 480px; /* Fixed height for consistency */
+  height: 480px; /* Constrained height to fit popup */
   position: relative;
   overflow: hidden;
 }
@@ -14,55 +14,59 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   flex-shrink: 0;
 }
 
 #tab-svg h1 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   color: #00ffff;
-}
-
-#tab-svg .regen-btn {
-  background: transparent;
-  border: none;
-  color: #a1a1aa;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#tab-svg .regen-btn:hover {
-  color: #f87171;
-  background: rgba(248, 113, 113, 0.1);
-}
-
-#tab-svg .regen-btn:active {
-  transform: scale(0.9);
 }
 
 #tab-svg .tab-scroll-area {
   flex: 1;
   overflow-y: auto;
   padding-right: 4px;
-  margin-bottom: 60px; /* Space for sticky footer */
+  padding-bottom: 10px;
 }
 
-/* Sticky Footer */
-#tab-svg .sticky-footer {
-  position: absolute;
-  bottom: -15px; /* Offset parent padding */
-  left: -15px;
-  right: -15px;
-  background: #0a0a0b;
-  padding: 15px;
+/* Footer Container */
+#tab-svg .footer-btns {
+  display: flex;
+  gap: 8px;
+  padding-top: 15px;
   border-top: 1px solid #27272a;
-  z-index: 10;
+  background: #0a0a0b;
+  flex-shrink: 0;
+}
+
+#tab-svg .btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+#tab-svg .btn-primary {
+  background: linear-gradient(135deg, #00ffff 0%, #06b6d4 100%);
+  color: #0a0a0b;
+}
+
+#tab-svg .btn-secondary {
+  background: #1e1e21;
+  border: 1px solid #27272a;
+  color: #e5e5e5;
+}
+
+#tab-svg .btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
 }
 
 #tab-svg .tab-scroll-area::-webkit-scrollbar {
@@ -74,68 +78,86 @@
   border-radius: 10px;
 }
 
-#tab-svg .textarea-wrap textarea {
-  width: 100%;
-  height: 60px;
-  background: #141416;
-  border: 1px solid #27272a;
-  border-radius: 8px;
-  color: #e5e5e5;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 11px;
-  padding: 10px;
-  resize: none;
-  outline: none;
-  transition: border-color 0.2s;
+/* Input & Preview Row */
+#tab-svg .input-preview-row.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #0a0a0b; /* Match body background */
+  padding-bottom: 12px;
+  margin-bottom: 0;
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
 }
 
-#tab-svg .textarea-wrap textarea:focus {
-  border-color: #00ffff;
+#tab-svg .tab-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+  padding-top: 12px; /* Gap from sticky header */
+  padding-bottom: 10px;
 }
 
 #tab-svg .svg-preview-section {
+  flex: 0 0 80px; /* Fixed width for left side */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 15px;
 }
 
 #tab-svg .preview-box-main {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   background: #141416;
   border: 1px solid #27272a;
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  position: relative;
   background-image: linear-gradient(45deg, #1e1e1e 25%, transparent 25%), linear-gradient(-45deg, #1e1e1e 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #1e1e1e 75%), linear-gradient(-45deg, transparent 75%, #1e1e1e 75%);
   background-size: 10px 10px;
-  background-position: 0 0, 0 5px, 5px -5px, -5px 0;
 }
 
-#tab-svg .preview-hint {
-  color: #71717a;
-  font-size: 11px;
+#tab-svg .textarea-wrap {
+  flex: 1; /* Take remaining 60% approx */
+}
+
+#tab-svg .textarea-wrap textarea {
+  width: 100%;
+  height: 80px; /* Match preview box height */
+  background: #141416;
+  border: 1px solid #27272a;
+  border-radius: 10px;
+  color: #e5e5e5;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  padding: 10px;
+  resize: none;
+  outline: none;
+  transition: all 0.2s;
+}
+
+#tab-svg .preview-box-main canvas, 
+#tab-svg .preview-box-main svg {
+  max-width: 70px;
+  max-height: 70px;
 }
 
 #tab-svg .filename-display {
-  color: #00ffff;
-  font-size: 11px;
-  font-weight: 500;
+  color: #71717a;
+  font-size: 10px;
   text-align: center;
   max-width: 100%;
   word-break: break-all;
+  line-height: 1.2;
 }
 
 /* Settings List */
 #tab-svg .svg-settings-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 #tab-svg .svg-setting-item {
@@ -143,56 +165,64 @@
   border: 1px solid #27272a;
   border-radius: 10px;
   overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#tab-svg .svg-setting-item:hover {
+  border-color: #3f3f46;
 }
 
 #tab-svg .row-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 12px;
+  padding: 8px 10px;
 }
 
 #tab-svg .row-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   color: #e5e5e5;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
 }
 
 #tab-svg .row-title svg {
   color: #71717a;
+  width: 12px;
+  height: 12px;
 }
 
 /* Accordion Content */
 #tab-svg .row-content {
   max-height: 0;
-  padding: 0 12px;
+  padding: 0 10px;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease-out;
   background: #0d0d0f;
+  cursor: default;
 }
 
 #tab-svg .row-content.active {
-  max-height: 300px;
-  padding: 12px;
+  max-height: none;
+  padding: 10px;
   border-top: 1px solid #27272a;
 }
 
-/* Specific inner element styles */
 #tab-svg .color-row {
   display: flex;
-  align-items: center; gap: 8px;
+  align-items: center; gap: 6px;
 }
 
 #tab-svg input[type="color"] {
-  width: 24px; height: 24px; border: none; background: none; cursor: pointer;
+  width: 28px; height: 28px; border: none; background: none; cursor: pointer;
 }
 
 #tab-svg .hex-input {
   flex: 1; background: #1a1a1c; border: 1px solid #27272a; border-radius: 6px;
-  color: #e5e5e5; font-family: "JetBrains Mono", monospace; font-size: 11px; padding: 5px 8px; outline: none;
+  color: #e5e5e5; font-family: "JetBrains Mono", monospace; font-size: 10px; padding: 6px 8px; outline: none;
 }
 
 #tab-svg .ghost-btn {
@@ -206,110 +236,241 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s;
-  font-size: 14px;
 }
 
-#tab-svg .ghost-btn:hover {
-  border-color: #00ffff;
-  color: #00ffff;
-  background: rgba(0, 255, 255, 0.05);
-}
-
-#tab-svg .size-input-row {
-  display: flex; align-items: center; gap: 8px; margin-top: 10px;
-}
-
-#tab-svg .size-input {
-  width: 60px; background: #1a1a1c; border: 1px solid #27272a; border-radius: 6px;
-  color: #e5e5e5; font-family: "JetBrains Mono", monospace; font-size: 11px; padding: 5px; outline: none;
+#tab-svg .size-presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
 }
 
 #tab-svg .preset-btn {
   background: #1a1a1c; border: 1px solid #27272a; border-radius: 6px;
-  color: #a1a1aa; font-size: 11px; padding: 4px 8px; cursor: pointer; transition: all 0.2s;
+  color: #a1a1aa; font-size: 10px; padding: 6px; cursor: pointer;
 }
 
-#tab-svg .preset-btn:hover { border-color: #00ffff; color: #e5e5e5; }
 #tab-svg .preset-btn.active { background: #00ffff; color: #0a0a0b; border-color: #00ffff; }
 
-#tab-svg .slider-group { display: flex; flex-direction: column; gap: 6px; }
-#tab-svg .slider-header { display: flex; justify-content: space-between; font-size: 11px; color: #a1a1aa; }
-
-#tab-svg input[type="range"] {
-  width: 100%; height: 4px; background: #27272a; border-radius: 2px; appearance: none; outline: none;
+#svgGradAngleRow {
+  display: flex;
 }
 
-#tab-svg input[type="range"]::-webkit-slider-thumb {
-  appearance: none; width: 12px; height: 12px; background: #00ffff; border-radius: 50%; cursor: pointer;
+#tab-svg .slider-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
 }
+
+#tab-svg .vp-badge-small {
+  font-family: "JetBrains Mono", monospace;
+  background: rgba(0, 255, 255, 0.06);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #00ffff;
+  white-space: nowrap;
+  min-width: 44px;
+  text-align: center;
+}
+
+#tab-svg .slider-wrap-preview {
+  position: relative;
+  flex: 1;
+  padding: 4px 0;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+#tab-svg .track-bg-preview {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #1e1e22;
+  border-radius: 4px;
+}
+
+#tab-svg .track-fill-preview {
+  position: absolute;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #06b6d4, #00ffff);
+  border-radius: 4px;
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.3);
+}
+
+#tab-svg input[type="range"].custom-range {
+  position: relative;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 24px;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+  z-index: 2;
+  margin: 0;
+  padding: 0 !important;
+}
+
+#tab-svg input[type="range"].custom-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  background: #00ffff;
+  border: 2px solid #0a0a0b;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.2), 0 0 8px rgba(0, 255, 255, 0.4);
+  transition: all 0.2s ease;
+}
+
+#tab-svg input[type="range"].custom-range::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.25), 0 0 12px rgba(0, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+#tab-svg input[type="range"].custom-range:active::-webkit-slider-thumb {
+  transform: scale(0.95);
+  box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.15), 0 0 16px rgba(0, 255, 255, 0.6);
+}
+
+#tab-svg .setting-row-mini {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+#tab-svg .mini-label {
+  font-size: 11px;
+  color: #a1a1aa;
+}
+
+#tab-svg .type-toggle {
+  display: flex;
+  background: #1a1a1c;
+  border: 1px solid #27272a;
+  border-radius: 6px;
+  padding: 2px;
+  gap: 2px;
+}
+
+#tab-svg .type-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #71717a;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#tab-svg .type-btn.active {
+  background: #27272a;
+  color: #00ffff;
+}
+
+#tab-svg .size-input-row {
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  margin-top: 12px;
+  width: 100%;
+}
+
+#tab-svg .size-input {
+  flex: 1; 
+  min-width: 0;
+  background: #1a1a1c; 
+  border: 1px solid #27272a; 
+  border-radius: 6px;
+  color: #e5e5e5; 
+  font-family: "JetBrains Mono", monospace; 
+  font-size: 10px; 
+  padding: 6px; 
+  outline: none;
+  text-align: center;
+}
+
+#tab-svg .lock-toggle {
+  cursor: pointer;
+  color: #71717a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: all 0.2s;
+}
+
+#tab-svg .lock-toggle input {
+  display: none;
+}
+
+#tab-svg .lock-toggle:has(input:checked) {
+  color: #00ffff;
+  filter: drop-shadow(0 0 4px rgba(0, 255, 255, 0.4));
+}
+
+#tab-svg .lock-toggle:hover {
+  color: #a1a1aa;
+}
+
+/* Remove Arrows/Spinners globally for the SVG module */
+#tab-svg input::-webkit-outer-spin-button,
+#tab-svg input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#tab-svg input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#tab-svg .slider-group { display: flex; flex-direction: column; gap: 4px; }
+#tab-svg .slider-header { display: flex; justify-content: space-between; font-size: 10px; color: #a1a1aa; }
 
 #tab-svg .shape-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px;
+  display: grid; 
+  grid-template-columns: repeat(5, 1fr); 
+  gap: 8px;
+  width: 100%;
+  margin-top: 5px;
+  min-height: 40px;
 }
 
 #tab-svg .shape-btn {
-  background: #1a1a1c; border: 1px solid #27272a; border-radius: 6px; padding: 4px;
-  cursor: pointer; display: flex; justify-content: center; transition: all 0.2s;
+  background: #1a1a1c; 
+  border: 1px solid #27272a; 
+  border-radius: 8px; 
+  padding: 8px;
+  cursor: pointer; 
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s;
+  height: 40px;
 }
 
-#tab-svg .shape-btn:hover { border-color: #00ffff; }
-#tab-svg .shape-btn.active { background: rgba(0, 255, 255, 0.1); border-color: #00ffff; }
-
-#tab-svg .info-text { font-size: 11px; color: #71717a; font-style: italic; }
-
-/* iOS-style Toggle Switch - compact */
-#tab-svg .toggle-switch {
-  position: relative;
-  width: 36px;
-  height: 20px;
-  display: inline-block;
-  flex-shrink: 0;
+#tab-svg .shape-btn:hover {
+  border-color: #3f3f46;
+  background: #27272a;
+  transform: translateY(-1px);
 }
 
-#tab-svg .toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+#tab-svg .shape-btn.active { 
+  background: rgba(0, 255, 255, 0.1); 
+  border-color: #00ffff; 
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
 }
 
-#tab-svg .toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #27272a;
-  transition: all 0.3s ease;
-  border-radius: 20px;
-  border: 1px solid #3f3f46;
+#tab-svg .shape-btn canvas {
+  display: block;
 }
-
-#tab-svg .toggle-slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 2px;
-  bottom: 2px;
-  background-color: #52525b;
-  transition: all 0.3s ease;
-  border-radius: 50%;
-}
-
-#tab-svg .toggle-switch input:checked + .toggle-slider {
-  background: linear-gradient(135deg, #00ffff 0%, #06b6d4 100%);
-  border-color: #00ffff;
-}
-
-#tab-svg .toggle-switch input:checked + .toggle-slider:before {
-  transform: translateX(16px);
-  background-color: #0a0a0b;
-}
-
-#tab-svg .toggle-switch input:disabled + .toggle-slider {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-#tab-svg .lock-toggle { cursor: pointer; color: #71717a; display: flex; align-items: center; }
-#tab-svg .lock-toggle input { display: none; }
-#tab-svg .lock-toggle:has(input:checked) { color: #00ffff; }

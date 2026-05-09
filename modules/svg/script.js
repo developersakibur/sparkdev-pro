@@ -1,5 +1,7 @@
 (function() {
-  // --- Constants & Shapes ---
+  'use strict';
+
+  // --- Shape Definitions ---
   const SHAPES = [
     { id: 'square', label: 'Square', draw: (c, s) => drawRoundedRect(c, s, s * 0.12) },
     { id: 'squircle', label: 'Squircle', draw: (c, s) => drawRoundedRect(c, s, s * 0.32) },
@@ -18,119 +20,9 @@
     { id: 'cross', label: 'Cross', draw: (c, s) => drawCross(c, s) },
   ];
 
-  let selectedShape = 'squircle';
-  let parsedSvg = null;
-  let aspectRatio = 1;
-  let ignoreNextSize = false;
+  let selectedShapeId = 'squircle';
 
-  // --- DOM Elements ---
-  const svgInput = document.getElementById('svgInput');
-  const svgClearBtn = document.getElementById('svgClearBtn');
-  const previewBox = document.getElementById('svgPreviewBox');
-  const filenameDisplay = document.getElementById('svgFilenameDisplay');
-  
-  // Settings Toggles
-  const colorEnabled = document.getElementById('svgColorEnabled');
-  const sizeEnabled = document.getElementById('svgSizeEnabled');
-  const bgEnabled = document.getElementById('svgBgEnabled');
-  const strokeEnabled = document.getElementById('svgStrokeEnabled');
-  const shadowEnabled = document.getElementById('svgShadowEnabled');
-
-  // Specific Inputs
-  const colorPicker = document.getElementById('svgColorPicker');
-  const colorHex = document.getElementById('svgColorHex');
-  const sizeW = document.getElementById('svgSizeW');
-  const sizeH = document.getElementById('svgSizeH');
-  const lockARInput = document.querySelector('#svgLockAR input');
-  const presetBtns = document.querySelectorAll('#tab-svg .preset-btn');
-  const shapeGrid = document.getElementById('svgShapeGrid');
-  const bgPadding = document.getElementById('svgBgPadding');
-  const bgPaddingVal = document.getElementById('svgBgPaddingVal');
-  const bgColor1 = document.getElementById('svgBgColor1');
-  const bgHex1 = document.getElementById('svgBgHex1');
-  const bgOpacity = document.getElementById('svgBgOpacity');
-  const bgOpacityVal = document.getElementById('svgBgOpacityVal');
-  const strokeColor = document.getElementById('svgStrokeColor');
-  const strokeHex = document.getElementById('svgStrokeHex');
-  const strokeWidth = document.getElementById('svgStrokeWidth');
-  const strokeWidthVal = document.getElementById('svgStrokeWidthVal');
-  const shadowBlur = document.getElementById('svgShadowBlur');
-  const shadowBlurVal = document.getElementById('svgShadowBlurVal');
-
-  const downloadBtn = document.getElementById('svgDownloadBtn');
-  const svgResetColor = document.getElementById('svgResetColor');
-
-  // --- Persistence ---
-  function saveSettings() {
-    const settings = {
-      colorEnabled: colorEnabled.checked,
-      sizeEnabled: sizeEnabled.checked,
-      bgEnabled: bgEnabled.checked,
-      strokeEnabled: strokeEnabled.checked,
-      shadowEnabled: shadowEnabled.checked,
-      colorHex: colorHex.value,
-      sizeW: sizeW.value,
-      sizeH: sizeH.value,
-      lockAR: lockARInput.checked,
-      selectedShape: selectedShape,
-      bgPadding: bgPadding.value,
-      bgColor1: bgColor1.value,
-      bgOpacity: bgOpacity.value,
-      strokeColor: strokeColor.value,
-      strokeWidth: strokeWidth.value,
-      shadowBlur: shadowBlur.value
-    };
-    chrome.storage.local.set({ svgSettings: settings });
-  }
-
-  function loadSettings() {
-    chrome.storage.local.get(['svgSettings'], (result) => {
-      if (result.svgSettings) {
-        const s = result.svgSettings;
-        colorEnabled.checked = s.colorEnabled ?? true;
-        sizeEnabled.checked = s.sizeEnabled ?? false;
-        bgEnabled.checked = s.bgEnabled ?? false;
-        strokeEnabled.checked = s.strokeEnabled ?? false;
-        shadowEnabled.checked = s.shadowEnabled ?? false;
-        
-        colorHex.value = s.colorHex ?? '#7c6aff';
-        colorPicker.value = colorHex.value;
-        
-        sizeW.value = s.sizeW ?? '';
-        sizeH.value = s.sizeH ?? '';
-        lockARInput.checked = s.lockAR ?? true;
-        selectedShape = s.selectedShape ?? 'squircle';
-        
-        bgPadding.value = s.bgPadding ?? 20;
-        bgPaddingVal.textContent = bgPadding.value;
-        
-        bgColor1.value = s.bgColor1 ?? '#1a1a20';
-        bgHex1.value = bgColor1.value;
-        
-        bgOpacity.value = s.bgOpacity ?? 100;
-        bgOpacityVal.textContent = bgOpacity.value + '%';
-        
-        strokeColor.value = s.strokeColor ?? '#ffffff';
-        strokeHex.value = strokeColor.value;
-        
-        strokeWidth.value = s.strokeWidth ?? 2;
-        strokeWidthVal.textContent = strokeWidth.value;
-        
-        shadowBlur.value = s.shadowBlur ?? 10;
-        shadowBlurVal.textContent = shadowBlur.value;
-
-        // Trigger UI updates
-        initAccordions();
-        buildShapePicker();
-        updatePreview();
-      } else {
-        initAccordions();
-        buildShapePicker();
-      }
-    });
-  }
-
-  // --- Shape Drawing Helpers ---
+  // --- Shape drawing helpers ---
   function drawPolygon(ctx, size, sides, startAngle = 0) {
     const r = size / 2;
     ctx.moveTo(Math.cos(startAngle) * r, Math.sin(startAngle) * r);
@@ -216,64 +108,99 @@
     ctx.closePath();
   }
 
-  // --- Accordion Logic ---
+  // --- UI Elements ---
+  const svgInput = document.getElementById('svgInput');
+  const svgClearBtn = document.getElementById('svgClearBtn');
+  const svgPreviewBox = document.getElementById('svgPreviewBox');
+  const svgColorEnabled = document.getElementById('svgColorEnabled');
+  const svgColorPicker = document.getElementById('svgColorPicker');
+  const svgColorHex = document.getElementById('svgColorHex');
+  const svgResetColor = document.getElementById('svgResetColor');
+  const svgSizeW = document.getElementById('svgSizeW');
+  const svgSizeH = document.getElementById('svgSizeH');
+  const svgLockAR = document.getElementById('svgLockAR');
+  const svgShapeEnabled = document.getElementById('svgShapeEnabled');
+  const svgShapeGrid = document.getElementById('svgShapeGrid');
+  const svgBgEnabled = document.getElementById('svgBgEnabled');
+  const svgBgPadding = document.getElementById('svgBgPadding');
+  const svgBgPaddingVal = document.getElementById('svgBgPaddingVal');
+  const svgBgRotation = document.getElementById('svgBgRotation');
+  const svgBgRotationVal = document.getElementById('svgBgRotationVal');
+  const svgBgColor1 = document.getElementById('svgBgColor1');
+  const svgBgHex1 = document.getElementById('svgBgHex1');
+  const svgBgGradient = document.getElementById('svgBgGradient');
+  const svgGradientSettings = document.getElementById('svgGradientSettings');
+  const svgBgColor2 = document.getElementById('svgBgColor2');
+  const svgBgHex2 = document.getElementById('svgBgHex2');
+  const svgGradTypeVal = document.getElementById('svgGradTypeVal');
+  const typeBtns = document.querySelectorAll('#tab-svg .type-btn');
+  const svgGradAngle = document.getElementById('svgGradAngle');
+  const svgGradAngleVal = document.getElementById('svgGradAngleVal');
+  const svgGradStop1 = document.getElementById('svgGradStop1');
+  const svgGradStop1Val = document.getElementById('svgGradStop1Val');
+  const svgGradStop2 = document.getElementById('svgGradStop2');
+  const svgGradStop2Val = document.getElementById('svgGradStop2Val');
+  const svgBgOpacity = document.getElementById('svgBgOpacity');
+  const svgBgOpacityVal = document.getElementById('svgBgOpacityVal');
+  const svgShadowEnabled = document.getElementById('svgShadowEnabled');
+  const svgShadowColor = document.getElementById('svgShadowColor');
+  const svgShadowHex = document.getElementById('svgShadowHex');
+  const svgShadowBlur = document.getElementById('svgShadowBlur');
+  const svgShadowBlurVal = document.getElementById('svgShadowBlurVal');
+  const svgShadowSpread = document.getElementById('svgShadowSpread');
+  const svgShadowSpreadVal = document.getElementById('svgShadowSpreadVal');
+  const svgShadowOffsetX = document.getElementById('svgShadowOffsetX');
+  const svgShadowOffsetXVal = document.getElementById('svgShadowOffsetXVal');
+  const svgShadowOffsetY = document.getElementById('svgShadowOffsetY');
+  const svgShadowOffsetYVal = document.getElementById('svgShadowOffsetYVal');
+  const svgShadowOpacity = document.getElementById('svgShadowOpacity');
+  const svgShadowOpacityVal = document.getElementById('svgShadowOpacityVal');
+  const svgDownloadBtn = document.getElementById('svgDownloadBtn');
+  const svgCopyBtn = document.getElementById('svgCopyBtn');
+
+  // --- State ---
+  let parsedSvg = null;
+  let aspectRatio = 1;
+  let ignoreNextSize = false;
+  let selectedGradType = 'linear';
+
+  // --- Accordions ---
   function initAccordions() {
-    const toggles = [
-      { toggle: colorEnabled, content: 'svgColorContent' },
-      { toggle: sizeEnabled, content: 'svgSizeContent' },
-      { toggle: bgEnabled, content: 'svgBgContent' },
-      { toggle: strokeEnabled, content: 'svgStrokeContent' },
-      { toggle: shadowEnabled, content: 'svgShadowContent' }
-    ];
+    const items = document.querySelectorAll('#tab-svg .svg-setting-item');
+    items.forEach(item => {
+      const header = item.querySelector('.row-header');
+      const content = item.querySelector('.row-content');
+      if (!header || !content) return;
+      
+      // Initial state: Open Color by default
+      if (item.querySelector('#svgColorEnabled')) {
+        content.classList.add('active');
+      }
 
-    toggles.forEach(({ toggle, content }) => {
-      const contentEl = document.getElementById(content);
-      toggle.addEventListener('change', () => {
-        if (toggle.checked) {
-          contentEl.classList.add('active');
+      header.addEventListener('click', (e) => {
+        // Prevent toggle switches and other inputs from triggering accordion
+        if (e.target.closest('.toggle-switch') || e.target.closest('input') || e.target.closest('button')) return;
+        
+        const isActive = content.classList.contains('active');
+        if (isActive) {
+          content.classList.remove('active');
         } else {
-          contentEl.classList.remove('active');
+          content.classList.add('active');
         }
-        updatePreview();
-        saveSettings();
       });
-      // Initial state
-      if (toggle.checked) contentEl.classList.add('active');
-      else contentEl.classList.remove('active');
     });
   }
 
-  // --- Shape Picker ---
-  function buildShapePicker() {
-    shapeGrid.innerHTML = '';
-    SHAPES.forEach(shape => {
-      const btn = document.createElement('button');
-      btn.className = 'shape-btn' + (shape.id === selectedShape ? ' active' : '');
-      btn.title = shape.label;
-
-      const mc = document.createElement('canvas');
-      mc.width = 24; mc.height = 24;
-      const cx = mc.getContext('2d');
-      cx.translate(12, 12);
-      cx.beginPath();
-      shape.draw(cx, 20);
-      cx.fillStyle = shape.id === selectedShape ? '#00ffff' : '#3a3a50';
-      cx.fill();
-
-      btn.appendChild(mc);
-      btn.addEventListener('click', () => {
-        selectedShape = shape.id;
-        document.querySelectorAll('#tab-svg .shape-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        buildShapePicker(); // Redraw
-        updatePreview();
-        saveSettings();
-      });
-      shapeGrid.appendChild(btn);
-    });
+  // --- Utilities ---
+  function updateTrackFill(slider) {
+    const min = parseFloat(slider.min) || 0;
+    const max = parseFloat(slider.max) || 100;
+    const val = parseFloat(slider.value);
+    const percent = ((val - min) / (max - min)) * 100;
+    const fill = slider.parentElement.querySelector('.track-fill-preview');
+    if (fill) fill.style.width = percent + '%';
   }
 
-  // --- Filename & Size Detect ---
   function detectFilename(s) {
     try {
       const doc = new DOMParser().parseFromString(s, 'image/svg+xml');
@@ -282,6 +209,8 @@
       const m = cls.match(/(?:lucide-|icon-|ic-|svg-)([a-z0-9-]+)/i);
       if (m) return m[1];
       const id = el.getAttribute('id'); if (id && id.trim()) return id.trim().replace(/\s+/g, '-');
+      const lbl = el.getAttribute('aria-label'); if (lbl && lbl.trim()) return lbl.trim().toLowerCase().replace(/\s+/g, '-');
+      const title = el.querySelector('title'); if (title && title.textContent.trim()) return title.textContent.trim().toLowerCase().replace(/\s+/g, '-');
       return 'icon';
     } catch { return 'icon'; }
   }
@@ -296,64 +225,95 @@
     } catch { return { w: 24, h: 24 }; }
   }
 
-  // --- Rendering ---
   function applyIconMods(svgString) {
     const doc = new DOMParser().parseFromString(svgString, 'image/svg+xml');
     const el = doc.querySelector('svg'); if (!el) return svgString;
-    if (colorEnabled.checked) {
-      const hex = colorHex.value;
+    if (svgColorEnabled.checked) {
+      const hex = svgColorHex.value;
       doc.querySelectorAll('*').forEach(n => {
         ['stroke', 'fill', 'color'].forEach(a => { if (n.getAttribute(a) === 'currentColor') n.setAttribute(a, hex); });
         const st = n.getAttribute('style') || ''; if (st.includes('currentColor')) n.setAttribute('style', st.replace(/currentColor/g, hex));
       });
       el.style.color = hex;
-    }
-    if (sizeEnabled.checked) {
-      const w = parseInt(sizeW.value) || null, h = parseInt(sizeH.value) || null;
+
+      const w = parseInt(svgSizeW.value) || null, h = parseInt(svgSizeH.value) || null;
       if (w) el.setAttribute('width', w); if (h) el.setAttribute('height', h);
     }
     return new XMLSerializer().serializeToString(doc.documentElement);
   }
 
+  function hexToRgba(hex, alpha = 1) {
+    const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+
+  // --- Rendering ---
   function renderComposite(canvasSize) {
     return new Promise((resolve, reject) => {
       if (!parsedSvg) return reject('no svg');
       const canvas = document.createElement('canvas');
       canvas.width = canvasSize; canvas.height = canvasSize;
       const ctx = canvas.getContext('2d');
-      const padding = parseInt(bgPadding.value);
-      const opacity = parseInt(bgOpacity.value) / 100;
-      const doBackground = bgEnabled.checked;
-      const doStroke = strokeEnabled.checked;
-      const doShadow = shadowEnabled.checked;
+      const padding = parseInt(svgBgPadding.value);
+      const rotation = parseInt(svgBgRotation.value) * Math.PI / 180;
+      const opacity = parseInt(svgBgOpacity.value) / 100;
+      const doGradient = svgBgGradient.checked;
+      const col1 = svgBgColor1.value, col2 = svgBgColor2.value;
+      const stop1 = parseInt(svgGradStop1.value) / 100;
+      const stop2 = parseInt(svgGradStop2.value) / 100;
+      const gradAngle = parseInt(svgGradAngle.value);
+      
+      const doShadow = svgShadowEnabled.checked;
+      const shCol = svgShadowColor.value, shBlur = parseInt(svgShadowBlur.value);
+      const shSpread = parseInt(svgShadowSpread.value);
+      const shX = parseInt(svgShadowOffsetX.value), shY = parseInt(svgShadowOffsetY.value);
+      const shOp = parseInt(svgShadowOpacity.value) / 100;
+      const doBackground = svgBgEnabled.checked;
 
       const cx = canvasSize / 2, cy = canvasSize / 2;
 
       if (doBackground) {
         ctx.save();
         ctx.translate(cx, cy);
+        ctx.rotate(rotation);
+
         if (doShadow) {
-          ctx.shadowColor = 'rgba(0,0,0,0.4)';
-          ctx.shadowBlur = parseInt(shadowBlur.value);
-          ctx.shadowOffsetY = 4;
+          ctx.shadowColor = hexToRgba(shCol, shOp);
+          ctx.shadowBlur = shBlur;
+          ctx.shadowOffsetX = shX;
+          ctx.shadowOffsetY = shY;
         }
+
+        const shapeSize = (canvasSize * 0.94) + (shSpread * 2);
         ctx.beginPath();
-        const shapeSize = canvasSize * 0.94;
-        const shapeObj = SHAPES.find(s => s.id === selectedShape);
+        const shapeObj = SHAPES.find(s => s.id === selectedShapeId);
         if (shapeObj) shapeObj.draw(ctx, shapeSize);
-        ctx.fillStyle = hexToRgba(bgColor1.value, opacity);
-        ctx.fill();
-        if (doStroke) {
-          ctx.shadowColor = 'transparent';
-          ctx.strokeStyle = strokeColor.value;
-          ctx.lineWidth = parseInt(strokeWidth.value) * (canvasSize / 256);
-          ctx.stroke();
+
+        if (doGradient) {
+          let grad;
+          if (selectedGradType === 'linear') {
+            const angleRad = (gradAngle - 90) * Math.PI / 180;
+            const r = shapeSize / 2;
+            const x1 = Math.cos(angleRad) * r;
+            const y1 = Math.sin(angleRad) * r;
+            const x2 = -x1;
+            const y2 = -y1;
+            grad = ctx.createLinearGradient(x2, y2, x1, y1);
+          } else {
+            grad = ctx.createRadialGradient(0, 0, 0, 0, 0, shapeSize / 2);
+          }
+          grad.addColorStop(stop1, hexToRgba(col1, opacity));
+          grad.addColorStop(stop2, hexToRgba(col2, opacity));
+          ctx.fillStyle = grad;
+        } else {
+          ctx.fillStyle = hexToRgba(col1, opacity);
         }
+        ctx.fill();
         ctx.restore();
       }
 
       const modSvg = applyIconMods(parsedSvg);
-      const iconArea = canvasSize - padding * (canvasSize / 100) * 2;
+      const iconArea = canvasSize - padding * 2;
       const iconDoc = new DOMParser().parseFromString(modSvg, 'image/svg+xml');
       const iconEl = iconDoc.querySelector('svg');
       iconEl.setAttribute('width', iconArea);
@@ -363,8 +323,7 @@
       const url = URL.createObjectURL(blob);
       const img = new Image();
       img.onload = () => {
-        const offset = (canvasSize - iconArea) / 2;
-        ctx.drawImage(img, offset, offset, iconArea, iconArea);
+        ctx.drawImage(img, padding, padding, iconArea, iconArea);
         URL.revokeObjectURL(url);
         resolve(canvas);
       };
@@ -373,139 +332,102 @@
     });
   }
 
-  function hexToRgba(hex, alpha = 1) {
-    const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
-    return `rgba(${r},${g},${b},${alpha})`;
-  }
-
   function updatePreview() {
     const raw = svgInput.value.trim();
     if (!raw) {
       parsedSvg = null;
-      previewBox.innerHTML = '<span class="preview-hint">Paste SVG</span>';
-      filenameDisplay.textContent = '—';
+      svgPreviewBox.innerHTML = '<span class="preview-hint">Paste SVG</span>';
       return;
     }
     const doc = new DOMParser().parseFromString(raw, 'image/svg+xml');
     if (doc.querySelector('parsererror')) {
-      previewBox.innerHTML = '<span class="preview-hint" style="color: #f87171;">Invalid SVG</span>';
+      svgPreviewBox.innerHTML = '<span class="preview-hint" style="color:#f87171">Invalid</span>';
       parsedSvg = null; return;
     }
     parsedSvg = raw;
     const orig = getOriginalSize(raw); aspectRatio = orig.w / orig.h;
-    if (!sizeEnabled.checked) { sizeW.placeholder = orig.w; sizeH.placeholder = orig.h; }
-    filenameDisplay.textContent = detectFilename(raw) + '.svg';
+    if (!svgColorEnabled.checked) { svgSizeW.placeholder = orig.w; svgSizeH.placeholder = orig.h; }
 
-    renderComposite(100).then(canvas => {
-      previewBox.innerHTML = '';
-      previewBox.appendChild(canvas);
+    renderComposite(80).then(canvas => {
+      svgPreviewBox.innerHTML = '';
+      svgPreviewBox.appendChild(canvas);
+    }).catch(err => {
+      console.error('Preview error:', err);
+      svgPreviewBox.innerHTML = '<span class="preview-hint" style="color:#f87171">Error</span>';
     });
   }
 
-  // --- Events ---
-  svgInput.addEventListener('input', updatePreview);
-  svgClearBtn.addEventListener('click', () => { svgInput.value = ''; updatePreview(); });
-
-  svgResetColor.addEventListener('click', () => {
-    colorHex.value = '#7c6aff';
-    colorPicker.value = '#7c6aff';
-    updatePreview();
-    saveSettings();
-  });
-
-  colorPicker.addEventListener('input', () => { colorHex.value = colorPicker.value; updatePreview(); saveSettings(); });
-  colorHex.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(colorHex.value)) { colorPicker.value = colorHex.value; updatePreview(); saveSettings(); } });
-  
-  bgColor1.addEventListener('input', () => { bgHex1.value = bgColor1.value; updatePreview(); saveSettings(); });
-  bgHex1.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(bgHex1.value)) { bgColor1.value = bgHex1.value; updatePreview(); saveSettings(); } });
-  
-  strokeColor.addEventListener('input', () => { strokeHex.value = strokeColor.value; updatePreview(); saveSettings(); });
-  strokeHex.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(strokeHex.value)) { strokeColor.value = strokeHex.value; updatePreview(); saveSettings(); } });
-
-  bgPadding.addEventListener('input', () => { bgPaddingVal.textContent = bgPadding.value; updatePreview(); saveSettings(); });
-  bgOpacity.addEventListener('input', () => { bgOpacityVal.textContent = bgOpacity.value + '%'; updatePreview(); saveSettings(); });
-  strokeWidth.addEventListener('input', () => { strokeWidthVal.textContent = strokeWidth.value; updatePreview(); saveSettings(); });
-  shadowBlur.addEventListener('input', () => { shadowBlurVal.textContent = shadowBlur.value; updatePreview(); saveSettings(); });
-
-  presetBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const s = parseInt(btn.dataset.size);
-      sizeEnabled.checked = true; sizeW.value = s; sizeH.value = s;
-      presetBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
-      document.getElementById('svgSizeContent').classList.add('active');
-      updatePreview();
-      saveSettings();
-    });
-  });
-
-  sizeW.addEventListener('input', () => {
-    if (lockARInput.checked && !ignoreNextSize) { const w = parseFloat(sizeW.value); if (w) { ignoreNextSize = true; sizeH.value = Math.round(w / aspectRatio); ignoreNextSize = false; } }
-    updatePreview();
-    saveSettings();
-  });
-  sizeH.addEventListener('input', () => {
-    if (lockARInput.checked && !ignoreNextSize) { const h = parseFloat(sizeH.value); if (h) { ignoreNextSize = true; sizeW.value = Math.round(h * aspectRatio); ignoreNextSize = false; } }
-    updatePreview();
-    saveSettings();
-  });
-
-  lockARInput.addEventListener('change', saveSettings);
-
-  downloadBtn.addEventListener('click', () => {
-    if (!parsedSvg) return;
-    const exportSize = sizeEnabled.checked ? (parseInt(sizeW.value) || 256) : 256;
-    const finalSvg = buildFinalSvg(exportSize);
-    const blob = new Blob([finalSvg], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(blob);
-    const name = detectFilename(parsedSvg) + '.svg';
-    chrome.downloads.download({ url, filename: name, saveAs: false }, () => URL.revokeObjectURL(url));
-  });
-
-  function buildFinalSvg(exportSize) {
-    const padding = parseInt(bgPadding.value);
-    const opacity = parseInt(bgOpacity.value) / 100;
-    const doBackground = bgEnabled.checked;
-    const doStroke = strokeEnabled.checked;
-    const doShadow = shadowEnabled.checked;
-    const sW = parseInt(strokeWidth.value);
-    const shBlur = parseInt(shadowBlur.value);
-
-    let defs = '';
-    if (doShadow) {
-      defs = `<defs><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="${shBlur/2}" flood-opacity="0.4"/></filter></defs>`;
-    }
-
-    let bgMarkup = '';
-    if (doBackground) {
-      const shapePoints = getShapePoints(selectedShape, exportSize);
-      bgMarkup = `<path d="${shapePoints}" fill="${bgColor1.value}" fill-opacity="${opacity}" ${doShadow ? 'filter="url(#shadow)"' : ''} ${doStroke ? `stroke="${strokeColor.value}" stroke-width="${sW}"` : ''}/>`;
-    }
+  // --- Build final SVG for download ---
+  function buildFinalSvg() {
+    if (!parsedSvg) return null;
+    const exportSize = svgColorEnabled.checked ? (parseInt(svgSizeW.value) || 256) : 256;
+    const padding = parseInt(svgBgPadding.value) * (exportSize / 80);
+    const rotation = parseInt(svgBgRotation.value);
+    const opacity = parseInt(svgBgOpacity.value) / 100;
+    const doGradient = svgBgGradient.checked;
+    const col1 = svgBgColor1.value, col2 = svgBgColor2.value;
+    const stop1 = parseInt(svgGradStop1.value) / 100;
+    const stop2 = parseInt(svgGradStop2.value) / 100;
+    const gradAngle = parseInt(svgGradAngle.value);
+    
+    const doShadow = svgShadowEnabled.checked;
+    const shCol = svgShadowColor.value, shBlur = parseInt(svgShadowBlur.value);
+    const shSpread = parseInt(svgShadowSpread.value);
+    const shX = parseInt(svgShadowOffsetX.value), shY = parseInt(svgShadowOffsetY.value);
+    const shOp = parseInt(svgShadowOpacity.value) / 100;
+    const doBackground = svgBgEnabled.checked;
 
     const modSvg = applyIconMods(parsedSvg);
     const iconDoc = new DOMParser().parseFromString(modSvg, 'image/svg+xml');
     const iconEl = iconDoc.querySelector('svg');
-    const iconSize = exportSize - padding * (exportSize / 100) * 2;
-    const offset = (exportSize - iconSize) / 2;
-    
-    iconEl.setAttribute('x', offset);
-    iconEl.setAttribute('y', offset);
+    const iconSize = exportSize - padding * 2;
     iconEl.setAttribute('width', iconSize);
     iconEl.setAttribute('height', iconSize);
-    
-    const iconContent = new XMLSerializerToString().serializeToString(iconEl);
+    const iconContent = new XMLSerializer().serializeToString(iconEl);
 
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${exportSize}" height="${exportSize}" viewBox="0 0 ${exportSize} ${exportSize}">${defs}${bgMarkup}${iconContent}</svg>`;
-  }
+    const shapePoints = getShapePath(selectedShapeId, exportSize + (shSpread * 2));
 
-  function XMLSerializerToString() {
-    this.serializeToString = function(node) {
-      return new XMLSerializer().serializeToString(node);
+    let fillAttr;
+    let defsExtra = '';
+
+    if (doGradient) {
+      const gradId = 'svg-bg-grad-' + Date.now();
+      fillAttr = `fill="url(#${gradId})"`;
+      if (selectedGradType === 'linear') {
+        const angleRad = (gradAngle - 90) * Math.PI / 180;
+        const x1 = (Math.cos(angleRad + Math.PI) * 50 + 50).toFixed(2) + '%';
+        const y1 = (Math.sin(angleRad + Math.PI) * 50 + 50).toFixed(2) + '%';
+        const x2 = (Math.cos(angleRad) * 50 + 50).toFixed(2) + '%';
+        const y2 = (Math.sin(angleRad) * 50 + 50).toFixed(2) + '%';
+        defsExtra = `<linearGradient id="${gradId}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="${stop1 * 100}%" stop-color="${col1}" stop-opacity="${opacity}"/><stop offset="${stop2 * 100}%" stop-color="${col2}" stop-opacity="${opacity}"/></linearGradient>`;
+      } else {
+        defsExtra = `<radialGradient id="${gradId}" cx="50%" cy="50%" r="50%"><stop offset="${stop1 * 100}%" stop-color="${col1}" stop-opacity="${opacity}"/><stop offset="${stop2 * 100}%" stop-color="${col2}" stop-opacity="${opacity}"/></radialGradient>`;
+      }
+    } else {
+      fillAttr = `fill="${col1}" fill-opacity="${opacity}"`;
     }
+
+    const out = `<svg xmlns="http://www.w3.org/2000/svg" width="${exportSize}" height="${exportSize}" viewBox="0 0 ${exportSize} ${exportSize}">
+  <defs>
+    ${defsExtra}
+    ${doShadow ? `<filter id="svg-shf" x="-50%" y="-50%" width="200%" height="200%">
+      <feMorphology in="SourceAlpha" result="spread" operator="dilate" radius="${shSpread}"/>
+      <feDropShadow in="spread" dx="${shX}" dy="${shY}" stdDeviation="${shBlur / 2}" flood-color="${shCol}" flood-opacity="${shOp}"/>
+    </filter>` : ''}
+  </defs>
+  ${doBackground ? `<g transform="rotate(${rotation},${exportSize / 2},${exportSize / 2})" ${doShadow ? 'filter="url(#svg-shf)"' : ''}>
+    <path d="${shapePoints}" ${fillAttr}/>
+  </g>` : ''}
+  <g transform="translate(${padding},${padding})">
+    ${iconContent}
+  </g>
+</svg>`;
+    return out;
   }
 
-  function getShapePoints(shapeId, size) {
+  function getShapePath(shapeId, size) {
     const cx = size / 2, cy = size / 2, r = size / 2 * 0.94;
-    function polyPts(sides, startAngle = 0) {
+    function poly(sides, startAngle = 0) {
       let d = '';
       for (let i = 0; i < sides; i++) {
         const a = startAngle + (i * Math.PI * 2 / sides);
@@ -514,20 +436,20 @@
       return d + 'Z';
     }
     switch (shapeId) {
-      case 'square': return roundedRectPath(cx - r, cy - r, r * 2, r * 2, r * 0.12);
-      case 'squircle': return roundedRectPath(cx - r, cy - r, r * 2, r * 2, r * 0.32);
+      case 'square': return rect(cx - r, cy - r, r * 2, r * 2, r * 0.12);
+      case 'squircle': return rect(cx - r, cy - r, r * 2, r * 2, r * 0.32);
       case 'circle': return `M${cx + r},${cy} A${r},${r} 0 1,1 ${cx - r},${cy} A${r},${r} 0 1,1 ${cx + r},${cy}`;
-      case 'triangle': return polyPts(3, -Math.PI / 2);
-      case 'star': return starPath(cx, cy, r, r * 0.45, 5);
-      default: return polyPts(6, 0);
+      case 'triangle': return poly(3, -Math.PI / 2);
+      case 'star': return star(cx, cy, r, r * 0.45, 5);
+      default: return poly(4, 0);
     }
   }
 
-  function roundedRectPath(x, y, w, h, rx) {
+  function rect(x, y, w, h, rx) {
     return `M${x + rx},${y} L${x + w - rx},${y} Q${x + w},${y} ${x + w},${y + rx} L${x + w},${y + h - rx} Q${x + w},${y + h} ${x + w - rx},${y + h} L${x + rx},${y + h} Q${x},${y + h} ${x},${y + h - rx} L${x},${y + rx} Q${x},${y} ${x + rx},${y} Z`;
   }
 
-  function starPath(cx, cy, outerR, innerR, points) {
+  function star(cx, cy, outerR, innerR, points) {
     const step = Math.PI / points; let d = '';
     for (let i = 0; i < points * 2; i++) {
       const r = i % 2 === 0 ? outerR : innerR;
@@ -537,5 +459,128 @@
     return d + 'Z';
   }
 
-  loadSettings();
+  // --- Controls ---
+  function wireSlider(el, valEl, suffix = '') {
+    updateTrackFill(el);
+    el.addEventListener('input', () => { 
+      valEl.textContent = el.value + suffix; 
+      updateTrackFill(el);
+      updatePreview(); 
+    });
+  }
+
+  function wireColor(picker, hex) {
+    picker.addEventListener('input', () => { hex.value = picker.value; updatePreview(); });
+    hex.addEventListener('input', () => { if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) { picker.value = hex.value; updatePreview(); } });
+  }
+
+  function init() {
+    wireSlider(svgBgPadding, svgBgPaddingVal, '');
+    wireSlider(svgBgRotation, svgBgRotationVal, '°');
+    wireSlider(svgBgOpacity, svgBgOpacityVal, '%');
+    wireSlider(svgGradAngle, svgGradAngleVal, '°');
+    wireSlider(svgGradStop1, svgGradStop1Val, '%');
+    wireSlider(svgGradStop2, svgGradStop2Val, '%');
+    wireSlider(svgStrokeWidth, svgStrokeWidthVal, '');
+    wireSlider(svgShadowBlur, svgShadowBlurVal, '');
+    wireSlider(svgShadowSpread, svgShadowSpreadVal, '');
+    wireSlider(svgShadowOffsetX, svgShadowOffsetXVal, '');
+    wireSlider(svgShadowOffsetY, svgShadowOffsetYVal, '');
+    wireSlider(svgShadowOpacity, svgShadowOpacityVal, '%');
+
+    wireColor(svgColorPicker, svgColorHex);
+    wireColor(svgBgColor1, svgBgHex1);
+    wireColor(svgBgColor2, svgBgHex2);
+    wireColor(svgStrokeColor, svgStrokeHex);
+    wireColor(svgShadowColor, svgShadowHex);
+
+    svgBgGradient.addEventListener('change', () => {
+      svgGradientSettings.style.display = svgBgGradient.checked ? 'flex' : 'none';
+      updatePreview();
+    });
+
+    typeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedGradType = btn.dataset.type;
+        typeBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        svgGradTypeVal.textContent = selectedGradType === 'linear' ? 'Linear' : 'Radial';
+        svgGradAngleRow.style.display = selectedGradType === 'linear' ? 'flex' : 'none';
+        updatePreview();
+      });
+    });
+
+    [svgColorEnabled, svgBgEnabled, svgShadowEnabled, svgShapeEnabled].forEach(t => t.addEventListener('change', updatePreview));
+
+    svgClearBtn.addEventListener('click', () => { svgInput.value = ''; updatePreview(); });
+    svgResetColor.addEventListener('click', () => { svgColorEnabled.checked = false; svgColorPicker.value = '#ffffff'; svgColorHex.value = '#ffffff'; updatePreview(); });
+
+    svgSizeW.addEventListener('input', () => {
+      if (svgLockAR.querySelector('input').checked && !ignoreNextSize) {
+        const w = parseFloat(svgSizeW.value); if (w) { ignoreNextSize = true; svgSizeH.value = Math.round(w / aspectRatio); ignoreNextSize = false; }
+      }
+      updatePreview();
+    });
+    svgSizeH.addEventListener('input', () => {
+      if (svgLockAR.querySelector('input').checked && !ignoreNextSize) {
+        const h = parseFloat(svgSizeH.value); if (h) { ignoreNextSize = true; svgSizeW.value = Math.round(h * aspectRatio); ignoreNextSize = false; }
+      }
+      updatePreview();
+    });
+
+    svgInput.addEventListener('input', updatePreview);
+    initAccordions();
+    buildShapePicker();
+
+    // Downloads & Copy
+    svgDownloadBtn.addEventListener('click', () => {
+      if (!parsedSvg) return;
+      const out = buildFinalSvg();
+      const blob = new Blob([out], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      chrome.downloads.download({ url, filename: detectFilename(parsedSvg) + '.svg' });
+    });
+
+    svgCopyBtn.addEventListener('click', () => {
+      if (!parsedSvg) return;
+      const out = buildFinalSvg();
+      navigator.clipboard.writeText(out).then(() => {
+        const oldText = svgCopyBtn.textContent;
+        svgCopyBtn.textContent = 'Copied!';
+        svgCopyBtn.classList.add('btn-success');
+        setTimeout(() => {
+          svgCopyBtn.textContent = oldText;
+          svgCopyBtn.classList.remove('btn-success');
+        }, 2000);
+      });
+    });
+  }
+
+  // Build Shape Picker
+  function buildShapePicker() {
+    svgShapeGrid.innerHTML = '';
+    SHAPES.forEach(shape => {
+      const btn = document.createElement('button');
+      btn.className = 'shape-btn' + (shape.id === selectedShapeId ? ' active' : '');
+      const mc = document.createElement('canvas');
+      mc.width = 24; mc.height = 24;
+      const cx = mc.getContext('2d');
+      cx.translate(12, 12);
+      cx.beginPath();
+      shape.draw(cx, 20);
+      cx.fillStyle = shape.id === selectedShapeId ? '#00ffff' : '#3a3a50';
+      cx.fill();
+      btn.appendChild(mc);
+      btn.addEventListener('click', () => {
+        selectedShapeId = shape.id;
+        document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        buildShapePicker(); // refresh icons
+        updatePreview();
+      });
+      svgShapeGrid.appendChild(btn);
+    });
+  }
+
+  init();
 })();

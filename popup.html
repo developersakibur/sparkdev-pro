@@ -12,15 +12,27 @@
   <link rel="stylesheet" href="modules/pass/style.css">
 </head>
 <body>
-  <div class="tabs-container">
-    <div class="tabs-nav">
-      <button class="tab-btn active" data-tab="tab-clamp">Clamp</button>
-      <button class="tab-btn" data-tab="tab-webp">WebP</button>
-      <button class="tab-btn" data-tab="tab-svg">Svg</button>
-      <button class="tab-btn" data-tab="tab-wp">WP Tools</button>
-      <button class="tab-btn" data-tab="tab-pass">Pass</button>
+  <div id="welcome-page">
+    <div class="welcome-header">
+      <img src="assets/icons/logo.svg" alt="SparkDev Pro Logo" class="welcome-logo">
+      <h1>SparkDev Pro</h1>
+    </div>
+    <p class="welcome-desc">The Unified Developer Workspace</p>
+    
+    <div class="feature-grid" id="featureGrid">
+      <!-- Dynamic features will be injected here -->
     </div>
   </div>
+
+  <div id="main-app" style="display: none;">
+    <div class="tabs-container">
+      <button class="tab-btn active" id="homeBtn" title="Home">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </button>
+      <div class="tabs-nav" id="tabsNav">
+        <!-- Dynamic tabs will be injected here -->
+      </div>
+    </div>
 
   <div id="tab-clamp" class="tab-content active">
     <div class="header">
@@ -143,29 +155,29 @@
       </button>
     </div>
 
-    <div class="tab-scroll-area">
-      <!-- Input -->
-      <div class="textarea-wrap" style="margin-bottom: 12px;">
-        <textarea id="svgInput" spellcheck="false" placeholder="Paste <svg> code here..."></textarea>
-      </div>
-
-      <!-- Preview Section -->
+    <!-- Sticky Input & Preview Row -->
+    <div class="input-preview-row sticky-top">
       <div class="svg-preview-section">
         <div id="svgPreviewBox" class="preview-box-main">
           <span class="preview-hint">Paste SVG</span>
         </div>
-        <div id="svgFilenameDisplay" class="filename-display">—</div>
       </div>
 
+      <div class="textarea-wrap">
+        <textarea id="svgInput" spellcheck="false" placeholder="Paste <svg> code here..."></textarea>
+      </div>
+    </div>
+
+    <div class="tab-scroll-area">
       <!-- Settings List -->
       <div class="svg-settings-list">
         
-        <!-- Color -->
+        <!-- Color & Size -->
         <div class="svg-setting-item">
           <div class="row-header">
             <div class="row-title">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M12 12h10"/></svg>
-              <span>Color</span>
+              <span>Color & Size</span>
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="svgColorEnabled" checked>
@@ -174,33 +186,12 @@
           </div>
           <div class="row-content" id="svgColorContent">
             <div class="color-row">
-              <input type="color" id="svgColorPicker" value="#7c6aff">
-              <input type="text" id="svgColorHex" class="hex-input" value="#7c6aff">
+              <input type="color" id="svgColorPicker" value="#ffffff">
+              <input type="text" id="svgColorHex" class="hex-input" value="#ffffff">
               <button class="ghost-btn" id="svgResetColor" title="Reset Color">↺</button>
             </div>
-          </div>
-        </div>
-
-        <!-- Size -->
-        <div class="svg-setting-item">
-          <div class="row-header">
-            <div class="row-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M21 12H3"/><path d="M12 3v18"/></svg>
-              <span>Size</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="svgSizeEnabled">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="row-content" id="svgSizeContent">
-            <div class="size-presets">
-              <button class="preset-btn" data-size="16">16</button>
-              <button class="preset-btn" data-size="32">32</button>
-              <button class="preset-btn" data-size="64">64</button>
-              <button class="preset-btn" data-size="128">128</button>
-            </div>
-            <div class="size-input-row">
+            
+            <div class="size-input-row" style="margin-top: 12px;">
               <input type="number" id="svgSizeW" placeholder="W" class="size-input">
               <span class="size-sep">×</span>
               <input type="number" id="svgSizeH" placeholder="H" class="size-input">
@@ -212,20 +203,118 @@
           </div>
         </div>
 
-        <!-- Background -->
+        <!-- Background (Merged Layout & Fill) -->
         <div class="svg-setting-item">
           <div class="row-header">
             <div class="row-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.5 8.5a5.5 5.5 0 0 0 7.78 7.78L19 11z"/><path d="m5 2 5 5"/></svg>
               <span>Background</span>
             </div>
             <label class="toggle-switch">
-              <input type="checkbox" id="svgBgEnabled">
+              <input type="checkbox" id="svgBgEnabled" checked>
               <span class="toggle-slider"></span>
             </label>
           </div>
           <div class="row-content" id="svgBgContent">
-            <div class="info-text">Master background feature</div>
+            <div class="color-row">
+              <input type="color" id="svgBgColor1" value="#1a1a20">
+              <input type="text" id="svgBgHex1" class="hex-input" value="#1a1a20">
+            </div>
+            
+            <div class="setting-row-mini" style="margin-top: 10px;">
+              <span class="mini-label">Enable Gradient</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="svgBgGradient">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+
+            <div id="svgGradientSettings" style="display: none; margin-top: 10px; flex-direction: column; gap: 10px;">
+              <div class="color-row">
+                <input type="color" id="svgBgColor2" value="#00ffff">
+                <input type="text" id="svgBgHex2" class="hex-input" value="#00ffff">
+              </div>
+
+              <div class="slider-group">
+                <div class="slider-header"><span>Type</span><span id="svgGradTypeVal">Linear</span></div>
+                <div class="type-toggle">
+                  <button class="type-btn active" data-type="linear">Linear</button>
+                  <button class="type-btn" data-type="radial">Radial</button>
+                </div>
+              </div>
+
+              <div id="svgGradAngleRow" class="slider-group">
+                <div class="slider-header"><span>Angle</span></div>
+                <div class="slider-row">
+                  <div class="slider-wrap-preview">
+                    <div class="track-bg-preview"></div>
+                    <div class="track-fill-preview"></div>
+                    <input type="range" id="svgGradAngle" min="0" max="360" value="180" class="custom-range">
+                  </div>
+                  <div class="vp-badge-small"><span id="svgGradAngleVal">180°</span></div>
+                </div>
+              </div>
+
+              <div class="slider-group">
+                <div class="slider-header"><span>Color 1 Stop</span></div>
+                <div class="slider-row">
+                  <div class="slider-wrap-preview">
+                    <div class="track-bg-preview"></div>
+                    <div class="track-fill-preview"></div>
+                    <input type="range" id="svgGradStop1" min="0" max="100" value="0" class="custom-range">
+                  </div>
+                  <div class="vp-badge-small"><span id="svgGradStop1Val">0%</span></div>
+                </div>
+              </div>
+
+              <div class="slider-group">
+                <div class="slider-header"><span>Color 2 Stop</span></div>
+                <div class="slider-row">
+                  <div class="slider-wrap-preview">
+                    <div class="track-bg-preview"></div>
+                    <div class="track-fill-preview"></div>
+                    <input type="range" id="svgGradStop2" min="0" max="100" value="100" class="custom-range">
+                  </div>
+                  <div class="vp-badge-small"><span id="svgGradStop2Val">100%</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="slider-group" style="margin-top: 10px;">
+              <div class="slider-header"><span>Padding</span></div>
+              <div class="slider-row">
+                <div class="slider-wrap-preview">
+                  <div class="track-bg-preview"></div>
+                  <div class="track-fill-preview"></div>
+                  <input type="range" id="svgBgPadding" min="0" max="80" value="20" class="custom-range">
+                </div>
+                <div class="vp-badge-small"><span id="svgBgPaddingVal">20</span></div>
+              </div>
+            </div>
+
+            <div class="slider-group" style="margin-top: 10px;">
+              <div class="slider-header"><span>Rotation</span></div>
+              <div class="slider-row">
+                <div class="slider-wrap-preview">
+                  <div class="track-bg-preview"></div>
+                  <div class="track-fill-preview"></div>
+                  <input type="range" id="svgBgRotation" min="0" max="360" value="0" class="custom-range">
+                </div>
+                <div class="vp-badge-small"><span id="svgBgRotationVal">0°</span></div>
+              </div>
+            </div>
+
+            <div class="slider-group" style="margin-top: 10px;">
+              <div class="slider-header"><span>Opacity</span></div>
+              <div class="slider-row">
+                <div class="slider-wrap-preview">
+                  <div class="track-bg-preview"></div>
+                  <div class="track-fill-preview"></div>
+                  <input type="range" id="svgBgOpacity" min="0" max="100" value="100" class="custom-range">
+                </div>
+                <div class="vp-badge-small"><span id="svgBgOpacityVal">100%</span></div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -237,80 +326,12 @@
               <span>Shape</span>
             </div>
             <label class="toggle-switch">
-              <input type="checkbox" id="svgShapeEnabled" disabled>
+              <input type="checkbox" id="svgShapeEnabled" checked>
               <span class="toggle-slider"></span>
             </label>
           </div>
           <div class="row-content" id="svgShapeContent">
             <div id="svgShapeGrid" class="shape-grid"></div>
-          </div>
-        </div>
-
-        <!-- Layout -->
-        <div class="svg-setting-item">
-          <div class="row-header">
-            <div class="row-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M9 3v18"/><path d="M3 9h18"/></svg>
-              <span>Layout</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="svgLayoutEnabled" disabled>
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="row-content" id="svgLayoutContent">
-            <div class="slider-group">
-              <div class="slider-header"><span>Padding</span><span id="svgBgPaddingVal">20</span></div>
-              <input type="range" id="svgBgPadding" min="0" max="80" value="20">
-            </div>
-          </div>
-        </div>
-
-        <!-- Fill Color -->
-        <div class="svg-setting-item">
-          <div class="row-header">
-            <div class="row-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.5 8.5a5.5 5.5 0 0 0 7.78 7.78L19 11z"/><path d="m5 2 5 5"/></svg>
-              <span>Fill Color</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="svgFillEnabled" disabled>
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="row-content" id="svgFillContent">
-            <div class="color-row">
-              <input type="color" id="svgBgColor1" value="#1a1a20">
-              <input type="text" id="svgBgHex1" class="hex-input" value="#1a1a20">
-            </div>
-            <div class="slider-group" style="margin-top: 8px;">
-              <div class="slider-header"><span>Opacity</span><span id="svgBgOpacityVal">100%</span></div>
-              <input type="range" id="svgBgOpacity" min="0" max="100" value="100">
-            </div>
-          </div>
-        </div>
-
-        <!-- Stroke -->
-        <div class="svg-setting-item">
-          <div class="row-header">
-            <div class="row-title">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
-              <span>Stroke</span>
-            </div>
-            <label class="toggle-switch">
-              <input type="checkbox" id="svgStrokeEnabled">
-              <span class="toggle-slider"></span>
-            </label>
-          </div>
-          <div class="row-content" id="svgStrokeContent">
-            <div class="color-row">
-              <input type="color" id="svgStrokeColor" value="#ffffff">
-              <input type="text" id="svgStrokeHex" class="hex-input" value="#ffffff">
-            </div>
-            <div class="slider-group" style="margin-top: 8px;">
-              <div class="slider-header"><span>Width</span><span id="svgStrokeWidthVal">2</span></div>
-              <input type="range" id="svgStrokeWidth" min="0" max="24" value="2">
-            </div>
           </div>
         </div>
 
@@ -327,17 +348,73 @@
             </label>
           </div>
           <div class="row-content" id="svgShadowContent">
-            <div class="slider-group">
-              <div class="slider-header"><span>Blur</span><span id="svgShadowBlurVal">10</span></div>
-              <input type="range" id="svgShadowBlur" min="0" max="40" value="10">
+            <div class="color-row">
+              <input type="color" id="svgShadowColor" value="#000000">
+              <input type="text" id="svgShadowHex" class="hex-input" value="#000000">
+            </div>
+            <div class="slider-group" style="margin-top: 10px;">
+              <div class="slider-header"><span>Blur</span></div>
+              <div class="slider-row">
+                <div class="slider-wrap-preview">
+                  <div class="track-bg-preview"></div>
+                  <div class="track-fill-preview"></div>
+                  <input type="range" id="svgShadowBlur" min="0" max="40" value="10" class="custom-range">
+                </div>
+                <div class="vp-badge-small"><span id="svgShadowBlurVal">10</span></div>
+              </div>
+            </div>
+            <div class="slider-group" style="margin-top: 10px;">
+              <div class="slider-header"><span>Spread</span></div>
+              <div class="slider-row">
+                <div class="slider-wrap-preview">
+                  <div class="track-bg-preview"></div>
+                  <div class="track-fill-preview"></div>
+                  <input type="range" id="svgShadowSpread" min="0" max="20" value="0" class="custom-range">
+                </div>
+                <div class="vp-badge-small"><span id="svgShadowSpreadVal">0</span></div>
+              </div>
+            </div>
+            <div class="slider-group" style="margin-top: 10px;">
+              <div class="slider-header"><span>Offset X</span></div>
+              <div class="slider-row">
+                <div class="slider-wrap-preview">
+                  <div class="track-bg-preview"></div>
+                  <div class="track-fill-preview"></div>
+                  <input type="range" id="svgShadowOffsetX" min="-30" max="30" value="0" class="custom-range">
+                </div>
+                <div class="vp-badge-small"><span id="svgShadowOffsetXVal">0</span></div>
+              </div>
+            </div>
+            <div class="slider-group" style="margin-top: 10px;">
+              <div class="slider-header"><span>Offset Y</span></div>
+              <div class="slider-row">
+                <div class="slider-wrap-preview">
+                  <div class="track-bg-preview"></div>
+                  <div class="track-fill-preview"></div>
+                  <input type="range" id="svgShadowOffsetY" min="-30" max="30" value="4" class="custom-range">
+                </div>
+                <div class="vp-badge-small"><span id="svgShadowOffsetYVal">4</span></div>
+              </div>
+            </div>
+            <div class="slider-group" style="margin-top: 10px;">
+              <div class="slider-header"><span>Opacity</span></div>
+              <div class="slider-row">
+                <div class="slider-wrap-preview">
+                  <div class="track-bg-preview"></div>
+                  <div class="track-fill-preview"></div>
+                  <input type="range" id="svgShadowOpacity" min="0" max="100" value="40" class="custom-range">
+                </div>
+                <div class="vp-badge-small"><span id="svgShadowOpacityVal">40%</span></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="sticky-footer">
-      <button class="btn btn-primary" id="svgDownloadBtn" style="width: 100%;">Download SVG</button>
+    <div class="footer-btns">
+      <button class="btn btn-secondary" id="svgCopyBtn">Copy SVG</button>
+      <button class="btn btn-primary" id="svgDownloadBtn">Download SVG</button>
     </div>
   </div>
 
@@ -464,6 +541,8 @@
         </label>
       </div>
     </div>
+  </div>
+
   </div>
 
   <script src="assets/libs/jszip.min.js"></script>
