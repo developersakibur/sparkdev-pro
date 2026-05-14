@@ -11,12 +11,13 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (!info.srcUrl) return;
 
   // Load settings then send to content script
-  chrome.storage.local.get(['maxSizeKB', 'quality'], (stored) => {
+  chrome.storage.local.get(['mod_webp'], (stored) => {
+    const settings = stored.mod_webp || {};
     const payload = {
       action:    'convertAndDownload',
       imageUrl:  info.srcUrl,
-      maxSizeKB: stored.maxSizeKB || 50,
-      quality:   stored.quality   || 25
+      maxSizeKB: settings.maxSizeKB || 50,
+      quality:   settings.quality   || 25
     };
 
     chrome.tabs.sendMessage(tab.id, payload, (res) => {

@@ -1,105 +1,92 @@
 # 🚀 SparkDev Pro: The Unified Developer Workspace
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Platform](https://img.shields.io/badge/platform-Chrome%20|%20Edge%20|%20Brave-orange.svg)
+[![Version](https://img.shields.io/badge/version-1.2.0-cyan.svg)](https://github.com/developersakibur/sparkdev-pro)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Chrome%20|%20Edge-blue.svg)](https://developer.chrome.com/docs/extensions/mv3/)
 
-**SparkDev Pro** is a premium, modular browser extension designed to eliminate context-switching. It consolidates high-performance utilities for responsive design, image optimization, WordPress management, and security into a single, elegant interface.
-
----
-
-## 💎 Core Modules & Detailed Use Cases
-
-### 1. 📐 CSS clamp() Fluid Generator
-*Precision-engineered responsive typography and spacing.*
-
-- **The Problem**: Standard media queries lead to "jumpy" layouts and bloated CSS.
-- **The Solution**: Uses the `clamp()` function to create fluid values that scale perfectly between two viewports.
-- **Detailed Use Case**: 
-    - **Typography**: Define a font-size that is exactly `16px` on mobile (320px) and `48px` on desktop (1920px). The generator calculates the exact viewport-unit formula.
-    - **Responsive Padding**: Set dynamic gaps that shrink gracefully on smaller screens without writing dozens of breakpoints.
-- **Pro Feature**: Supports negative value logic, automatically wrapping results in `calc(-1 * clamp(...))` for complex layout shifts.
-
-### 2. 🖼️ WebP Converter Pro
-*The gold standard for browser-native image optimization.*
-
-- **The Problem**: High-quality images slow down LCP (Largest Contentful Paint) and SEO rankings.
-- **The Solution**: Converts PNG/JPG to WebP using **Binary Search Compression** to find the sweet spot between file size and visual fidelity.
-- **Detailed Use Case**:
-    - **Batch Optimization**: Upload 20 raw product images and convert them all to optimized WebP in seconds.
-    - **Size Targets**: Need a hero image under 100KB? Set the limit, and the tool will iteratively compress until the target is met.
-- **Privacy Focus**: Zero server uploads. All processing happens in your browser's RAM, ensuring sensitive assets never leave your machine.
-
-### 3. 🛠️ WP Quick Tools
-*The ultimate Swiss-army knife for WordPress developers.*
-
-- **The Problem**: Navigating deep into WP-Admin or dealing with stubborn caching is a daily friction point.
-- **The Solution**: One-click shortcuts and advanced DOM extraction tools.
-- **Detailed Use Case**:
-    - **NC (No-Cache) Browsing**: Visit a client's site with cache-busting headers to see real-time changes instantly.
-    - **Asset Extraction**: Extract high-res links from sites like Freepik and integrate directly with watermark removal workflows.
-    - **Speed Analysis**: Instant deep-links to Google PageSpeed Insights and DNS records for the current active tab.
-
-### 5. 🎨 SVG Downloader & Modulator
-*A robust, browser-native workspace for SVG icon manipulation, stylistic modulation, and export.*
-
-- **The Problem**: Web icons often arrive in fragmented formats, inconsistent styles, or incompatible color schemes, leading to tedious manual editing in external software like Illustrator or Figma.
-- **The Solution**: An integrated, high-performance SVG workspace that allows for real-time visual modulation, container shaping, and optimization directly within your browser.
-- **Advanced Capabilities**:
-    - **Dynamic Color Modulation**: Automatically parse and replace `currentColor` or specific HEX values across nested elements, allowing for instant brand-color synchronization.
-    - **Intelligent Container Shaping**: Wrap flat, raw SVG icons in predefined container geometries (Squircles, Shields, Stars, Crosses, etc.) to enforce uniform UI design patterns.
-    - **Visual Depth Engine**: Non-destructive, configurable drop-shadows, blurs, and spread effects to add spatial depth to icons.
-    - **Gradient & Background Synthesis**: Apply sophisticated linear or radial gradients, rotation, and padding to icon backgrounds to create unique visual assets from basic shapes.
-- **Workflow & Productivity**:
-    - **Real-Time Preview**: Instantly view the impact of every modulation change in a high-fidelity preview canvas before export.
-    - **Zero-Latency Export**: Download perfectly formatted, clean SVG files or use the instant copy-to-clipboard functionality for seamless integration into CSS, React, or Vue projects.
-    - **Filename Intelligence**: Automatic icon-name detection based on `id`, `class`, `aria-label`, or `<title>` tags ensures your exported files are always organized.
-- **Performance**: Optimized DOMParser and XMLSerializer workflows ensure fluid performance even with complex, multi-path SVG icons.
+**SparkDev Pro** is a high-performance, modular toolkit designed for modern web developers and designers. It unifies essential tools—fluid typography generation, image optimization, SVG modulation, and WordPress administration—into a single, professional workspace.
 
 ---
 
-## 🛠 Installation & Setup
+## 💎 Core Modules
 
-1. **Clone the Repo**:
+### 1. 📐 Clamp Generator (Fluid Typography)
+An advanced tool for creating perfectly fluid design systems.
+- **Linear Mapping Engine:** Automatically suggests Min/Max values based on professional design ratios.
+- **Negative Support:** Full support for negative fluid design (margins/offsets) with professional `calc(-1 * clamp())` output.
+- **Infinite Scroll:** Frictionless input management with mouse-wheel support starting from industry defaults.
+- **Presets:** Independent "Text" and "Spacing" configurations that persist across sessions.
+
+### 2. 🖼️ WebP Pro (Batch Optimizer)
+High-efficiency image conversion powered by `OffscreenCanvas`.
+- **Intelligent Compression:** Uses binary-search logic to hit specific KB targets while maximizing quality.
+- **Batch Processing:** Drop dozens of images and process them simultaneously.
+- **ZIP Bundling:** Integrated JSZip support to download your optimized assets as a single, clean archive.
+- **Live Summary:** Real-time dashboard showing total files, original weight, and storage space saved.
+
+### 3. 🛡️ SVG Vault (Icon Modulator)
+Transform flat icons into brand-ready assets in seconds.
+- **Container Shaping:** Wrap any SVG path into Square, Squircle, Circle, or Shield geometries.
+- **Dynamic Coloration:** Automatically parses and replaces fill/stroke attributes with your primary brand colors.
+- **Visual Filters:** Native SVG `feDropShadow` integration with blur and offset controls.
+- **Export Ready:** One-click Copy-to-Clipboard or `.svg` download.
+
+### 4. ⚡ WP Quick Tools
+The Swiss-army knife for WordPress developers.
+- **Elementor Optimization:** Per-domain persistence for hiding the Elementor loader panel.
+- **Environment Toggling:** Fast access to `/wp-admin/`, migration tools, and site-health diagnostics.
+- **No-Cache Navigation:** Force-refresh browsing in standard or incognito modes.
+- **Instant Diagnostics:** Built-in deep links to Google PageSpeed and DNS propagation checkers.
+
+### 5. 🔑 Pass Gen
+Secure, entropy-based credential generator.
+- **Configurable Sets:** Fine-grained control over length, symbols, numbers, and casing.
+- **Copy-to-Success:** Visual feedback system ensuring credential safety and clipboard confirmation.
+
+---
+
+## 🛠️ Technical Architecture
+
+SparkDev Pro is built with a focus on performance, scalability, and clean data management.
+
+### 🏗️ UI Framework (ITCSS + BEM)
+The extension uses a professional CSS architecture following the **Inverted Triangle CSS** methodology:
+- **01 Settings:** Global tokens and brand variables.
+- **02 Generic:** Resets and base element styling.
+- **03 Layout:** Flexible grid and shell management.
+- **04 Components:** Modular, BEM-namespaced UI elements (`sd-c-*`).
+- **05 Utilities:** High-specificity helper classes (`sd-u-*`).
+
+### 💾 Namespaced Storage
+Data is managed via a **Professional Namespaced Architecture** in `chrome.storage.local`:
+- **`app_state`:** Global UI preferences (active tabs, feature order).
+- **`mod_*`:** Isolated storage for each module, preventing key collisions and enabling atomic updates.
+
+---
+
+## 🚀 Installation & Development
+
+### Local Setup
+1. Clone the repository:
    ```bash
    git clone https://github.com/developersakibur/sparkdev-pro.git
    ```
-2. **Open Extensions**: Navigate to `chrome://extensions/` in your browser.
-3. **Enable Developer Mode**: Toggle the switch in the top-right corner.
-4. **Load Unpacked**: Click the **"Load unpacked"** button and select the project root folder.
-5. **Pin for Success**: Pin SparkDev Pro to your toolbar for instant access to your new workspace.
+2. Open Chrome and navigate to `chrome://extensions/`.
+3. Enable **"Developer mode"** (top right).
+4. Click **"Load unpacked"** and select the project directory.
+
+### Project Structure
+```text
+├── core/           # Tab management, Background workers, Content scripts
+├── modules/        # Isolated features (HTML/JS/CSS per tool)
+├── assets/         # Icons, Libraries (JSZip, etc.)
+└── styles/         # ITCSS Framework
+```
 
 ---
 
-## 📂 Architectural Philosophy
-
-SparkDev Pro follows a **Modular Plugin Architecture**:
-- **Atomic Modules**: Each feature in `/modules` is self-contained with its own logic and style, preventing "spaghetti code."
-- **Scoped Styles**: CSS is strictly scoped to tab IDs, ensuring zero style bleeding between tools.
-- **Performance First**: Minimal dependencies. No heavy frameworks—just pure, optimized Vanilla JS and CSS.
-
----
-
-## 📋 Version Update Notes
-
-### [v1.1.0] - 2026-05-03
-- **Added**: New **Secure Password Generator** module with entropy-based randomness.
-- **Enhanced**: Added scroll-wheel support for numeric inputs in Clamp and Pass modules.
-- **Improved**: UI polish—hidden spin buttons on all numeric inputs for a cleaner, professional look.
-- **Fix**: Initialized default values in the Clamp generator to prevent empty-field errors on first load.
-
-### [v1.0.0] - 2026-04-28
-- **Launch**: Initial release featuring Clamp Generator, WebP Converter, and WP Quick Tools.
-- **Core**: Implementation of the custom tab-switching engine.
-
----
-
-## 👨‍💻 Author & Contribution
-
-**Created by [Sakibur Rahman](https://github.com/developersakibur)**
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
+## 🤝 Contribution
+Contributions are what make the developer community such an amazing place.
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
@@ -107,4 +94,5 @@ Contributions are what make the open-source community such an amazing place to l
 5. Open a Pull Request
 
 ---
+
 **License**: MIT | Built with ❤️ for the Developer Community.

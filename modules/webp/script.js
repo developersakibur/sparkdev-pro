@@ -6,10 +6,11 @@
     const maxSizeInp = document.getElementById('maxSizeWebP'), zipToggle = document.getElementById('zipToggle');
     const convertBtn = document.getElementById('convertBtn'), summary = document.getElementById('summary');
 
-    chrome.storage.local.get(['maxSizeKB', 'quality', 'zipEnabled'], r => {
-      if (r.maxSizeKB) maxSizeInp.value = r.maxSizeKB;
-      if (r.quality) { qualitySlider.value = r.quality; qVal.textContent = r.quality + '%'; }
-      zipToggle.checked = r.zipEnabled !== undefined ? r.zipEnabled : true;
+    chrome.storage.local.get(['mod_webp'], r => {
+      const settings = r.mod_webp || {};
+      if (settings.maxSizeKB) maxSizeInp.value = settings.maxSizeKB;
+      if (settings.quality) { qualitySlider.value = settings.quality; qVal.textContent = settings.quality + '%'; }
+      zipToggle.checked = settings.zipEnabled !== undefined ? settings.zipEnabled : true;
     });
 
     const resetFiles = () => {
@@ -22,10 +23,12 @@
     };
 
     const save = () => {
-      chrome.storage.local.set({ 
-        maxSizeKB: maxSizeInp.value, 
-        quality: qualitySlider.value, 
-        zipEnabled: zipToggle.checked 
+      chrome.storage.local.get(['mod_webp'], (res) => {
+        const settings = res.mod_webp || {};
+        settings.maxSizeKB = maxSizeInp.value;
+        settings.quality = qualitySlider.value;
+        settings.zipEnabled = zipToggle.checked;
+        chrome.storage.local.set({ mod_webp: settings });
       });
     };
 

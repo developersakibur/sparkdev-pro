@@ -6,9 +6,13 @@
   </label>
 </div>
 
-<div class="sd-l-grid-2 sd-u-mb-4">
-  <input id="minSize" type="number" step="1" placeholder="Min" class="sd-c-input sd-c-input--lg sd-u-font-mono">
-  <input id="maxSizeClamp" type="number" step="1" placeholder="Max" autofocus class="sd-c-input sd-c-input--lg sd-u-font-mono">
+<div class="sd-u-flex sd-u-mb-4" style="gap: 12px; align-items: center;">
+  <div style="flex: 0 0 35%;">
+    <input id="minSize" type="number" step="1" placeholder="Min" class="sd-c-input sd-c-input--lg sd-u-font-mono sd-u-full-width">
+  </div>
+  <div style="flex: 1 1 65%;">
+    <input id="maxSizeClamp" type="number" step="1" placeholder="Max" autofocus class="sd-c-input sd-c-input--lg sd-u-font-mono sd-u-full-width">
+  </div>
 </div>
 
 <div class="sd-c-segmented sd-u-mb-4">
@@ -17,7 +21,7 @@
     <label for="radioText" class="sd-c-segmented__btn sd-u-flex sd-u-center" style="cursor: pointer;">Text</label>
   </div>
   <div style="flex: 1; position: relative;">
-    <input type="radio" name="propertyType" id="radioPadding" value="padding" style="position: absolute; opacity: 0; inset: 0; cursor: pointer;">
+    <input type="radio" name="propertyType" id="radioPadding" value="spacing" style="position: absolute; opacity: 0; inset: 0; cursor: pointer;">
     <label for="radioPadding" class="sd-c-segmented__btn sd-u-flex sd-u-center" style="cursor: pointer;">Spacing</label>
   </div>
 </div>

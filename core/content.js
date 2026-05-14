@@ -134,8 +134,8 @@ function buildFilename(url) {
 (async function() {
   const domain = window.location.hostname;
   try {
-    const result = await chrome.storage.local.get(['elementorHideSettings']);
-    const settings = result.elementorHideSettings || {};
+    const result = await chrome.storage.local.get(['mod_wp_tools']);
+    const settings = result.mod_wp_tools?.elementorHideSettings || {};
     
     if (settings[domain]) {
       const style = document.createElement('style');

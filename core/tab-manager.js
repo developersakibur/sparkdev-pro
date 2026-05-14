@@ -49,20 +49,60 @@ document.addEventListener('DOMContentLoaded', () => {
   const appContent = document.getElementById('app-content');
   const homeBtn = document.getElementById('homeBtn');
 
+  async function migrateAndCleanupStorage() {
+    return new Promise((resolve) => {
+      chrome.storage.local.get(null, async (allData) => {
+        const newState = {
+          app_state: allData.app_state || {},
+          mod_webp: allData.mod_webp || {},
+          mod_wp_tools: allData.mod_wp_tools || {},
+          mod_clamp: allData.mod_clamp || {}
+        };
+
+        // 1. Migrate loose keys if namespaced objects are empty
+        if (!newState.app_state.featureOrder && allData.featureOrder) newState.app_state.featureOrder = allData.featureOrder;
+        if (!newState.app_state.activeTab && allData.activeTab) newState.app_state.activeTab = allData.activeTab;
+        
+        if (!newState.mod_webp.quality && allData.quality) newState.mod_webp.quality = allData.quality;
+        if (!newState.mod_webp.maxSizeKB && allData.maxSizeKB) newState.mod_webp.maxSizeKB = allData.maxSizeKB;
+        if (allData.zipEnabled !== undefined) newState.mod_webp.zipEnabled = allData.zipEnabled;
+
+        if (!newState.mod_wp_tools.elementorHideSettings && allData.elementorHideSettings) newState.mod_wp_tools.elementorHideSettings = allData.elementorHideSettings;
+        if (!newState.mod_wp_tools.tabPosition && allData.tabPosition) newState.mod_wp_tools.tabPosition = allData.tabPosition;
+
+        // 2. Determine keys to remove (everything except our new namespaces)
+        const keysToRemove = Object.keys(allData).filter(key => 
+          !['app_state', 'mod_webp', 'mod_wp_tools', 'mod_clamp', 'mod_pass', 'mod_svg'].includes(key)
+        );
+
+        // 3. Save clean state and clear old garbage
+        await chrome.storage.local.set(newState);
+        if (keysToRemove.length > 0) {
+          await chrome.storage.local.remove(keysToRemove);
+        }
+        resolve();
+      });
+    });
+  }
+
   let currentOrder = [];
   const loadedModules = new Set();
 
-  function init() {
-    chrome.storage.local.get(['featureOrder', 'activeTab'], (result) => {
-      if (result.featureOrder && result.featureOrder.length === FEATURES.length) {
-        currentOrder = result.featureOrder.map(id => FEATURES.find(f => f.id === id)).filter(Boolean);
+  async function init() {
+    await migrateAndCleanupStorage();
+    chrome.storage.local.get(['app_state'], (result) => {
+      const state = result.app_state || {};
+      const featureOrder = state.featureOrder;
+
+      if (featureOrder && featureOrder.length === FEATURES.length) {
+        currentOrder = featureOrder.map(id => FEATURES.find(f => f.id === id)).filter(Boolean);
       } else {
         currentOrder = [...FEATURES];
       }
       renderAll();
 
-      if (result.activeTab) {
-        switchTab(result.activeTab);
+      if (state.activeTab) {
+        switchTab(state.activeTab);
       }
     });
 
@@ -136,7 +176,12 @@ document.addEventListener('DOMContentLoaded', () => {
         currentOrder.splice(toIndex, 0, movedItem);
 
         renderAll();
-        chrome.storage.local.set({ featureOrder: currentOrder.map(f => f.id) });
+        
+        chrome.storage.local.get(['app_state'], (res) => {
+          const state = res.app_state || {};
+          state.featureOrder = currentOrder.map(f => f.id);
+          chrome.storage.local.set({ app_state: state });
+        });
       });
 
       card.addEventListener('dragend', () => {
@@ -180,7 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const activeTab = document.querySelector(`.sd-c-tabs__btn[data-tab="${tabId}"]`);
     if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 
-    chrome.storage.local.set({ activeTab: tabId });
+    chrome.storage.local.get(['app_state'], (res) => {
+      const state = res.app_state || {};
+      state.activeTab = tabId;
+      chrome.storage.local.set({ app_state: state });
+    });
   }
 
   function showWelcome() {
@@ -188,7 +237,12 @@ document.addEventListener('DOMContentLoaded', () => {
     mainApp.style.display = 'none';
     document.querySelectorAll('.sd-c-tabs__btn').forEach(t => t.classList.remove('active'));
     homeBtn.classList.add('active');
-    chrome.storage.local.remove('activeTab');
+    
+    chrome.storage.local.get(['app_state'], (res) => {
+      const state = res.app_state || {};
+      delete state.activeTab;
+      chrome.storage.local.set({ app_state: state });
+    });
   }
 
   init();

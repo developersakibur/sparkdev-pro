@@ -11,23 +11,51 @@
       domain = new URL(tab.url).hostname;
     } catch (e) {}
 
+    // --- Tab Position Logic ---
+    const beforeBtn = document.getElementById('beforeBtn');
+    const afterBtn = document.getElementById('afterBtn');
+    const wpSection = document.getElementById('wpSection');
+
+    const setPosition = (pos, save = true) => {
+      beforeBtn.classList.toggle('active', pos === 'before');
+      afterBtn.classList.toggle('active', pos === 'after');
+      wpSection.style.display = pos === 'after' ? 'grid' : 'none';
+      if (save) {
+        chrome.storage.local.get(['mod_wp_tools'], (res) => {
+          const s = res.mod_wp_tools || {};
+          s.tabPosition = pos;
+          chrome.storage.local.set({ mod_wp_tools: s });
+        });
+      }
+    };
+
+    chrome.storage.local.get(['mod_wp_tools'], (res) => {
+      const s = res.mod_wp_tools || {};
+      setPosition(s.tabPosition || 'after', false);
+    });
+
+    beforeBtn?.addEventListener('click', () => setPosition('before'));
+    afterBtn?.addEventListener('click', () => setPosition('after'));
+
     // --- Elementor Loader Logic ---
     const loaderToggle = document.getElementById('elementorLoaderToggle');
     if (loaderToggle && domain) {
-      chrome.storage.local.get(['elementorHideSettings'], (result) => {
-        const settings = result.elementorHideSettings || {};
+      chrome.storage.local.get(['mod_wp_tools'], (result) => {
+        const settings = result.mod_wp_tools?.elementorHideSettings || {};
         loaderToggle.checked = !!settings[domain];
       });
 
       loaderToggle.addEventListener('change', async (e) => {
-        const result = await chrome.storage.local.get(['elementorHideSettings']);
-        const settings = result.elementorHideSettings || {};
+        const result = await chrome.storage.local.get(['mod_wp_tools']);
+        const mod_settings = result.mod_wp_tools || {};
+        const settings = mod_settings.elementorHideSettings || {};
         if (e.target.checked) {
           settings[domain] = true;
         } else {
           delete settings[domain];
         }
-        await chrome.storage.local.set({ elementorHideSettings: settings });
+        mod_settings.elementorHideSettings = settings;
+        await chrome.storage.local.set({ mod_wp_tools: mod_settings });
         
         // Notify tab to apply/remove immediately
         chrome.tabs.sendMessage(tab.id, { action: 'toggleElementorLoader', enabled: e.target.checked });

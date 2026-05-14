@@ -54,8 +54,8 @@
 }
 
 .sd-c-well--success {
-  background: var(--sd-grad-primary);
-  color: var(--sd-color-black);
+  background: var(--sd-grad-primary) !important;
+  color: var(--sd-color-black) !important;
   border-color: var(--sd-color-cyan);
 }
 
