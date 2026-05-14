@@ -1,273 +1,208 @@
 (function() {
-  // ── State ────────────────────────────────────────────────
-  let files      = [];
-  let zipEnabled = true;
+  window.initWebP = function() {
+    let files = [];
+    const drop = document.getElementById('drop'), fileIn = document.getElementById('fileIn'), fileList = document.getElementById('fileList');
+    const qualitySlider = document.getElementById('qualitySlider'), qVal = document.getElementById('qVal');
+    const maxSizeInp = document.getElementById('maxSizeWebP'), zipToggle = document.getElementById('zipToggle');
+    const convertBtn = document.getElementById('convertBtn'), summary = document.getElementById('summary');
 
-  // ── DOM ──────────────────────────────────────────────────
-  const drop          = document.getElementById('drop');
-  const fileIn        = document.getElementById('fileIn');
-  const fileList      = document.getElementById('fileList');
-  const qualitySlider = document.getElementById('qualitySlider');
-  const qVal          = document.getElementById('qVal');
-  const maxSizeInp    = document.getElementById('maxSizeWebP'); // Updated ID
-  const zipToggle     = document.getElementById('zipToggle');
-  const convertBtn    = document.getElementById('convertBtn');
-  const summary       = document.getElementById('summary');
-
-  // ── Load saved settings ───────────────────────────────────
-  chrome.storage.local.get(['maxSizeKB', 'quality', 'zipEnabled'], r => {
-    if (r.maxSizeKB) maxSizeInp.value = r.maxSizeKB;
-    if (r.quality) {
-      qualitySlider.value = r.quality;
-      qVal.textContent = r.quality + '%';
-    }
-    if (r.zipEnabled !== undefined) {
-      zipEnabled = r.zipEnabled;
-      zipToggle.checked = zipEnabled;
-    } else {
-      zipToggle.checked = zipEnabled;
-    }
-  });
-
-  function saveSettings() {
-    chrome.storage.local.set({
-      maxSizeKB: parseInt(maxSizeInp.value) || 50,
-      quality: parseInt(qualitySlider.value) || 25,
-      zipEnabled: zipToggle.checked
+    chrome.storage.local.get(['maxSizeKB', 'quality', 'zipEnabled'], r => {
+      if (r.maxSizeKB) maxSizeInp.value = r.maxSizeKB;
+      if (r.quality) { qualitySlider.value = r.quality; qVal.textContent = r.quality + '%'; }
+      zipToggle.checked = r.zipEnabled !== undefined ? r.zipEnabled : true;
     });
-  }
 
-  // ── Quality slider ────────────────────────────────────────
-  qualitySlider.addEventListener('input', () => {
-    qVal.textContent = qualitySlider.value + '%';
-    saveSettings();
-  });
-  maxSizeInp.addEventListener('change', saveSettings);
-
-  // ── ZIP toggle ────────────────────────────────────────────
-  zipToggle.addEventListener('change', () => {
-    zipEnabled = zipToggle.checked;
-    saveSettings();
-  });
-
-  // ── File input / drop ─────────────────────────────────────
-  fileIn.addEventListener('change', e => { addFiles(e.target.files); fileIn.value = ''; });
-  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
-  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
-  drop.addEventListener('drop', e => {
-    e.preventDefault(); drop.classList.remove('over');
-    addFiles(e.dataTransfer.files);
-  });
-
-  function addFiles(raw) {
-    Array.from(raw)
-      .filter(f => f.type.startsWith('image/'))
-      .forEach(f => {
-        if (!files.find(x => x.file.name === f.name && x.file.size === f.size))
-          files.push({ file: f, status: 'pending', blob: null, finalSize: 0 });
+    const resetFiles = () => {
+      files.forEach(f => {
+        f.status = 'pending';
+        f.blob = null;
+        f.finalSize = 0;
       });
-    render(); updateBtn();
-  }
+      render();
+    };
 
-  // ── Render list ───────────────────────────────────────────
-  function render() {
-    if (!files.length) {
-      fileList.innerHTML = '<div class="empty">No images selected yet</div>';
-      summary.classList.remove('show'); return;
-    }
-    fileList.innerHTML = '';
-    files.forEach((f, i) => {
-      const el = document.createElement('div');
-      el.className = 'fi'; el.id = `fi${i}`;
-      el.innerHTML = `
-        <img class="fi-thumb" id="th${i}" src="" alt=""/>
-        <div class="fi-info">
-          <div class="fi-name">${esc(outName(f.file.name, i))}</div>
-          <div class="fi-stat" id="st${i}">${fmt(f.file.size)}</div>
-          <div class="fi-prog"><div class="fi-fill" id="pr${i}"></div></div>
-        </div>
-        <button class="fi-rm" data-i="${i}">×</button>`;
-      fileList.appendChild(el);
-      const r = new FileReader();
-      r.onload = e => { const t = document.getElementById(`th${i}`); if (t) t.src = e.target.result; };
-      r.readAsDataURL(f.file);
+    const save = () => {
+      chrome.storage.local.set({ 
+        maxSizeKB: maxSizeInp.value, 
+        quality: qualitySlider.value, 
+        zipEnabled: zipToggle.checked 
+      });
+    };
+
+    qualitySlider.addEventListener('input', () => { 
+      qVal.textContent = qualitySlider.value + '%'; 
+      save();
+      resetFiles();
     });
-    fileList.querySelectorAll('.fi-rm').forEach(b => b.addEventListener('click', e => {
-      files.splice(+e.target.dataset.i, 1); render(); updateBtn();
+
+    [maxSizeInp, zipToggle].forEach(el => el.addEventListener('change', () => {
+      save();
+      if (el.id !== 'zipToggle') resetFiles();
     }));
-    updateSummary();
-  }
 
-  function updateItem(i) {
-    const f = files[i];
-    const st = document.getElementById(`st${i}`);
-    const pr = document.getElementById(`pr${i}`);
-    if (!st) return;
-    if (f.status === 'working') {
-      st.style.color = '#00ffff'; st.textContent = '⏳ Processing...'; pr.style.width = '50%';
-    } else if (f.status === 'done') {
-      const pct = Math.round((1 - f.finalSize / f.file.size) * 100);
-      st.style.color = '#00ffff';
-      st.textContent = `✓ ${fmt(f.finalSize)}  (${pct > 0 ? pct + '% saved' : 'no reduction'})`;
-      pr.style.width = '100%';
-    } else if (f.status === 'error') {
-      st.style.color = '#f87171'; st.textContent = '✗ Failed';
-      pr.style.width = '100%'; pr.style.background = '#f87171';
-    }
-  }
+    fileIn.addEventListener('change', e => { addFiles(e.target.files); fileIn.value = ''; });
+    drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('over'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+    drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('over'); addFiles(e.dataTransfer.files); });
 
-  function updateSummary() {
-    const done = files.filter(f => f.status === 'done');
-    if (!done.length) { summary.classList.remove('show'); return; }
-    const orig = done.reduce((s, f) => s + f.file.size, 0);
-    const final = done.reduce((s, f) => s + f.finalSize, 0);
-    document.getElementById('sCount').textContent = done.length;
-    document.getElementById('sOrig').textContent = fmt(orig);
-    document.getElementById('sFinal').textContent = fmt(final);
-    document.getElementById('sSaved').textContent = Math.round((1 - final / orig) * 100) + '%';
-    summary.classList.add('show');
-  }
-
-  function updateBtn() { convertBtn.disabled = !files.length; }
-
-  // ── Convert & Download ────────────────────────────────────
-  convertBtn.addEventListener('click', async () => {
-    convertBtn.disabled = true;
-    convertBtn.textContent = '⏳ Processing...';
-    saveSettings();
-
-    const maxBytes = (parseInt(maxSizeInp.value) || 150) * 1024;
-    const maxQuality = (parseInt(qualitySlider.value) || 75) / 100;
-
-    for (let i = 0; i < files.length; i++) {
-      const f = files[i];
-      if (f.status === 'done') continue;
-      f.status = 'working'; updateItem(i);
-      try {
-        f.blob = await compressToWebP(f.file, maxBytes, maxQuality);
-        f.finalSize = f.blob.size;
-        f.status = 'done';
-      } catch { f.status = 'error'; }
-      updateItem(i);
+    function addFiles(raw) {
+      Array.from(raw).filter(f => f.type.startsWith('image/')).forEach(f => {
+        if (!files.find(x => x.file.name === f.name)) files.push({ file: f, status: 'pending', blob: null, finalSize: 0 });
+      });
+      render();
     }
 
-    updateSummary();
-    convertBtn.textContent = 'Convert & Download';
-    convertBtn.disabled = false;
-
-    const done = files.filter(f => f.status === 'done');
-    if (!done.length) return;
-
-    if (zipEnabled && done.length > 1) {
-      await downloadZip(done);
-    } else {
-      done.forEach((f, i) => dlBlob(f.blob, outName(f.file.name, i)));
+    function formatSize(bytes) {
+      if (bytes === 0) return '0 B';
+      const k = 1024;
+      const sizes = ['B', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
     }
-  });
 
-  // ── Core: compress image to WebP ──────────────────────────
-  function compressToWebP(file, targetBytes, maxQuality) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.onload = () => {
-        URL.revokeObjectURL(url);
-        const canvas = document.createElement('canvas');
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        canvas.getContext('2d').drawImage(img, 0, 0);
-        binarySearch(canvas, targetBytes, maxQuality, resolve, reject);
-      };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('load')); };
-      img.src = url;
-    });
-  }
+    function updateSummary() {
+      if (!files.length) {
+        summary.classList.add('sd-u-hide');
+        return;
+      }
+      summary.classList.remove('sd-u-hide');
+      
+      const count = files.length;
+      const origSize = files.reduce((acc, f) => acc + f.file.size, 0);
+      const finalSize = files.reduce((acc, f) => acc + (f.finalSize || 0), 0);
+      const saved = origSize > 0 && finalSize > 0 ? Math.max(0, Math.round((1 - finalSize / origSize) * 100)) : 0;
 
-  function binarySearch(canvas, targetBytes, maxQuality, resolve, reject) {
-    canvas.toBlob(firstBlob => {
-      if (!firstBlob) { reject(new Error('blob')); return; }
-      if (firstBlob.size <= targetBytes) { resolve(firstBlob); return; }
+      document.getElementById('sCount').textContent = count;
+      document.getElementById('sOrig').textContent = formatSize(origSize);
+      document.getElementById('sFinal').textContent = finalSize > 0 ? formatSize(finalSize) : '--';
+      document.getElementById('sSaved').textContent = saved + '%';
+    }
 
-      let lo = 0.01, hi = maxQuality, best = firstBlob, iter = 0;
+    function truncateFilename(name, limit = 30) {
+      if (name.length <= limit) return name;
+      const chars = Math.floor((limit - 3) / 2);
+      return name.slice(0, chars) + '...' + name.slice(-chars);
+    }
 
-      function step(q) {
-        canvas.toBlob(blob => {
-          if (!blob) { resolve(best); return; }
-          iter++;
+    function render() {
+      if (!files.length) {
+        fileList.innerHTML = '<div class="sd-u-text-center sd-u-color-dim" style="font-size: 11px; padding: 15px; border: 1px dashed var(--sd-color-border); border-radius: 8px;">No images selected yet</div>';
+        updateSummary();
+        convertBtn.disabled = true;
+        return;
+      }
+      fileList.innerHTML = '';
+      files.forEach((f, i) => {
+        const el = document.createElement('div');
+        el.className = 'webp-file-item';
 
-          if (blob.size <= targetBytes) {
-            best = blob;
-            lo = q;
-          } else {
-            hi = q;
-          }
+        el.innerHTML = `
+          <img id="th${i}" src=""/>
+          <div class="webp-file-info">
+            <div class="webp-file-name" title="${f.file.name}">
+              ${truncateFilename(f.file.name)}
+            </div>
+            <div class="webp-file-size" id="st${i}">
+              ${f.status === 'done' ? '✓ ' + formatSize(f.finalSize) : formatSize(f.file.size)}
+            </div>
+          </div>
+          <button class="webp-remove-btn" data-i="${i}" title="Remove">×</button>
+        `;
+        fileList.appendChild(el);
+        const r = new FileReader(); r.onload = e => document.getElementById(`th${i}`).src = e.target.result; r.readAsDataURL(f.file);
+      });
+      fileList.querySelectorAll('button').forEach(b => b.addEventListener('click', e => { 
+        files.splice(+e.target.dataset.i, 1); 
+        render(); 
+      }));
+      updateSummary();
+      convertBtn.disabled = false;
+    }
 
-          if (iter >= 20 || hi - lo < 0.01) { resolve(best); return; }
-          step((lo + hi) / 2);
-        }, 'image/webp', q);
+    const toBlobPromise = (canvas, quality) => new Promise(res => canvas.toBlob(res, 'image/webp', quality));
+
+    async function binarySearch(canvas, targetBytes, maxQuality) {
+      let blob = await toBlobPromise(canvas, maxQuality);
+      if (blob.size <= targetBytes) return blob;
+
+      let lo = 0.01, hi = maxQuality, best = blob;
+      for (let i = 0; i < 15; i++) {
+        const mid = (lo + hi) / 2;
+        blob = await toBlobPromise(canvas, mid);
+        if (blob.size <= targetBytes) {
+          best = blob;
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+        if (hi - lo < 0.01) break;
+      }
+      return best;
+    }
+
+    convertBtn.addEventListener('click', async () => {
+      convertBtn.disabled = true;
+      convertBtn.textContent = '⏳ Processing...';
+      
+      const targetBytes = (parseInt(maxSizeInp.value) || 100) * 1024;
+      const maxQuality = (parseInt(qualitySlider.value) || 75) / 100;
+
+      for (let i = 0; i < files.length; i++) {
+        if (files[i].status === 'done') continue;
+        files[i].status = 'working';
+        document.getElementById(`st${i}`).textContent = 'Converting...';
+
+        try {
+          const canvas = document.createElement('canvas');
+          const img = await new Promise((res, rej) => { 
+            const im = new Image(); 
+            im.onload = () => res(im); 
+            im.onerror = rej;
+            im.src = URL.createObjectURL(files[i].file); 
+          });
+          
+          canvas.width = img.width; 
+          canvas.height = img.height;
+          canvas.getContext('2d').drawImage(img, 0, 0);
+          
+          files[i].blob = await binarySearch(canvas, targetBytes, maxQuality);
+          files[i].finalSize = files[i].blob.size;
+          files[i].status = 'done';
+          
+          document.getElementById(`st${i}`).textContent = '✓ ' + formatSize(files[i].finalSize);
+          updateSummary();
+        } catch (err) {
+          console.error('Failed to convert', files[i].file.name, err);
+          files[i].status = 'error';
+          document.getElementById(`st${i}`).textContent = 'Error';
+        }
       }
 
-      step((lo + hi) / 2);
-    }, 'image/webp', maxQuality);
-  }
+      const doneFiles = files.filter(f => f.status === 'done');
+      if (doneFiles.length > 0) {
+        if (zipToggle.checked && doneFiles.length > 1 && window.JSZip) {
+          const zip = new JSZip();
+          doneFiles.forEach(f => {
+            const name = f.file.name.split('.')[0] + '.webp';
+            zip.file(name, f.blob);
+          });
+          const content = await zip.generateAsync({ type: 'blob' });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(content);
+          a.download = `sparkdev_webp_${Date.now()}.zip`;
+          a.click();
+        } else {
+          doneFiles.forEach(f => {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(f.blob);
+            a.download = f.file.name.split('.')[0] + '.webp';
+            a.click();
+          });
+        }
+      }
 
-  // ── ZIP with local JSZip ──────────────────────────────────
-  async function downloadZip(done) {
-    const zip = new JSZip();
-    done.forEach((f, i) => zip.file(outName(f.file.name, i), f.blob));
-    const zipBlob = await zip.generateAsync({
-      type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 }
+      convertBtn.textContent = 'Convert & Download'; 
+      convertBtn.disabled = false;
     });
-
-    const now = new Date();
-    const dd = String(now.getDate()).padStart(2, '0');
-    const mm = String(now.getMonth() + 1).padStart(2, '0');
-    const yy = String(now.getFullYear()).slice(-2);
-    const hh = String(now.getHours()).padStart(2, '0');
-    const min = String(now.getMinutes()).padStart(2, '0');
-    const ss = String(now.getSeconds()).padStart(2, '0');
-    const zipName = `webp_${dd}-${mm}-${yy}_${hh}-${min}-${ss}.zip`;
-
-    dlBlob(zipBlob, zipName);
-  }
-
-  // ── Helpers ───────────────────────────────────────────────
-  function dlBlob(blob, name) {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = name; a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1500);
-  }
-
-  function outName(original, index) {
-    const dot = original.lastIndexOf('.');
-    let base = dot !== -1 ? original.slice(0, dot) : original;
-    
-    // Clean and trim base
-    base = base.substring(0, 50).replace(/[^a-z0-9_-]/gi, '_');
-    if (!base) base = 'img';
-
-    const now = new Date();
-    const dd  = String(now.getDate()).padStart(2, '0');
-    const mm  = String(now.getMonth() + 1).padStart(2, '0');
-    const yy  = String(now.getFullYear()).slice(-2);
-    const hh  = String(now.getHours()).padStart(2, '0');
-    const min = String(now.getMinutes()).padStart(2, '0');
-    const ss  = String(now.getSeconds()).padStart(2, '0');
-    const ms  = String(now.getMilliseconds()).padStart(3, '0');
-
-    const idx = index !== undefined ? `_${index + 1}` : '';
-    
-    return `${base}${idx}_${dd}-${mm}-${yy}_${hh}-${min}-${ss}-${ms}.webp`;
-  }
-
-  function fmt(bytes) {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / 1048576).toFixed(2) + ' MB';
-  }
-
-  function esc(s) {
-    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
+  };
 })();

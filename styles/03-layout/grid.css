@@ -1,0 +1,42 @@
+/* Grid & Flex Layouts */
+.sd-l-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sd-space-3);
+}
+
+.sd-l-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sd-space-2);
+}
+
+.sd-l-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sd-space-2);
+}
+
+.sd-l-flex-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sd-space-3);
+}
+
+.sd-l-flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sd-l-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sd-space-2);
+}
+
+.sd-l-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

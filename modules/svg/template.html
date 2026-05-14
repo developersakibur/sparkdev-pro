@@ -1,0 +1,183 @@
+<div class="sd-l-header">
+  <h1>Svg Vault</h1>
+  <button class="sd-c-btn sd-c-btn--ghost sd-c-btn--icon" id="svgClearBtn" title="Clear All">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+  </button>
+</div>
+
+<!-- Sticky Input & Preview Row -->
+<div class="sd-l-grid-2 sd-l-sticky-top sd-u-mb-3">
+  <div class="sd-c-well" id="svgPreviewBox" style="height: 100px; padding: 0; overflow: hidden; position: relative; background: #000; border-color: var(--sd-color-border-hover);">
+    <span class="sd-u-color-dim" style="font-size: 11px;">Paste SVG</span>
+  </div>
+  <textarea id="svgInput" class="sd-c-input sd-u-font-mono" style="height: 100px; font-size: 10px; resize: none; padding: 8px;" spellcheck="false" placeholder="Paste <svg>..."></textarea>
+</div>
+
+<div style="height: 280px; overflow-y: auto; padding-right: 4px;" class="sd-l-container">
+  
+  <!-- Color & Size -->
+  <div class="sd-c-setting-item" id="svgColorItem">
+    <div class="sd-c-setting-item__header">
+      <div class="sd-c-setting-item__title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M12 12h10"/></svg>
+        <span>Color & Size</span>
+      </div>
+      <label class="sd-c-toggle">
+        <input type="checkbox" id="svgColorEnabled" checked>
+        <span class="sd-c-toggle__slider"></span>
+      </label>
+    </div>
+    <div class="sd-c-setting-item__content" id="svgColorContent">
+      <div class="sd-l-flex-row">
+        <input type="color" id="svgColorPicker" value="#ffffff" style="width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer; background: transparent;">
+        <input type="text" id="svgColorHex" class="sd-c-input sd-c-input--sm sd-u-font-mono" value="#ffffff">
+        <button class="sd-c-btn sd-c-btn--ghost sd-c-btn--icon" id="svgResetColor" title="Reset Color">↺</button>
+      </div>
+      
+      <div class="sd-l-flex-row">
+        <input type="number" id="svgSizeW" placeholder="W" class="sd-c-input sd-c-input--sm sd-u-font-mono sd-u-text-center">
+        <span class="sd-u-color-dim">×</span>
+        <input type="number" id="svgSizeH" placeholder="H" class="sd-c-input sd-c-input--sm sd-u-font-mono sd-u-text-center">
+        <label class="sd-u-pointer sd-u-flex sd-u-center" id="svgLockAR" title="Lock AR" style="padding: 4px; color: var(--sd-color-text-muted);">
+          <input type="checkbox" checked style="display: none;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background -->
+  <div class="sd-c-setting-item" id="svgBgItem">
+    <div class="sd-c-setting-item__header">
+      <div class="sd-c-setting-item__title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 11-8-8-8.5 8.5a5.5 5.5 0 0 0 7.78 7.78L19 11z"/><path d="m5 2 5 5"/></svg>
+        <span>Background</span>
+      </div>
+      <label class="sd-c-toggle">
+        <input type="checkbox" id="svgBgEnabled" checked>
+        <span class="sd-c-toggle__slider"></span>
+      </label>
+    </div>
+    <div class="sd-c-setting-item__content" id="svgBgContent">
+      <div class="sd-l-flex-row">
+        <input type="color" id="svgBgColor1" value="#1a1a20" style="width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer; background: transparent;">
+        <input type="text" id="svgBgHex1" class="sd-c-input sd-c-input--sm sd-u-font-mono" value="#1a1a20">
+      </div>
+      
+      <div class="sd-l-flex-between">
+        <span class="sd-u-color-secondary" style="font-size: 11px; font-weight: 500;">Enable Gradient</span>
+        <label class="sd-c-toggle">
+          <input type="checkbox" id="svgBgGradient">
+          <span class="sd-c-toggle__slider"></span>
+        </label>
+      </div>
+
+      <div id="svgGradientSettings" style="display: none;" class="sd-l-stack">
+        <div class="sd-l-flex-row">
+          <input type="color" id="svgBgColor2" value="#00ffff" style="width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer; background: transparent;">
+          <input type="text" id="svgBgHex2" class="sd-c-input sd-c-input--sm sd-u-font-mono" value="#00ffff">
+        </div>
+
+        <div class="sd-l-stack">
+          <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Type</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgGradTypeVal" style="font-size: 10px;">Linear</span></div>
+          <div class="sd-c-segmented">
+            <button class="sd-c-segmented__btn active" data-type="linear">Linear</button>
+            <button class="sd-c-segmented__btn" data-type="radial">Radial</button>
+          </div>
+        </div>
+
+        <div id="svgGradAngleRow" class="sd-l-stack">
+          <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Angle</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgGradAngleVal" style="font-size: 10px;">180°</span></div>
+          <input type="range" id="svgGradAngle" min="0" max="360" value="180" class="sd-c-slider">
+        </div>
+
+        <div class="sd-l-stack">
+          <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Stop 1</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgGradStop1Val" style="font-size: 10px;">0%</span></div>
+          <input type="range" id="svgGradStop1" min="0" max="100" value="0" class="sd-c-slider">
+        </div>
+
+        <div class="sd-l-stack">
+          <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Stop 2</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgGradStop2Val" style="font-size: 10px;">100%</span></div>
+          <input type="range" id="svgGradStop2" min="0" max="100" value="100" class="sd-c-slider">
+        </div>
+      </div>
+
+      <div class="sd-l-stack">
+        <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Padding</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgBgPaddingVal" style="font-size: 10px;">20</span></div>
+        <input type="range" id="svgBgPadding" min="0" max="80" value="20" class="sd-c-slider">
+      </div>
+
+      <div class="sd-l-stack">
+        <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Rotation</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgBgRotationVal" style="font-size: 10px;">0°</span></div>
+        <input type="range" id="svgBgRotation" min="0" max="360" value="0" class="sd-c-slider">
+      </div>
+
+      <div class="sd-l-stack">
+        <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Opacity</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgBgOpacityVal" style="font-size: 10px;">100%</span></div>
+        <input type="range" id="svgBgOpacity" min="0" max="100" value="100" class="sd-c-slider">
+      </div>
+    </div>
+  </div>
+
+  <!-- Shape -->
+  <div class="sd-c-setting-item" id="svgShapeItem">
+    <div class="sd-c-setting-item__header">
+      <div class="sd-c-setting-item__title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+        <span>Shape</span>
+      </div>
+      <label class="sd-c-toggle">
+        <input type="checkbox" id="svgShapeEnabled" checked>
+        <span class="sd-c-toggle__slider"></span>
+      </label>
+    </div>
+    <div class="sd-c-setting-item__content" id="svgShapeContent">
+      <div id="svgShapeGrid" class="sd-l-grid-3"></div>
+    </div>
+  </div>
+
+  <!-- Shadow -->
+  <div class="sd-c-setting-item" id="svgShadowItem">
+    <div class="sd-c-setting-item__header">
+      <div class="sd-c-setting-item__title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 8.5 9 12l-3.5 3.5L2 12l3.5-3.5z"/><path d="m12 2 3.5 3.5L12 9 8.5 5.5 12 2z"/><path d="M18.5 8.5 22 12l-3.5 3.5L15 12l3.5-3.5z"/><path d="m12 15 3.5 3.5L12 22l-3.5-3.5L12 15z"/></svg>
+        <span>Shadow</span>
+      </div>
+      <label class="sd-c-toggle">
+        <input type="checkbox" id="svgShadowEnabled">
+        <span class="sd-c-toggle__slider"></span>
+      </label>
+    </div>
+    <div class="sd-c-setting-item__content" id="svgShadowContent">
+      <div class="sd-l-flex-row">
+        <input type="color" id="svgShadowColor" value="#000000" style="width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer; background: transparent;">
+        <input type="text" id="svgShadowHex" class="sd-c-input sd-c-input--sm sd-u-font-mono" value="#000000">
+      </div>
+      <div class="sd-l-stack">
+        <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Blur</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgShadowBlurVal" style="font-size: 10px;">10</span></div>
+        <input type="range" id="svgShadowBlur" min="0" max="40" value="10" class="sd-c-slider">
+      </div>
+      <div class="sd-l-stack">
+        <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Spread</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgShadowSpreadVal" style="font-size: 10px;">0</span></div>
+        <input type="range" id="svgShadowSpread" min="0" max="20" value="0" class="sd-c-slider">
+      </div>
+      <div class="sd-l-stack">
+        <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Offset X</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgShadowOffsetXVal" style="font-size: 10px;">0</span></div>
+        <input type="range" id="svgShadowOffsetX" min="-30" max="30" value="0" class="sd-c-slider">
+      </div>
+      <div class="sd-l-stack">
+        <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Offset Y</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgShadowOffsetYVal" style="font-size: 10px;">4</span></div>
+        <input type="range" id="svgShadowOffsetY" min="-30" max="30" value="4" class="sd-c-slider">
+      </div>
+      <div class="sd-l-stack">
+        <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Opacity</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgShadowOpacityVal" style="font-size: 10px;">40%</span></div>
+        <input type="range" id="svgShadowOpacity" min="0" max="100" value="40" class="sd-c-slider">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sd-l-grid-2 sd-u-mt-4">
+  <button class="sd-c-btn sd-c-btn--secondary" id="svgCopyBtn">Copy SVG</button>
+  <button class="sd-c-btn sd-c-btn--primary" id="svgDownloadBtn">Download SVG</button>
+</div>

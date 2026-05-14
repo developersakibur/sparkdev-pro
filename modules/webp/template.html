@@ -1,0 +1,36 @@
+<div class="sd-l-header">
+  <h1>WebP Pro</h1>
+  <label class="sd-c-toggle">
+    <input type="checkbox" id="zipToggle" checked>
+    <span class="sd-c-toggle__slider"></span>
+  </label>
+</div>
+
+<div class="sd-l-flex-row sd-u-mb-4">
+  <div class="sd-c-card sd-u-p-3 sd-u-flex sd-u-full-width" style="align-items: center; gap: 10px;">
+    <input type="range" id="qualitySlider" min="1" max="100" value="25" class="sd-c-slider">
+    <span id="qVal" class="sd-u-font-mono sd-u-color-cyan" style="font-size: 12px; min-width: 35px; text-align: right;">25%</span>
+  </div>
+  <div style="flex: 0 0 80px;">
+    <input type="number" id="maxSizeWebP" value="50" min="10" max="9999" class="sd-c-input sd-u-font-mono sd-u-text-center">
+  </div>
+</div>
+
+<div class="sd-c-card sd-c-card--dashed sd-u-mb-4" id="drop" style="padding: 16px; position: relative;">
+  <input type="file" id="fileIn" accept="image/*" multiple style="position: absolute; inset: 0; opacity: 0; cursor: pointer; z-index: 10;">
+  <div class="sd-u-weight-medium">Drop Images Here</div>
+  <div class="sd-u-color-dim sd-u-mt-1" style="font-size: 11px;">JPG, PNG, GIF, WEBP supported</div>
+</div>
+
+<div class="sd-l-stack sd-u-mb-4" id="fileList" style="max-height: 175px; overflow-y: auto;">
+  <div class="sd-u-text-center sd-u-color-dim" style="font-size: 11px; padding: 15px; border: 1px dashed var(--sd-color-border); border-radius: 8px;">No images selected yet</div>
+</div>
+
+<div class="sd-c-card sd-l-grid-4 sd-u-mb-4 sd-u-hide" id="summary" style="padding: 10px; text-align: center;">
+  <div><div class="sd-u-color-cyan sd-u-font-mono" id="sCount" style="font-size: 14px; font-weight: 600;">0</div><div class="sd-u-color-secondary sd-u-weight-bold" style="font-size: 9px; text-transform: uppercase; margin-top: 2px;">Files</div></div>
+  <div><div class="sd-u-color-cyan sd-u-font-mono" id="sOrig" style="font-size: 14px; font-weight: 600;">0 KB</div><div class="sd-u-color-secondary sd-u-weight-bold" style="font-size: 9px; text-transform: uppercase; margin-top: 2px;">Orig</div></div>
+  <div><div class="sd-u-color-cyan sd-u-font-mono" id="sSaved" style="font-size: 14px; font-weight: 600;">0%</div><div class="sd-u-color-secondary sd-u-weight-bold" style="font-size: 9px; text-transform: uppercase; margin-top: 2px;">Saved</div></div>
+  <div><div class="sd-u-color-cyan sd-u-font-mono" id="sFinal" style="font-size: 14px; font-weight: 600;">0 KB</div><div class="sd-u-color-secondary sd-u-weight-bold" style="font-size: 9px; text-transform: uppercase; margin-top: 2px;">Final</div></div>
+</div>
+
+<button class="sd-c-btn sd-c-btn--primary sd-c-btn--block" id="convertBtn" disabled>Convert & Download</button>

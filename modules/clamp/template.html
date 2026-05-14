@@ -1,0 +1,62 @@
+<div class="sd-l-header">
+  <h1>clamp() Generator</h1>
+  <label class="sd-c-toggle">
+    <input type="checkbox" id="configToggle">
+    <span class="sd-c-toggle__slider"></span>
+  </label>
+</div>
+
+<div class="sd-l-grid-2 sd-u-mb-4">
+  <input id="minSize" type="number" step="1" placeholder="Min" class="sd-c-input sd-c-input--lg sd-u-font-mono">
+  <input id="maxSizeClamp" type="number" step="1" placeholder="Max" autofocus class="sd-c-input sd-c-input--lg sd-u-font-mono">
+</div>
+
+<div class="sd-c-segmented sd-u-mb-4">
+  <div style="flex: 1; position: relative;">
+    <input type="radio" name="propertyType" id="radioText" value="text" checked style="position: absolute; opacity: 0; inset: 0; cursor: pointer;">
+    <label for="radioText" class="sd-c-segmented__btn sd-u-flex sd-u-center" style="cursor: pointer;">Text</label>
+  </div>
+  <div style="flex: 1; position: relative;">
+    <input type="radio" name="propertyType" id="radioPadding" value="padding" style="position: absolute; opacity: 0; inset: 0; cursor: pointer;">
+    <label for="radioPadding" class="sd-c-segmented__btn sd-u-flex sd-u-center" style="cursor: pointer;">Spacing</label>
+  </div>
+</div>
+
+<div class="config-section sd-u-mb-4">
+  <!-- Row 1: Values/VP Pairs -->
+  <div class="sd-l-grid-2">
+    <div class="config-input-group">
+      <input id="configMinValue" type="number" min="1" max="500" step="1" placeholder="Min Val">
+      <div class="divider"></div>
+      <input id="configMinVp" type="number" min="1" max="2000" step="1" placeholder="Min VP">
+    </div>
+    <div class="config-input-group">
+      <input id="configMaxValue" type="number" min="1" max="500" step="1" placeholder="Max Val">
+      <div class="divider"></div>
+      <input id="configMaxVp" type="number" min="1" max="2000" step="1" placeholder="Max VP">
+    </div>
+  </div>
+  
+  <!-- Row 2: Viewport Widths -->
+  <div class="sd-l-grid-2">
+    <input id="minWidth" type="number" min="1" max="5000" step="1" placeholder="Min Width" class="sd-c-input sd-u-font-mono sd-u-text-center">
+    <input id="maxWidth" type="number" min="1" max="5000" step="1" placeholder="Max Width" class="sd-c-input sd-u-font-mono sd-u-text-center">
+  </div>
+
+  <!-- Row 3: Preview Slider -->
+  <div class="slider-container">
+    <div class="badge" id="sliderMinBadge">
+      <span id="sliderCurrentVp">375</span>
+    </div>
+    <div style="flex: 1; position: relative; height: 24px; display: flex; align-items: center;">
+      <div style="position: absolute; left: 0; right: 0; height: 3px; background: #1e1e22; border-radius: 4px;"></div>
+      <div id="sliderTrackFill" style="position: absolute; left: 0; height: 3px; background: var(--sd-grad-primary); border-radius: 4px; box-shadow: 0 0 6px var(--sd-color-cyan-glow);"></div>
+      <input type="range" id="vpPreviewSlider" min="375" max="1440" value="375" step="1" class="sd-c-slider" style="position: relative; z-index: 2; height: 24px; background: transparent;">
+    </div>
+    <div class="badge" id="sliderMaxBadge">
+      <span id="sliderCurrentClamp">00.00</span>
+    </div>
+  </div>
+</div>
+
+<div id="resultClamp" class="sd-c-well">0px, 0.00px + 0.00vw, 0px</div>

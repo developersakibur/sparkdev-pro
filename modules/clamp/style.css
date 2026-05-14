@@ -1,377 +1,60 @@
-/* Scoped Clamp Generator Styles */
-
-#tab-clamp .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-#tab-clamp h1 {
-  font-size: 20px;
-  font-weight: 600;
-  color: #00ffff;
-}
-
-/* iOS-style Toggle Switch */
-#tab-clamp .toggle-container {
-  display: flex;
-  align-items: center;
-}
-
-#tab-clamp .toggle-switch {
-  position: relative;
-  width: 48px;
-  height: 26px;
-  display: inline-block;
-}
-
-#tab-clamp .toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-#tab-clamp .toggle-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #27272a;
-  transition: all 0.3s ease;
-  border-radius: 26px;
-  border: 1px solid #3f3f46;
-}
-
-#tab-clamp .toggle-slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: #52525b;
-  transition: all 0.3s ease;
-  border-radius: 50%;
-}
-
-#tab-clamp .toggle-switch input:checked + .toggle-slider {
-  background: linear-gradient(135deg, #00ffff 0%, #06b6d4 100%);
-  border-color: #00ffff;
-}
-
-#tab-clamp .toggle-switch input:checked + .toggle-slider:before {
-  transform: translateX(22px);
-  background-color: #0a0a0b;
-}
-
-#tab-clamp .toggle-slider:hover {
-  border-color: #52525b;
-}
-
-#tab-clamp .toggle-switch input:checked + .toggle-slider:hover {
-  border-color: #22d3ee;
-}
-
-#tab-clamp .input-grid {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-#tab-clamp .input-group {
-  display: flex;
-  flex-direction: column;
-}
-
-#tab-clamp .input-group:first-child {
-  flex: 0 0 35%;
-}
-
-#tab-clamp .input-group:last-child {
-  flex: 0 0 calc(65% - 12px);
-}
-
-#tab-clamp .input-group input {
-  background: #141416;
-  border: 1px solid #27272a;
-  border-radius: 10px;
-  padding: 14px 16px;
-  font-size: 18px;
-  font-weight: 600;
-  font-family: "JetBrains Mono", monospace;
-  color: #fff;
-  text-align: center;
-  transition: all 0.2s ease;
-  width: 100%;
-}
-
-#tab-clamp .input-group input::placeholder {
-  color: #52525b;
-  font-weight: 500;
-}
-
-#tab-clamp .input-group input:focus {
-  outline: none;
-  border-color: #00ffff;
-  background: #18181b;
-  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.1), 0 0 20px rgba(34, 211, 238, 0.1);
-}
-
-#tab-clamp .input-group input:hover:not(:focus) {
-  border-color: #3f3f46;
-}
-
-/* Hide spin buttons */
-#tab-clamp input[type="number"]::-webkit-outer-spin-button,
-#tab-clamp input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-#tab-clamp input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-#tab-clamp .radio-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px;
-  margin-bottom: 16px;
-  background: #141416;
-  border-radius: 10px;
-  padding: 6px;
-  border: 1px solid #27272a;
-}
-
-#tab-clamp .radio-option {
-  position: relative;
-}
-
-#tab-clamp .radio-option input[type="radio"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-#tab-clamp .radio-option label {
-  display: block;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 16px;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  user-select: none;
-  color: #a1a1aa;
-}
-
-#tab-clamp .radio-option label:hover {
-  color: #e5e5e5;
-}
-
-#tab-clamp .radio-option input[type="radio"]:checked + label {
-  background: linear-gradient(135deg, #00ffff 0%, #06b6d4 100%);
-  color: #0a0a0b;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
-}
+/* 
+   Clamp Generator Module Styles
+   Standardized via sd- framework.
+*/
 
 #tab-clamp .config-section {
-  margin-bottom: 16px;
-  display: none;
+  display: none; /* Controlled by JS as 'flex' or 'none' */
+  flex-direction: column;
+  gap: var(--sd-space-3);
 }
 
-#tab-clamp .config-row {
+#tab-clamp .config-input-group {
+  background: var(--sd-color-surface);
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-lg);
+  padding: 2px;
   display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
+  align-items: center;
 }
 
-#tab-clamp .config-row:last-child {
-  margin-bottom: 0;
-}
-
-#tab-clamp .config-pair {
-  flex: 1;
-  display: flex;
-  gap: 0;
-  background: #0a0a0b;
-  border: 1px solid #27272a;
-  border-radius: 8px;
-  padding: 6px;
-  position: relative;
-}
-
-#tab-clamp .config-pair::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 1px;
-  height: 60%;
-  background: #27272a;
-  z-index: 1;
-}
-
-#tab-clamp .config-pair input:first-child {
-  padding-right: 8px;
-}
-
-#tab-clamp .config-pair input:last-child {
-  padding-left: 8px;
-}
-
-#tab-clamp .config-pair input {
-  flex: 1;
+#tab-clamp .config-input-group input {
   background: transparent;
   border: none;
-  padding: 8px 10px;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: "JetBrains Mono", monospace;
-  color: #fff;
-  text-align: center;
-  transition: all 0.2s ease;
-}
-
-#tab-clamp .config-pair input::placeholder {
-  color: #52525b;
-  font-size: 11px;
-  font-weight: 500;
-}
-
-#tab-clamp .config-pair input:focus {
-  outline: none;
-  color: #00ffff;
-}
-
-#tab-clamp .clamp-output {
-  background: #141416;
-  border: 1px solid #27272a;
-  border-radius: 10px;
-  padding: 10px;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 14px;
-  font-weight: 500;
-  color: #00ffff;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  word-break: break-all;
-  min-height: 70px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  line-height: 1.4;
-}
-
-#tab-clamp .clamp-output:hover {
-  border-color: #00ffff;
-  background: #18181b;
-  box-shadow: 0 0 20px rgba(34, 211, 238, 0.1);
-}
-
-#tab-clamp .clamp-output:active {
-  transform: scale(0.98);
-}
-
-#tab-clamp .clamp-output.copied {
-  background: linear-gradient(135deg, #00ffff 0%, #06b6d4 100%);
-  border-color: #00ffff;
-  color: #0a0a0b;
-}
-
-#tab-clamp .clamp-output .error-message {
-  color: #f87171;
-}
-
-#tab-clamp .slider-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-
-#tab-clamp .vp-badge-small {
-  font-family: "JetBrains Mono", monospace;
-  background: rgba(0, 255, 255, 0.06);
-  border: 1px solid rgba(0, 255, 255, 0.25);
-  border-radius: 6px;
-  padding: 10px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #00ffff;
-  white-space: nowrap;
-  min-width: 52px;
-  text-align: center;
-}
-
-#tab-clamp .slider-wrap-preview {
-  position: relative;
+  height: 38px;
   flex: 1;
-  padding: 4px 0;
-}
-
-#tab-clamp .track-bg-preview {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: #1e1e22;
-  border-radius: 4px;
-  transform: translateY(-50%);
-}
-
-#tab-clamp .track-fill-preview {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #06b6d4, #00ffff);
-  border-radius: 4px;
-  transform: translateY(-50%);
-  box-shadow: 0 0 6px rgba(0, 255, 255, 0.3);
-}
-
-#tab-clamp input[type="range"]#vpPreviewSlider {
-  position: relative;
-  width: 100%;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 25px;
-  background: transparent;
+  width: 50%;
+  text-align: center;
+  color: var(--sd-color-text-primary);
+  font-family: var(--sd-font-mono);
+  font-size: var(--sd-size-md);
   outline: none;
-  cursor: pointer;
-  z-index: 2;
-  padding: 0 !important;
 }
 
-#tab-clamp input[type="range"]#vpPreviewSlider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 17px;
-  height: 17px;
-  background: #00ffff;
-  border: 2px solid #0a0a0b;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 0 0 2px rgba(0, 255, 255, 0.2), 0 0 10px rgba(0, 255, 255, 0.4);
+#tab-clamp .config-input-group .divider {
+  width: 1px;
+  height: 18px;
+  background: var(--sd-color-border);
 }
 
-#tab-clamp input[type="range"]#vpPreviewSlider::-webkit-slider-thumb:hover {
-  box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.25), 0 0 16px rgba(0, 255, 255, 0.5);
-  transform: scale(1.15);
+#tab-clamp .slider-container {
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-lg);
+  padding: var(--sd-space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--sd-space-3);
+  background: var(--sd-color-surface);
 }
 
-#tab-clamp input[type="range"]#vpPreviewSlider:active::-webkit-slider-thumb {
-  transform: scale(0.92);
-  box-shadow: 0 0 0 5px rgba(0, 255, 255, 0.15), 0 0 20px rgba(0, 255, 255, 0.6);
+#tab-clamp .badge {
+  background: var(--sd-color-cyan-dim);
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-md);
+  font-family: var(--sd-font-mono);
+  font-size: 10px;
+  color: var(--sd-color-cyan);
+  padding: 4px 8px;
+  min-width: 44px;
+  text-align: center;
 }
