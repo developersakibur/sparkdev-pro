@@ -5,21 +5,23 @@
       return tab; 
     };
 
-    const tab = await getCurrentTab();
+    let currentTab = await getCurrentTab();
     let domain = '';
     try {
-      domain = new URL(tab.url).hostname;
+      domain = new URL(currentTab.url).hostname;
     } catch (e) {}
 
     // --- Tab Position Logic ---
     const beforeBtn = document.getElementById('beforeBtn');
     const afterBtn = document.getElementById('afterBtn');
-    const wpSection = document.getElementById('wpSection');
+    
+    let currentTabPos = 'after';
 
     const setPosition = (pos, save = true) => {
+      currentTabPos = pos;
       beforeBtn.classList.toggle('active', pos === 'before');
       afterBtn.classList.toggle('active', pos === 'after');
-      wpSection.style.display = pos === 'after' ? 'grid' : 'none';
+      
       if (save) {
         chrome.storage.local.get(['mod_wp_tools'], (res) => {
           const s = res.mod_wp_tools || {};
@@ -36,6 +38,13 @@
 
     beforeBtn?.addEventListener('click', () => setPosition('before'));
     afterBtn?.addEventListener('click', () => setPosition('after'));
+
+    // Helper to open tabs based on position
+    const createTab = async (url) => {
+      const t = await getCurrentTab();
+      const index = currentTabPos === 'before' ? t.index : t.index + 1;
+      chrome.tabs.create({ url, index });
+    };
 
     // --- Elementor Loader Logic ---
     const loaderToggle = document.getElementById('elementorLoaderToggle');
@@ -58,7 +67,7 @@
         await chrome.storage.local.set({ mod_wp_tools: mod_settings });
         
         // Notify tab to apply/remove immediately
-        chrome.tabs.sendMessage(tab.id, { action: 'toggleElementorLoader', enabled: e.target.checked });
+        chrome.tabs.sendMessage(currentTab.id, { action: 'toggleElementorLoader', enabled: e.target.checked });
       });
     }
 
@@ -67,26 +76,26 @@
       btn.addEventListener('click', async () => {
         const t = await getCurrentTab();
         const url = new URL(t.url);
-        chrome.tabs.create({ url: url.origin + btn.dataset.url });
+        createTab(url.origin + btn.dataset.url);
       });
     });
 
     // --- External Tools ---
     document.getElementById('pageSpeedBtn')?.addEventListener('click', async () => {
       const t = await getCurrentTab();
-      chrome.tabs.create({ url: `https://pagespeed.web.dev/analysis?url=${encodeURIComponent(t.url)}` });
+      createTab(`https://pagespeed.web.dev/analysis?url=${encodeURIComponent(t.url)}`);
     });
 
     document.getElementById('dnsCheckerBtn')?.addEventListener('click', async () => {
       const t = await getCurrentTab();
       const d = new URL(t.url).hostname;
-      chrome.tabs.create({ url: `https://dnschecker.org/#A/${d}` });
+      createTab(`https://dnschecker.org/#A/${d}`);
     });
 
     // --- Navigation Tools ---
     document.getElementById('viewWebsiteBtn')?.addEventListener('click', async () => {
       const t = await getCurrentTab();
-      chrome.tabs.create({ url: new URL(t.url).origin });
+      createTab(new URL(t.url).origin);
     });
 
     document.getElementById('websiteIncognitoBtn')?.addEventListener('click', async () => {
@@ -102,7 +111,7 @@
       if (incognito) {
         chrome.windows.create({ url: url.toString(), incognito: true });
       } else {
-        chrome.tabs.create({ url: url.toString() });
+        createTab(url.toString());
       }
     };
 

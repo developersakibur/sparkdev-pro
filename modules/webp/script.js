@@ -5,13 +5,24 @@
     const qualitySlider = document.getElementById('qualitySlider'), qVal = document.getElementById('qVal');
     const maxSizeInp = document.getElementById('maxSizeWebP'), zipToggle = document.getElementById('zipToggle');
     const convertBtn = document.getElementById('convertBtn'), summary = document.getElementById('summary');
+    const zipNameInp = document.getElementById('zipName');
 
     chrome.storage.local.get(['mod_webp'], r => {
       const settings = r.mod_webp || {};
       if (settings.maxSizeKB) maxSizeInp.value = settings.maxSizeKB;
       if (settings.quality) { qualitySlider.value = settings.quality; qVal.textContent = settings.quality + '%'; }
       zipToggle.checked = settings.zipEnabled !== undefined ? settings.zipEnabled : true;
+      zipNameInp.value = settings.zipName || '';
+      updateZipUI();
     });
+
+    const updateZipUI = () => {
+      if (zipToggle.checked) {
+        zipNameInp.classList.remove('sd-u-hide');
+      } else {
+        zipNameInp.classList.add('sd-u-hide');
+      }
+    };
 
     const resetFiles = () => {
       files.forEach(f => {
@@ -28,6 +39,7 @@
         settings.maxSizeKB = maxSizeInp.value;
         settings.quality = qualitySlider.value;
         settings.zipEnabled = zipToggle.checked;
+        settings.zipName = zipNameInp.value;
         chrome.storage.local.set({ mod_webp: settings });
       });
     };
@@ -38,9 +50,10 @@
       resetFiles();
     });
 
-    [maxSizeInp, zipToggle].forEach(el => el.addEventListener('change', () => {
+    [maxSizeInp, zipToggle, zipNameInp].forEach(el => el.addEventListener('change', () => {
       save();
-      if (el.id !== 'zipToggle') resetFiles();
+      if (el.id === 'zipToggle') updateZipUI();
+      if (el.id !== 'zipToggle' && el.id !== 'zipName') resetFiles();
     }));
 
     fileIn.addEventListener('change', e => { addFiles(e.target.files); fileIn.value = ''; });
@@ -143,12 +156,36 @@
       return best;
     }
 
+    function getTimestamp() {
+      const now = new Date();
+      const dd = String(now.getDate()).padStart(2, '0');
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const yyyy = now.getFullYear();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const min = String(now.getMinutes()).padStart(2, '0');
+      const ss = String(now.getSeconds()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd}_${hh}-${min}-${ss}`;
+    }
+
+    function cleanName(name) {
+      // Remove extension
+      let base = name.split('.').slice(0, -1).join('.');
+      if (!base) base = name;
+      
+      // Keep first 50 chars, remove special chars, replace spaces with -
+      return base.substring(0, 50)
+        .replace(/\s+/g, '-')
+        .replace(/[^a-zA-Z0-9_-]/g, '')
+        .replace(/-+/g, '-');
+    }
+
     convertBtn.addEventListener('click', async () => {
       convertBtn.disabled = true;
       convertBtn.textContent = '⏳ Processing...';
       
       const targetBytes = (parseInt(maxSizeInp.value) || 100) * 1024;
       const maxQuality = (parseInt(qualitySlider.value) || 75) / 100;
+      const timestamp = getTimestamp();
 
       for (let i = 0; i < files.length; i++) {
         if (files[i].status === 'done') continue;
@@ -186,19 +223,21 @@
         if (zipToggle.checked && doneFiles.length > 1 && window.JSZip) {
           const zip = new JSZip();
           doneFiles.forEach(f => {
-            const name = f.file.name.split('.')[0] + '.webp';
+            const name = `${cleanName(f.file.name)}_${timestamp}.webp`;
             zip.file(name, f.blob);
           });
           const content = await zip.generateAsync({ type: 'blob' });
           const a = document.createElement('a');
           a.href = URL.createObjectURL(content);
-          a.download = `sparkdev_webp_${Date.now()}.zip`;
+          
+          const zipPrefix = zipNameInp.value.trim() || 'webp';
+          a.download = `${zipPrefix}_${timestamp}.zip`;
           a.click();
         } else {
           doneFiles.forEach(f => {
             const a = document.createElement('a');
             a.href = URL.createObjectURL(f.blob);
-            a.download = f.file.name.split('.')[0] + '.webp';
+            a.download = `${cleanName(f.file.name)}_${timestamp}.webp`;
             a.click();
           });
         }

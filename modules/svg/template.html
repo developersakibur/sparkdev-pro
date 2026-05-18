@@ -6,17 +6,17 @@
 </div>
 
 <!-- Sticky Input & Preview Row -->
-<div class="sd-l-grid-2 sd-l-sticky-top sd-u-mb-3">
-  <div class="sd-c-well" id="svgPreviewBox" style="height: 100px; padding: 0; overflow: hidden; position: relative; background: #000; border-color: var(--sd-color-border-hover);">
+<div class="sd-u-flex sd-l-sticky-top sd-u-mb-3" style="gap: 12px; align-items: flex-start;">
+  <div class="sd-c-well" id="svgPreviewBox" style="flex: 0 0 30%; height: 100px; padding: 10px; overflow: hidden; position: relative; background: #000; border-color: var(--sd-color-border-hover); display: flex; align-items: center; justify-content: center;">
     <span class="sd-u-color-dim" style="font-size: 11px;">Paste SVG</span>
   </div>
-  <textarea id="svgInput" class="sd-c-input sd-u-font-mono" style="height: 100px; font-size: 10px; resize: none; padding: 8px;" spellcheck="false" placeholder="Paste <svg>..."></textarea>
+  <textarea id="svgInput" class="sd-c-input sd-u-font-mono" style="flex: 1 1 70%; height: 100px; font-size: 10px; resize: none; padding: 8px;" spellcheck="false" placeholder="Paste <svg>..."></textarea>
 </div>
 
 <div style="height: 280px; overflow-y: auto; padding-right: 4px;" class="sd-l-container">
   
   <!-- Color & Size -->
-  <div class="sd-c-setting-item" id="svgColorItem">
+  <div class="sd-c-setting-item is-open" id="svgColorItem">
     <div class="sd-c-setting-item__header">
       <div class="sd-c-setting-item__title">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20"/><path d="M12 12h10"/></svg>
@@ -27,7 +27,7 @@
         <span class="sd-c-toggle__slider"></span>
       </label>
     </div>
-    <div class="sd-c-setting-item__content" id="svgColorContent">
+    <div class="sd-c-setting-item__content" id="svgColorContent" style="display: flex;">
       <div class="sd-l-flex-row">
         <input type="color" id="svgColorPicker" value="#ffffff" style="width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer; background: transparent;">
         <input type="text" id="svgColorHex" class="sd-c-input sd-c-input--sm sd-u-font-mono" value="#ffffff">
@@ -54,11 +54,11 @@
         <span>Background</span>
       </div>
       <label class="sd-c-toggle">
-        <input type="checkbox" id="svgBgEnabled" checked>
+        <input type="checkbox" id="svgBgEnabled">
         <span class="sd-c-toggle__slider"></span>
       </label>
     </div>
-    <div class="sd-c-setting-item__content" id="svgBgContent">
+    <div class="sd-c-setting-item__content" id="svgBgContent" style="display: none;">
       <div class="sd-l-flex-row">
         <input type="color" id="svgBgColor1" value="#1a1a20" style="width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer; background: transparent;">
         <input type="text" id="svgBgHex1" class="sd-c-input sd-c-input--sm sd-u-font-mono" value="#1a1a20">
@@ -127,12 +127,12 @@
         <span>Shape</span>
       </div>
       <label class="sd-c-toggle">
-        <input type="checkbox" id="svgShapeEnabled" checked>
+        <input type="checkbox" id="svgShapeEnabled">
         <span class="sd-c-toggle__slider"></span>
       </label>
     </div>
-    <div class="sd-c-setting-item__content" id="svgShapeContent">
-      <div id="svgShapeGrid" class="sd-l-grid-3"></div>
+    <div class="sd-c-setting-item__content" id="svgShapeContent" style="display: none;">
+      <div id="svgShapeGrid" class="sd-l-grid-4"></div>
     </div>
   </div>
 
@@ -148,7 +148,7 @@
         <span class="sd-c-toggle__slider"></span>
       </label>
     </div>
-    <div class="sd-c-setting-item__content" id="svgShadowContent">
+    <div class="sd-c-setting-item__content" id="svgShadowContent" style="display: none;">
       <div class="sd-l-flex-row">
         <input type="color" id="svgShadowColor" value="#000000" style="width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer; background: transparent;">
         <input type="text" id="svgShadowHex" class="sd-c-input sd-c-input--sm sd-u-font-mono" value="#000000">
@@ -156,10 +156,6 @@
       <div class="sd-l-stack">
         <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Blur</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgShadowBlurVal" style="font-size: 10px;">10</span></div>
         <input type="range" id="svgShadowBlur" min="0" max="40" value="10" class="sd-c-slider">
-      </div>
-      <div class="sd-l-stack">
-        <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Spread</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgShadowSpreadVal" style="font-size: 10px;">0</span></div>
-        <input type="range" id="svgShadowSpread" min="0" max="20" value="0" class="sd-c-slider">
       </div>
       <div class="sd-l-stack">
         <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Offset X</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgShadowOffsetXVal" style="font-size: 10px;">0</span></div>

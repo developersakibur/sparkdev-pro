@@ -10,38 +10,72 @@
 </div>
 
 <div class="sd-l-container">
-  <div class="sd-l-flex-between">
-    <span class="sd-u-color-secondary sd-u-weight-medium">Length</span>
-    <div style="flex: 0 0 65%; display: flex; justify-content: flex-end;">
-      <input type="number" id="passLength" min="8" max="64" value="16" class="sd-c-input sd-c-input--sm sd-u-font-mono" style="width: 44px; text-align: center;">
+  <!-- Length Setting -->
+  <div class="sd-c-setting-item">
+    <div class="sd-c-setting-item__header" style="cursor: default;">
+      <div class="sd-c-setting-item__title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><polyline points="3 6 4 7 6 5"/><polyline points="3 12 4 13 6 11"/><polyline points="3 18 4 19 6 17"/></svg>
+        <span>Password Length</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <input type="number" id="passLength" min="8" max="128" value="16" class="sd-c-input sd-c-input--sm sd-u-font-mono" style="width: 48px; text-align: center;">
+      </div>
     </div>
   </div>
-  <div class="sd-l-flex-between">
-    <span class="sd-u-color-secondary sd-u-weight-medium">Uppercase</span>
-    <label class="sd-c-toggle">
-      <input type="checkbox" id="passUpper" checked>
-      <span class="sd-c-toggle__slider"></span>
-    </label>
+
+  <!-- Uppercase Setting -->
+  <div class="sd-c-setting-item">
+    <div class="sd-c-setting-item__header">
+      <div class="sd-c-setting-item__title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5c0-1.1.9-2 2-2h2"/><path d="M17 3h2c1.1 0 2 .9 2 2v2"/><path d="M21 17v2c0 1.1-.9 2-2 2h-2"/><path d="M7 21H5c-1.1 0-2-.9-2-2v-2"/><path d="M9 17l3-10 3 10"/><path d="M10 13h4"/></svg>
+        <span>Uppercase (A-Z)</span>
+      </div>
+      <label class="sd-c-toggle">
+        <input type="checkbox" id="passUpper" checked>
+        <span class="sd-c-toggle__slider"></span>
+      </label>
+    </div>
   </div>
-  <div class="sd-l-flex-between">
-    <span class="sd-u-color-secondary sd-u-weight-medium">Lowercase</span>
-    <label class="sd-c-toggle">
-      <input type="checkbox" id="passLower" checked>
-      <span class="sd-c-toggle__slider"></span>
-    </label>
+
+  <!-- Lowercase Setting -->
+  <div class="sd-c-setting-item">
+    <div class="sd-c-setting-item__header">
+      <div class="sd-c-setting-item__title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5c0-1.1.9-2 2-2h2"/><path d="M17 3h2c1.1 0 2 .9 2 2v2"/><path d="M21 17v2c0 1.1-.9 2-2 2h-2"/><path d="M7 21H5c-1.1 0-2-.9-2-2v-2"/><circle cx="12" cy="14" r="4"/><path d="M16 10v8"/></svg>
+        <span>Lowercase (a-z)</span>
+      </div>
+      <label class="sd-c-toggle">
+        <input type="checkbox" id="passLower" checked>
+        <span class="sd-c-toggle__slider"></span>
+      </label>
+    </div>
   </div>
-  <div class="sd-l-flex-between">
-    <span class="sd-u-color-secondary sd-u-weight-medium">Numbers</span>
-    <label class="sd-c-toggle">
-      <input type="checkbox" id="passNumbers" checked>
-      <span class="sd-c-toggle__slider"></span>
-    </label>
+
+  <!-- Numbers Setting -->
+  <div class="sd-c-setting-item">
+    <div class="sd-c-setting-item__header">
+      <div class="sd-c-setting-item__title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="3" x2="17" y2="21"/><line x1="7" y1="3" x2="7" y2="21"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+        <span>Numbers (0-9)</span>
+      </div>
+      <label class="sd-c-toggle">
+        <input type="checkbox" id="passNumbers" checked>
+        <span class="sd-c-toggle__slider"></span>
+      </label>
+    </div>
   </div>
-  <div class="sd-l-flex-between">
-    <span class="sd-u-color-secondary sd-u-weight-medium">Symbols</span>
-    <label class="sd-c-toggle">
-      <input type="checkbox" id="passSymbols" checked>
-      <span class="sd-c-toggle__slider"></span>
-    </label>
+
+  <!-- Symbols Setting -->
+  <div class="sd-c-setting-item">
+    <div class="sd-c-setting-item__header">
+      <div class="sd-c-setting-item__title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m4.93 19.07 14.14-14.14"/></svg>
+        <span>Symbols (!@#$)</span>
+      </div>
+      <label class="sd-c-toggle">
+        <input type="checkbox" id="passSymbols" checked>
+        <span class="sd-c-toggle__slider"></span>
+      </label>
+    </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 # 🚀 SparkDev Pro: The Unified Developer Workspace
 
-[![Version](https://img.shields.io/badge/version-1.2.0-cyan.svg)](https://github.com/developersakibur/sparkdev-pro)
+[![Version](https://img.shields.io/badge/version-1.3.0-cyan.svg)](https://github.com/developersakibur/sparkdev-pro)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Chrome%20|%20Edge-blue.svg)](https://developer.chrome.com/docs/extensions/mv3/)
 
@@ -20,8 +20,8 @@ An advanced tool for creating perfectly fluid design systems.
 ### 2. 🖼️ WebP Pro (Batch Optimizer)
 High-efficiency image conversion powered by `OffscreenCanvas`.
 - **Intelligent Compression:** Uses binary-search logic to hit specific KB targets while maximizing quality.
-- **Batch Processing:** Drop dozens of images and process them simultaneously.
-- **ZIP Bundling:** Integrated JSZip support to download your optimized assets as a single, clean archive.
+- **Standardized Naming:** Filenames follow `[name]_YYYY-MM-DD_HH-MM-SS` format with automatic special character cleaning.
+- **ZIP Management:** Bundles optimized assets into a single archive with custom prefix naming (e.g., `prefix_YYYY-MM-DD.zip`).
 - **Live Summary:** Real-time dashboard showing total files, original weight, and storage space saved.
 
 ### 3. 🛡️ SVG Vault (Icon Modulator)
@@ -33,15 +33,17 @@ Transform flat icons into brand-ready assets in seconds.
 
 ### 4. ⚡ WP Quick Tools
 The Swiss-army knife for WordPress developers.
+- **Intelligent Tab Indexing:** Choose to open new tools "Before" or "After" the current tab using native Chrome indexing logic.
 - **Elementor Optimization:** Per-domain persistence for hiding the Elementor loader panel.
 - **Environment Toggling:** Fast access to `/wp-admin/`, migration tools, and site-health diagnostics.
-- **No-Cache Navigation:** Force-refresh browsing in standard or incognito modes.
 - **Instant Diagnostics:** Built-in deep links to Google PageSpeed and DNS propagation checkers.
 
 ### 5. 🔑 Pass Gen
 Secure, entropy-based credential generator.
-- **Configurable Sets:** Fine-grained control over length, symbols, numbers, and casing.
-- **Copy-to-Success:** Visual feedback system ensuring credential safety and clipboard confirmation.
+- **Extended Security:** Support for up to 128-character complex passwords.
+- **Settings Persistence:** Automatic local storage save for length and character set preferences.
+- **Interactive UI:** Responsive box-type design with mouse-wheel support for length adjustment and instant regeneration.
+- **Visual Feedback:** Clipboard confirmation with color-coded success states.
 
 ---
 
