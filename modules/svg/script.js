@@ -50,6 +50,8 @@
       bgHex1: document.getElementById('svgBgHex1'),
       bgGradient: document.getElementById('svgBgGradient'),
       gradientSection: document.getElementById('svgGradientSettings'),
+      bgColor2: document.getElementById('svgBgColor2'),
+      bgHex2: document.getElementById('svgBgHex2'),
       gradType: 'linear',
       gradAngle: document.getElementById('svgGradAngle'),
       gradStop1: document.getElementById('svgGradStop1'),
@@ -71,7 +73,6 @@
       buildShapePicker();
       attachEvents();
       loadSettings();
-      updatePreview();
     }
 
     function attachEvents() {
@@ -364,7 +365,7 @@
     function loadSettings() {
       chrome.storage.local.get(['mod_svg'], (res) => {
         const s = res.mod_svg;
-        const defaultSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-quote h-6 w-6 text-primary/60 mb-4" aria-hidden="true"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path></svg>`;
+        const defaultSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-quote" aria-hidden="true"><path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path></svg>`;
 
         if (!s) {
           els.input.value = defaultSvg;
@@ -373,8 +374,10 @@
 
           // Open Color & Size by default on first load
           const colorItem = document.getElementById('svgColorItem');
-          colorItem.classList.add('is-open');
-          document.getElementById('svgColorContent').style.display = 'flex';
+          if (colorItem) {
+            colorItem.classList.add('is-open');
+            document.getElementById('svgColorContent').style.display = 'flex';
+          }
 
           updatePreview();
           return;
@@ -409,12 +412,6 @@
         els.shadowOffsetX.value = s.shadowOffsetX || 0;
         els.shadowOffsetY.value = s.shadowOffsetY || 4;
         els.shadowOpacity.value = s.shadowOpacity || 40;
-
-        // Restore accordion state: only open Color if nothing else is specified or if s.isOpen (optional future feature)
-        // For now, let's just make sure only Color is open on startup unless we implement per-item storage
-        const colorItem = document.getElementById('svgColorItem');
-        colorItem.classList.add('is-open');
-        document.getElementById('svgColorContent').style.display = 'flex';
 
         els.gradientSection.style.display = els.bgGradient.checked ? 'flex' : 'none';
         els.lockAR.style.color = arLocked ? 'var(--sd-color-cyan)' : 'var(--sd-color-text-muted)';
