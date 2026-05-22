@@ -46,6 +46,14 @@ const FEATURES = [
     template: 'modules/color/template.html',
     init: () => window.initColor && window.initColor(),
     icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m2 22 1-1h3l9-9"></path><path d="M3 21v-3l9-9"></path><path d="m15 6 3.4-3.4a2.1 2.1 0 1 1 3 3L18 9l-3-3Z"></path></svg>'
+  },
+  { 
+    id: 'tab-font', 
+    label: 'Font', 
+    desc: 'Style Finder', 
+    template: 'modules/font/template.html',
+    init: () => window.initFont && window.initFont(),
+    icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"></path><path d="M9 20h6"></path><path d="M12 4v16"></path></svg>'
   }
 ];
 
@@ -65,7 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
           mod_webp: allData.mod_webp || {},
           mod_wp_tools: allData.mod_wp_tools || {},
           mod_clamp: allData.mod_clamp || {},
-          mod_color: allData.mod_color || {}
+          mod_color: allData.mod_color || {},
+          mod_font: allData.mod_font || {}
         };
 
         // 1. Migrate loose keys if namespaced objects are empty
@@ -81,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. Determine keys to remove (everything except our new namespaces)
         const keysToRemove = Object.keys(allData).filter(key => 
-          !['app_state', 'mod_webp', 'mod_wp_tools', 'mod_clamp', 'mod_pass', 'mod_svg', 'mod_color'].includes(key)
+          !['app_state', 'mod_webp', 'mod_wp_tools', 'mod_clamp', 'mod_pass', 'mod_svg', 'mod_color', 'mod_font'].includes(key)
         );
 
         // 3. Save clean state and clear old garbage
