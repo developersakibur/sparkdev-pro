@@ -1,6 +1,6 @@
 # 🚀 SparkDev Pro: The Unified Developer Workspace
 
-[![Version](https://img.shields.io/badge/version-1.3.0-cyan.svg)](https://github.com/developersakibur/sparkdev-pro)
+[![Version](https://img.shields.io/badge/version-1.4.0-cyan.svg)](https://github.com/developersakibur/sparkdev-pro)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Chrome%20|%20Edge-blue.svg)](https://developer.chrome.com/docs/extensions/mv3/)
 
@@ -10,35 +10,43 @@
 
 ## 💎 Core Modules
 
-### 1. 📐 Clamp Generator (Fluid Typography)
+### 1. 🎨 Color (Advanced Picker & Palette)
+A professional-grade color management system.
+- **EyeDropper API:** High-precision pixel picking from anywhere on the screen.
+- **Live Mode:** Interactive element highlighter to grab CSS background colors with a single click.
+- **Favorites Palette:** Pin important colors to the top with drag-and-drop reordering.
+- **Custom Naming:** Assign names to colors (e.g., "Brand Primary") for better organization.
+- **History Management:** Automatically keeps the last 20 picked colors, with auto-copy to clipboard.
+
+### 2. 📐 Clamp Generator (Fluid Typography)
 An advanced tool for creating perfectly fluid design systems.
 - **Linear Mapping Engine:** Automatically suggests Min/Max values based on professional design ratios.
 - **Negative Support:** Full support for negative fluid design (margins/offsets) with professional `calc(-1 * clamp())` output.
 - **Infinite Scroll:** Frictionless input management with mouse-wheel support starting from industry defaults.
 - **Presets:** Independent "Text" and "Spacing" configurations that persist across sessions.
 
-### 2. 🖼️ WebP Pro (Batch Optimizer)
+### 3. 🖼️ WebP Pro (Batch Optimizer)
 High-efficiency image conversion powered by `OffscreenCanvas`.
 - **Intelligent Compression:** Uses binary-search logic to hit specific KB targets while maximizing quality.
 - **Standardized Naming:** Filenames follow `[name]_YYYY-MM-DD_HH-MM-SS` format with automatic special character cleaning.
 - **ZIP Management:** Bundles optimized assets into a single archive with custom prefix naming (e.g., `prefix_YYYY-MM-DD.zip`).
 - **Live Summary:** Real-time dashboard showing total files, original weight, and storage space saved.
 
-### 3. 🛡️ SVG Vault (Icon Modulator)
+### 4. 🛡️ SVG Vault (Icon Modulator)
 Transform flat icons into brand-ready assets in seconds.
 - **Container Shaping:** Wrap any SVG path into Square, Squircle, Circle, or Shield geometries.
 - **Dynamic Coloration:** Automatically parses and replaces fill/stroke attributes with your primary brand colors.
 - **Visual Filters:** Native SVG `feDropShadow` integration with blur and offset controls.
 - **Export Ready:** One-click Copy-to-Clipboard or `.svg` download.
 
-### 4. ⚡ WP Quick Tools
+### 5. ⚡ WP Quick Tools
 The Swiss-army knife for WordPress developers.
 - **Intelligent Tab Indexing:** Choose to open new tools "Before" or "After" the current tab using native Chrome indexing logic.
 - **Elementor Optimization:** Per-domain persistence for hiding the Elementor loader panel.
 - **Environment Toggling:** Fast access to `/wp-admin/`, migration tools, and site-health diagnostics.
 - **Instant Diagnostics:** Built-in deep links to Google PageSpeed and DNS propagation checkers.
 
-### 5. 🔑 Pass Gen
+### 6. 🔑 Pass Gen
 Secure, entropy-based credential generator.
 - **Extended Security:** Support for up to 128-character complex passwords.
 - **Settings Persistence:** Automatic local storage save for length and character set preferences.

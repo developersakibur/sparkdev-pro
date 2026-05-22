@@ -32,3 +32,18 @@
   border-color: var(--sd-color-cyan);
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.05);
 }
+
+#svgLockAR {
+  border-radius: var(--sd-radius-md);
+  transition: var(--sd-trans-fast);
+  width: 90px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#svgLockAR:hover {
+  color: var(--sd-color-cyan) !important;
+  background: var(--sd-color-cyan-dim);
+}

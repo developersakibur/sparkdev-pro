@@ -38,7 +38,7 @@
         <input type="number" id="svgSizeW" placeholder="W" class="sd-c-input sd-c-input--sm sd-u-font-mono sd-u-text-center">
         <span class="sd-u-color-dim">×</span>
         <input type="number" id="svgSizeH" placeholder="H" class="sd-c-input sd-c-input--sm sd-u-font-mono sd-u-text-center">
-        <label class="sd-u-pointer sd-u-flex sd-u-center" id="svgLockAR" title="Lock AR" style="padding: 4px; color: var(--sd-color-text-muted);">
+        <label class="sd-u-pointer" id="svgLockAR" title="Lock AR">
           <input type="checkbox" checked style="display: none;">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </label>
@@ -132,7 +132,51 @@
       </label>
     </div>
     <div class="sd-c-setting-item__content" id="svgShapeContent" style="display: none;">
-      <div id="svgShapeGrid" class="sd-l-grid-4"></div>
+      <div class="sd-c-segmented sd-u-mb-3">
+        <button class="sd-c-segmented__btn active" id="shapeModePolygon">Polygon</button>
+        <button class="sd-c-segmented__btn" id="shapeModeBlob">Blob</button>
+      </div>
+
+      <!-- Polygon Controls -->
+      <div id="svgPolygonControls" class="sd-l-stack">
+        <div class="sd-l-stack sd-u-mb-3">
+          <div class="sd-l-flex-between sd-u-mb-1">
+            <span class="sd-u-color-dim" style="font-size: 10px;">Sides</span>
+            <span class="sd-u-color-cyan sd-u-font-mono" id="svgShapeSidesVal" style="font-size: 10px;">4</span>
+          </div>
+          <input type="range" id="svgShapeSides" min="3" max="12" value="4" class="sd-c-slider">
+        </div>
+        <div class="sd-l-stack">
+          <div class="sd-l-flex-between sd-u-mb-1">
+            <span class="sd-u-color-dim" style="font-size: 10px;">Roundness</span>
+            <span class="sd-u-color-cyan sd-u-font-mono" id="svgShapeRoundnessVal" style="font-size: 10px;">10%</span>
+          </div>
+          <input type="range" id="svgShapeRoundness" min="0" max="100" value="10" class="sd-c-slider">
+        </div>
+      </div>
+
+      <!-- Blob Controls -->
+      <div id="svgBlobControls" class="sd-l-stack" style="display: none;">
+        <div class="sd-l-stack sd-u-mb-3">
+          <div class="sd-l-flex-between sd-u-mb-1">
+            <span class="sd-u-color-dim" style="font-size: 10px;">Complexity</span>
+            <span class="sd-u-color-cyan sd-u-font-mono" id="svgShapeComplexityVal" style="font-size: 10px;">6</span>
+          </div>
+          <input type="range" id="svgShapeComplexity" min="3" max="12" value="6" class="sd-c-slider">
+        </div>
+        <div class="sd-l-flex-between">
+          <div class="sd-l-stack" style="flex: 1; margin-right: 12px;">
+            <div class="sd-l-flex-between sd-u-mb-1">
+              <span class="sd-u-color-dim" style="font-size: 10px;">Contrast</span>
+              <span class="sd-u-color-cyan sd-u-font-mono" id="svgShapeContrastVal" style="font-size: 10px;">30%</span>
+            </div>
+            <input type="range" id="svgShapeContrast" min="0" max="100" value="30" class="sd-c-slider">
+          </div>
+          <button class="sd-c-btn sd-c-btn--secondary sd-c-btn--icon" id="svgShuffleBlob" title="Shuffle Shape" style="margin-top: 14px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
