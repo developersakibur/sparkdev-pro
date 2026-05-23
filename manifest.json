@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "SparkDev Pro",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Unified toolset: clamp() Generator, WebP Pro, and WP Quick Tools",
   "icons": {
     "128": "assets/icons/icon.png"

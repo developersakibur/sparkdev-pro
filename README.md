@@ -1,6 +1,15 @@
 # 🚀 SparkDev Pro: The Unified Developer Workspace
 
-[![Version](https://img.shields.io/badge/version-1.4.0-cyan.svg)](https://github.com/developersakibur/sparkdev-pro)
+[![Version](https://img.shields.io/badge/version-1.5.0-cyan.svg)](https://github.com/developersakibur/sparkdev-pro)
+...
+### 7. 🔍 Font (Advanced Finder)
+A professional-grade font identification and analysis tool.
+- **Shadow DOM Isolation:** The UI is completely encapsulated, ensuring no style conflicts with host websites.
+- **Dual-Layer Positioning:** Hover tooltips follow the viewport, while pinned cards scroll naturally with page content.
+- **Smart Boundary Detection:** Tooltips automatically flip and adjust to stay fully visible near screen edges.
+- **Multi-Mode Pinning:** Capture and keep multiple font data cards visible on the page simultaneously for comparison.
+- **Persistent History:** Automatically saves captured font data to local storage, even if the popup is closed.
+- **Visual Highlighting:** Interactive element overlay identifies exactly which text block is being inspected.
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Chrome%20|%20Edge-blue.svg)](https://developer.chrome.com/docs/extensions/mv3/)
 

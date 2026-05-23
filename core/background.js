@@ -36,5 +36,33 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     chrome.downloads.download({ url: msg.dataUrl, filename: msg.filename, saveAs: false });
     sendResponse({ ok: true });
   }
+
+  if (msg.action === 'fontPicked') {
+    chrome.storage.local.get(['mod_font'], (res) => {
+      const data = res.mod_font || {};
+      const history = data.history || [];
+      
+      // Prevent duplicate consecutive entries
+      if (history.length > 0) {
+        const last = history[0];
+        if (last.family === msg.fontData.family && 
+            last.size === msg.fontData.size && 
+            last.weight === msg.fontData.weight && 
+            last.color === msg.fontData.color) {
+          return sendResponse({ ok: true });
+        }
+      }
+
+      history.unshift({ id: Date.now(), ...msg.fontData });
+      if (history.length > 50) history.splice(50);
+      
+      data.history = history;
+      chrome.storage.local.set({ mod_font: data }, () => {
+        sendResponse({ ok: true });
+      });
+    });
+    return true; // Keep channel open for async response
+  }
+  
   return true;
 });

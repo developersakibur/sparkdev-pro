@@ -63,13 +63,26 @@
 
       chrome.runtime.onMessage.addListener((msg) => {
         if (msg.action === 'fontPicked') {
-          addToHistory(msg.fontData);
+          // No need to manually add to history here, storage listener will handle it
+          setTimeout(loadAndRender, 100); 
         }
         if (msg.action === 'stopFontFinderUI') {
           isFinderActive = false;
           updateUI();
         }
       });
+
+      // Sync UI when storage changes (background saves new fonts)
+      chrome.storage.onChanged.addListener((changes) => {
+        if (changes.mod_font) {
+          loadAndRender();
+        }
+      });
+    }
+
+    async function loadAndRender() {
+      await loadHistory();
+      renderHistory();
     }
 
     function updateUI() {
