@@ -1,0 +1,18 @@
+/* Text Module Styles */
+#textInput {
+  background: var(--sd-color-black);
+  border-color: var(--sd-color-border);
+  color: var(--sd-color-text-primary);
+  line-height: 1.6;
+}
+
+#textInput:focus {
+  border-color: var(--sd-color-cyan);
+  box-shadow: 0 0 8px var(--sd-color-cyan-dim);
+}
+
+.text-conv-btn {
+  font-size: 11px !important;
+  font-weight: 500;
+  text-transform: none; /* Keep labels as-is */
+}

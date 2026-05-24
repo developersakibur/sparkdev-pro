@@ -9,6 +9,37 @@
     let history = [];
     let draggedId = null;
 
+    async function sendMessageToTab(payload) {
+      return new Promise((resolve) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (!tabs[0]) return resolve({ ok: false });
+          
+          chrome.tabs.sendMessage(tabs[0].id, payload, (response) => {
+            if (chrome.runtime.lastError) {
+              console.log('[SparkDev Color] Content script missing, injecting...');
+              chrome.scripting.executeScript({
+                target: { tabId: tabs[0].id },
+                files: [
+                  'core/content/utils.js',
+                  'core/content/color.js',
+                  'core/content/font.js',
+                  'core/content/webp.js',
+                  'core/content/wp.js',
+                  'core/content/main.js'
+                ]
+              }, () => {
+                setTimeout(() => {
+                  chrome.tabs.sendMessage(tabs[0].id, payload, (res) => resolve(res));
+                }, 100);
+              });
+            } else {
+              resolve(response);
+            }
+          });
+        });
+      });
+    }
+
     async function init() {
       await loadHistory();
       renderHistory();
@@ -32,11 +63,7 @@
 
       liveModeToggle.addEventListener('change', () => {
         const enabled = liveModeToggle.checked;
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-          if (tabs[0]) {
-            chrome.tabs.sendMessage(tabs[0].id, { action: 'toggleLivePicker', enabled });
-          }
-        });
+        sendMessageToTab({ action: 'toggleLivePicker', enabled });
         saveSettings();
       });
 

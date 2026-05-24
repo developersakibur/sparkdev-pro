@@ -31,6 +31,37 @@
       }
     };
 
+    async function sendMessageToTab(payload) {
+      return new Promise((resolve) => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (!tabs[0]) return resolve({ ok: false });
+          
+          chrome.tabs.sendMessage(tabs[0].id, payload, (response) => {
+            if (chrome.runtime.lastError) {
+              console.log('[SparkDev WP] Content script missing, injecting...');
+              chrome.scripting.executeScript({
+                target: { tabId: tabs[0].id },
+                files: [
+                  'core/content/utils.js',
+                  'core/content/color.js',
+                  'core/content/font.js',
+                  'core/content/webp.js',
+                  'core/content/wp.js',
+                  'core/content/main.js'
+                ]
+              }, () => {
+                setTimeout(() => {
+                  chrome.tabs.sendMessage(tabs[0].id, payload, (res) => resolve(res));
+                }, 100);
+              });
+            } else {
+              resolve(response);
+            }
+          });
+        });
+      });
+    }
+
     chrome.storage.local.get(['mod_wp_tools'], (res) => {
       const s = res.mod_wp_tools || {};
       setPosition(s.tabPosition || 'after', false);
@@ -67,7 +98,7 @@
         await chrome.storage.local.set({ mod_wp_tools: mod_settings });
         
         // Notify tab to apply/remove immediately
-        chrome.tabs.sendMessage(currentTab.id, { action: 'toggleElementorLoader', enabled: e.target.checked });
+        sendMessageToTab({ action: 'toggleElementorLoader', enabled: e.target.checked });
       });
     }
 
@@ -104,10 +135,22 @@
     });
 
     // --- No-Cache (NC) Tools ---
+    const generateRandomStr = (len) => {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let res = '';
+      for (let i = 0; i < len; i++) res += chars.charAt(Math.floor(Math.random() * chars.length));
+      return res;
+    };
+
     const openNoCache = async (incognito = false) => {
       const t = await getCurrentTab();
       const url = new URL(t.url);
-      url.searchParams.set('nc', Date.now());
+      
+      // Advanced cache busting with 50-char random string and multiple params
+      url.searchParams.set('nc', generateRandomStr(50));
+      url.searchParams.set('ver', Date.now());
+      url.searchParams.set('dnu', generateRandomStr(12));
+
       if (incognito) {
         chrome.windows.create({ url: url.toString(), incognito: true });
       } else {

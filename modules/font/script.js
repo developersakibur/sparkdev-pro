@@ -20,7 +20,14 @@
               console.log('[SparkDev Font] Content script missing, injecting...');
               chrome.scripting.executeScript({
                 target: { tabId: tabs[0].id },
-                files: ['core/content.js']
+                files: [
+                  'core/content/utils.js',
+                  'core/content/color.js',
+                  'core/content/font.js',
+                  'core/content/webp.js',
+                  'core/content/wp.js',
+                  'core/content/main.js'
+                ]
               }, () => {
                 // Try again after a short delay
                 setTimeout(() => {

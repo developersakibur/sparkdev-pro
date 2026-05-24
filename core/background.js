@@ -4,6 +4,41 @@ chrome.runtime.onInstalled.addListener(() => {
     title: 'Save as WebP',
     contexts: ['image']
   });
+
+  // Storage Migration & Cleanup Logic
+  chrome.storage.local.get(null, async (allData) => {
+    const newState = {
+      app_state: allData.app_state || {},
+      mod_webp: allData.mod_webp || {},
+      mod_wp_tools: allData.mod_wp_tools || {},
+      mod_clamp: allData.mod_clamp || {},
+      mod_color: allData.mod_color || {},
+      mod_font: allData.mod_font || {},
+      mod_text: allData.mod_text || {}
+    };
+
+    // 1. Migrate loose keys if namespaced objects are empty
+    if (!newState.app_state.featureOrder && allData.featureOrder) newState.app_state.featureOrder = allData.featureOrder;
+    if (!newState.app_state.activeTab && allData.activeTab) newState.app_state.activeTab = allData.activeTab;
+    
+    if (!newState.mod_webp.quality && allData.quality) newState.mod_webp.quality = allData.quality;
+    if (!newState.mod_webp.maxSizeKB && allData.maxSizeKB) newState.mod_webp.maxSizeKB = allData.maxSizeKB;
+    if (allData.zipEnabled !== undefined) newState.mod_webp.zipEnabled = allData.zipEnabled;
+
+    if (!newState.mod_wp_tools.elementorHideSettings && allData.elementorHideSettings) newState.mod_wp_tools.elementorHideSettings = allData.elementorHideSettings;
+    if (!newState.mod_wp_tools.tabPosition && allData.tabPosition) newState.mod_wp_tools.tabPosition = allData.tabPosition;
+
+    // 2. Determine keys to remove (everything except our new namespaces)
+    const namespaces = ['app_state', 'mod_webp', 'mod_wp_tools', 'mod_clamp', 'mod_pass', 'mod_svg', 'mod_color', 'mod_font', 'mod_text'];
+    const keysToRemove = Object.keys(allData).filter(key => !namespaces.includes(key));
+
+    // 3. Save clean state and clear old garbage
+    await chrome.storage.local.set(newState);
+    if (keysToRemove.length > 0) {
+      await chrome.storage.local.remove(keysToRemove);
+    }
+    console.log('[SparkDev Pro] Storage migration complete.');
+  });
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -23,7 +58,17 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     chrome.tabs.sendMessage(tab.id, payload, (res) => {
       if (chrome.runtime.lastError) {
         chrome.scripting.executeScript(
-          { target: { tabId: tab.id }, files: ['content.js'] },
+          { 
+            target: { tabId: tab.id }, 
+            files: [
+              'core/content/utils.js',
+              'core/content/color.js',
+              'core/content/font.js',
+              'core/content/webp.js',
+              'core/content/wp.js',
+              'core/content/main.js'
+            ] 
+          },
           () => setTimeout(() => chrome.tabs.sendMessage(tab.id, payload), 300)
         );
       }
