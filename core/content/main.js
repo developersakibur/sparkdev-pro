@@ -16,27 +16,15 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
 
-  if (msg.action === 'toggleElementorLoader') {
-    const existing = document.getElementById('sparkdev-hide-elementor-loader');
-    if (msg.enabled) {
-      if (!existing) {
-        const style = document.createElement('style');
-        style.id = 'sparkdev-hide-elementor-loader';
-        style.textContent = '#elementor-panel-state-loading { display: none !important; }';
-        document.documentElement.appendChild(style);
-      }
-    } else {
-      existing?.remove();
-    }
-    sendResponse({ ok: true });
-  }
-
   if (msg.action === 'toggleLivePicker') {
     if (typeof startLivePicker === 'function') {
       if (msg.enabled) startLivePicker();
       else stopLivePicker();
+      sendResponse({ ok: true });
+    } else {
+      sendResponse({ ok: false, error: 'Advanced picker not loaded' });
     }
-    sendResponse({ ok: true });
+    return true;
   }
 
   if (msg.action === 'toggleFontFinder') {

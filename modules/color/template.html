@@ -1,10 +1,12 @@
 <div class="sd-l-header">
   <h1>Color</h1>
-  <div class="sd-u-flex sd-u-items-center" style="gap: 8px;">
-    <label class="sd-c-toggle">
-      <input type="checkbox" id="liveModeToggle">
-      <span class="sd-c-toggle__slider"></span>
-    </label>
+  <div class="sd-u-flex sd-u-items-center" style="gap: 12px;">
+    <div class="sd-u-flex sd-u-items-center" style="gap: 6px;" title="Use Advanced Picker (Element Highlighter)">
+      <label class="sd-c-toggle">
+        <input type="checkbox" id="pickerModeToggle">
+        <span class="sd-c-toggle__slider"></span>
+      </label>
+    </div>
   </div>
 </div>
 
@@ -15,9 +17,11 @@
   </button>
 
   <div class="color-history-section">
-    <div class="sd-u-flex sd-u-items-center sd-u-justify-between sd-u-mb-4" style="position: relative;">
+    <div class="sd-u-flex sd-u-items-center sd-u-justify-between sd-u-mb-4">
       <h2 style="font-size: 14px; font-weight: 600; color: var(--sd-color-text-primary); margin: 0;">Palette & History</h2>
-      <span id="historyCount" class="sd-u-color-muted" style="font-size: 11px; position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-family: 'JetBrains Mono', monospace;">0 + 0 = 0</span>
+      <button class="sd-c-btn sd-c-btn--ghost sd-c-btn--icon" id="colorClearBtn" title="Clear History" style="width: 28px; height: 28px;">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+      </button>
     </div>
 
     <div class="color-history-table-wrapper">

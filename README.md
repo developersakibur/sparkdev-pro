@@ -39,8 +39,8 @@ A professional-grade text processing suite for copywriters and developers.
 
 ### 5. 🎨 Color (Advanced Picker & Palette)
 A professional-grade color management system with screen-picking capabilities.
-*   **EyeDropper API:** High-precision pixel picking from anywhere on your screen.
-*   **Live Mode:** Interactive element highlighter to grab CSS background colors directly from the page.
+*   **EyeDropper API:** High-precision pixel picking from anywhere on your screen with a refined "shrunk" popup UX.
+*   **Advanced Scroll-Aware Picker:** High-performance element picking that supports real-time page scrolling with automatic viewport re-capture.
 *   **History & Favorites:** Store the last 20 picked colors with drag-and-drop reordering for favorites.
 *   **Custom Naming:** Assign names to colors (e.g., "Brand Primary") for better organization.
 

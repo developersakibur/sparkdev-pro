@@ -3,8 +3,8 @@
     const pickColorBtn = document.getElementById('pickColorBtn');
     const colorHistoryBody = document.getElementById('colorHistoryBody');
     const noHistoryEl = document.getElementById('noHistory');
-    const historyCountEl = document.getElementById('historyCount');
-    const liveModeToggle = document.getElementById('liveModeToggle');
+    const colorClearBtn = document.getElementById('colorClearBtn');
+    const pickerModeToggle = document.getElementById('pickerModeToggle');
 
     let history = [];
     let draggedId = null;
@@ -13,10 +13,8 @@
       return new Promise((resolve) => {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
           if (!tabs[0]) return resolve({ ok: false });
-          
           chrome.tabs.sendMessage(tabs[0].id, payload, (response) => {
             if (chrome.runtime.lastError) {
-              console.log('[SparkDev Color] Content script missing, injecting...');
               chrome.scripting.executeScript({
                 target: { tabId: tabs[0].id },
                 files: [
@@ -45,34 +43,72 @@
       renderHistory();
 
       pickColorBtn.addEventListener('click', async () => {
-        if (!window.EyeDropper) {
-          alert('Your browser does not support the EyeDropper API');
-          return;
-        }
+        const isAdvanced = pickerModeToggle.checked;
+        
+        if (isAdvanced) {
+          // --- ADVANCED MODE (Custom Picker) ---
+          // Just like ColorZilla: Send message and close popup instantly
+          sendMessageToTab({ action: 'toggleLivePicker', enabled: true });
+          window.close();
+        } else {
+          // --- NORMAL MODE (Native EyeDropper) ---
+          if (!window.EyeDropper) {
+            alert('Your browser does not support the EyeDropper API');
+            return;
+          }
 
-        const eyeDropper = new EyeDropper();
-        try {
-          const result = await eyeDropper.open();
-          const hex = result.sRGBHex.toUpperCase();
-          copyToClipboard(hex);
-          addToHistory(hex);
-        } catch (err) {
-          console.log('Color picking cancelled or failed:', err);
+          const mainApp = document.getElementById('main-app');
+          const eyeDropper = new EyeDropper();
+          
+          // 1. Hide the large shell to "shrink" the popup window
+          mainApp.style.display = 'none';
+          
+          // 2. Create a tiny placeholder so the window isn't 0x0
+          const indicator = document.createElement('div');
+          indicator.id = 'sd-picker-shrink-indicator';
+          indicator.style.cssText = `
+            width: 120px; height: 32px; background: #1a1a1a; color: #00f2ff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 800; border-radius: 6px; border: 1px solid #333;
+            letter-spacing: 1px; font-family: sans-serif;
+          `;
+          indicator.textContent = 'PICKING...';
+          document.body.appendChild(indicator);
+
+          // 3. Wait a tiny bit for the browser to re-render the shrunk popup
+          // This prevents the popup from appearing in the EyeDropper's internal snapshot
+          await new Promise(resolve => setTimeout(resolve, 100));
+
+          try {
+            const result = await eyeDropper.open();
+            const hex = result.sRGBHex.toUpperCase();
+            
+            // 3. Process the color
+            navigator.clipboard.writeText(hex);
+            addToHistory(hex);
+            
+            // 4. Close fully
+            window.close();
+          } catch (err) {
+            console.log('Color picking cancelled or failed:', err);
+            // 5. Restore UI if user cancelled (ESC)
+            indicator.remove();
+            mainApp.style.display = 'flex';
+          }
         }
       });
 
-      liveModeToggle.addEventListener('change', () => {
-        const enabled = liveModeToggle.checked;
-        sendMessageToTab({ action: 'toggleLivePicker', enabled });
+      pickerModeToggle.addEventListener('change', () => {
         saveSettings();
       });
 
-      // Listen for colors picked from the content script
-      chrome.runtime.onMessage.addListener((msg) => {
-        if (msg.action === 'liveColorPicked') {
-          copyToClipboard(msg.hex);
-          addToHistory(msg.hex);
-        }
+      colorClearBtn.addEventListener('click', () => {
+        const favorites = history.filter(item => item.isFavorite);
+        if (history.length === favorites.length) return;
+        
+        history = favorites;
+        saveHistory();
+        renderHistory();
       });
     }
 
@@ -90,8 +126,8 @@
             order: item.order || 0
           }));
 
-          if (data.liveModeEnabled) {
-            liveModeToggle.checked = true;
+          if (data.advancedModeEnabled) {
+            pickerModeToggle.checked = true;
           }
 
           if (rawHistory.some(item => !item.id)) {
@@ -118,7 +154,7 @@
     async function saveSettings() {
       chrome.storage.local.get(['mod_color'], (res) => {
         const data = res.mod_color || {};
-        data.liveModeEnabled = liveModeToggle.checked;
+        data.advancedModeEnabled = pickerModeToggle.checked;
         chrome.storage.local.set({ mod_color: data });
       });
     }
@@ -188,12 +224,10 @@
       if (allItems.length === 0) {
         noHistoryEl.style.display = 'block';
         colorHistoryBody.innerHTML = '';
-        historyCountEl.textContent = '0 + 0 = 0';
         return;
       }
 
       noHistoryEl.style.display = 'none';
-      historyCountEl.textContent = `${favorites.length} + ${nonFavorites.length} = ${favorites.length + nonFavorites.length}`;
       
       colorHistoryBody.innerHTML = allItems.map((item) => `
         <tr class="${item.isFavorite ? 'is-favorite' : ''}" draggable="true" data-id="${item.id}" data-fav="${item.isFavorite}">

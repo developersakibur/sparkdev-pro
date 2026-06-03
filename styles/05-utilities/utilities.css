@@ -41,6 +41,8 @@
 .sd-u-hide { display: none !important; }
 .sd-u-show { display: block !important; }
 .sd-u-flex { display: flex !important; }
+.sd-u-items-center { align-items: center !important; }
+.sd-u-justify-between { justify-content: space-between !important; }
 .sd-u-center { justify-content: center !important; align-items: center !important; }
 
 /* Helpers */

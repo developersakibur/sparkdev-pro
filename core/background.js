@@ -82,6 +82,51 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     sendResponse({ ok: true });
   }
 
+  if (msg.action === 'takeScreenshot') {
+    chrome.tabs.captureVisibleTab(null, { format: 'png', quality: 100 }, (dataUrl) => {
+      if (chrome.runtime.lastError) {
+        sendResponse({ ok: false, error: chrome.runtime.lastError.message });
+      } else {
+        sendResponse({ ok: true, dataUrl: dataUrl });
+      }
+    });
+    return true; // Keep channel open for async response
+  }
+
+  if (msg.action === 'colorPicked') {
+    chrome.storage.local.get(['mod_color'], (res) => {
+      const data = res.mod_color || {};
+      const history = data.history || [];
+      const hex = msg.hex.toUpperCase();
+
+      // Simple deduplication for recent picks
+      const existingIdx = history.findIndex(item => item.hex === hex && !item.isFavorite);
+      if (existingIdx !== -1) {
+        const item = history.splice(existingIdx, 1)[0];
+        item.id = Date.now();
+        history.unshift(item);
+      } else {
+        history.unshift({
+          id: Date.now(),
+          hex: hex,
+          name: '',
+          isFavorite: false,
+          order: 0
+        });
+      }
+
+      // Keep only top 20 non-favorites
+      const favorites = history.filter(item => item.isFavorite);
+      const nonFavorites = history.filter(item => !item.isFavorite).slice(0, 20);
+      data.history = [...favorites, ...nonFavorites];
+
+      chrome.storage.local.set({ mod_color: data }, () => {
+        sendResponse({ ok: true });
+      });
+    });
+    return true;
+  }
+
   if (msg.action === 'fontPicked') {
     chrome.storage.local.get(['mod_font'], (res) => {
       const data = res.mod_font || {};
@@ -107,6 +152,40 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       });
     });
     return true; // Keep channel open for async response
+  }
+  
+  if (msg.action === 'colorPicked') {
+    chrome.storage.local.get(['mod_color'], (res) => {
+      const data = res.mod_color || {};
+      const history = data.history || [];
+      const hex = msg.hex.toUpperCase();
+
+      // Simple deduplication for recent picks
+      const existingIdx = history.findIndex(item => item.hex === hex && !item.isFavorite);
+      if (existingIdx !== -1) {
+        const item = history.splice(existingIdx, 1)[0];
+        item.id = Date.now();
+        history.unshift(item);
+      } else {
+        history.unshift({
+          id: Date.now(),
+          hex: hex,
+          name: '',
+          isFavorite: false,
+          order: 0
+        });
+      }
+
+      // Keep only top 20 non-favorites
+      const favorites = history.filter(item => item.isFavorite);
+      const nonFavorites = history.filter(item => !item.isFavorite).slice(0, 20);
+      data.history = [...favorites, ...nonFavorites];
+
+      chrome.storage.local.set({ mod_color: data }, () => {
+        sendResponse({ ok: true });
+      });
+    });
+    return true;
   }
   
   return true;
