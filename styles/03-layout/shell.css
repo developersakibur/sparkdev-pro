@@ -1,0 +1,46 @@
+/* Main App Shell */
+.sd-l-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  animation: sd-fade-in var(--sd-trans-normal);
+}
+
+.sd-l-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--sd-space-5);
+  flex-shrink: 0;
+}
+
+.sd-l-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sd-space-3);
+}
+
+.sd-l-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sd-space-2);
+}
+
+.sd-l-sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--sd-color-black);
+  padding-bottom: var(--sd-space-3);
+}
+
+/* Tab Content Management */
+.tab-content {
+  display: none;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tab-content.active {
+  display: flex;
+}

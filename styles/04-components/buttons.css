@@ -1,0 +1,69 @@
+/* Standard Buttons */
+.sd-c-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sd-space-2);
+  padding: var(--sd-space-3) var(--sd-space-4);
+  border-radius: var(--sd-radius-md);
+  font-size: var(--sd-size-md);
+  font-weight: var(--sd-weight-semibold);
+  cursor: pointer;
+  transition: var(--sd-trans-fast);
+  border: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.sd-c-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sd-c-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.sd-c-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Variants */
+.sd-c-btn--primary {
+  background: var(--sd-grad-primary);
+  color: var(--sd-color-black);
+  box-shadow: var(--sd-shadow-cyan);
+}
+
+.sd-c-btn--secondary {
+  background: var(--sd-color-surface);
+  color: var(--sd-color-text-primary);
+  border: 1px solid var(--sd-color-border);
+}
+
+.sd-c-btn--ghost {
+  background: transparent;
+  color: var(--sd-color-text-muted);
+}
+
+.sd-c-btn--ghost:hover {
+  color: var(--sd-color-cyan);
+  background: var(--sd-color-cyan-dim);
+}
+
+.sd-c-btn--icon {
+  padding: var(--sd-space-2);
+  width: 32px;
+  height: 32px;
+}
+
+.sd-c-btn--success {
+  background: var(--sd-color-success);
+  color: var(--sd-color-black);
+}
+
+/* Large Full-Width */
+.sd-c-btn--block {
+  width: 100%;
+}

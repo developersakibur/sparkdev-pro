@@ -1,0 +1,60 @@
+/* 
+   Clamp Generator Module Styles
+   Standardized via sd- framework.
+*/
+
+#tab-clamp .config-section {
+  display: none; /* Controlled by JS as 'flex' or 'none' */
+  flex-direction: column;
+  gap: var(--sd-space-3);
+}
+
+#tab-clamp .config-input-group {
+  background: var(--sd-color-surface);
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-lg);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+#tab-clamp .config-input-group input {
+  background: transparent;
+  border: none;
+  height: 38px;
+  flex: 1;
+  width: 50%;
+  text-align: center;
+  color: var(--sd-color-text-primary);
+  font-family: var(--sd-font-mono);
+  font-size: var(--sd-size-md);
+  outline: none;
+}
+
+#tab-clamp .config-input-group .divider {
+  width: 1px;
+  height: 18px;
+  background: var(--sd-color-border);
+}
+
+#tab-clamp .slider-container {
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-lg);
+  padding: var(--sd-space-2);
+  display: flex;
+  align-items: center;
+  gap: var(--sd-space-3);
+  background: var(--sd-color-surface);
+}
+
+#tab-clamp .badge {
+  background: var(--sd-color-cyan-dim);
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-md);
+  font-family: var(--sd-font-mono);
+  font-size: 10px;
+  color: var(--sd-color-cyan);
+  padding: 4px 8px;
+  min-width: 44px;
+  text-align: center;
+}

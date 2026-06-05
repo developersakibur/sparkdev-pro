@@ -1,0 +1,25 @@
+/* 
+   SparkDev Pro CSS Framework
+   Architecture: ITCSS (Inverted Triangle CSS)
+   Naming: BEM with sd- namespace
+*/
+
+/* 01. Settings (Variables, Tokens) */
+@import url("./01-settings/tokens.css");
+
+/* 02. Generic (Resets, Base Styles) */
+@import url("./02-generic/reset.css");
+@import url("./02-generic/base.css");
+
+/* 03. Layout (Shell, Grids, Alignment) */
+@import url("./03-layout/shell.css");
+@import url("./03-layout/grid.css");
+
+/* 04. Components (Reusable UI Elements) */
+@import url("./04-components/buttons.css");
+@import url("./04-components/forms.css");
+@import url("./04-components/cards.css");
+@import url("./04-components/navigation.css");
+
+/* 05. Utilities (Helper Classes) */
+@import url("./05-utilities/utilities.css");

@@ -1,0 +1,89 @@
+/* Tabs & Navigation */
+.sd-c-tabs {
+  width: 100%;
+  margin-bottom: var(--sd-space-5);
+  background: var(--sd-color-surface);
+  padding: var(--sd-space-1);
+  border-radius: var(--sd-radius-xl);
+  border: 1px solid var(--sd-color-border);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.sd-c-tabs__nav {
+  flex: 1;
+  display: flex;
+  gap: var(--sd-space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 var(--sd-space-1);
+}
+
+.sd-c-tabs__nav::-webkit-scrollbar {
+  display: none;
+}
+
+.sd-c-tabs__btn {
+  flex: 0 0 auto;
+  background: transparent;
+  border: none;
+  border-radius: var(--sd-radius-md);
+  padding: var(--sd-space-2) var(--sd-space-3);
+  color: var(--sd-color-text-secondary);
+  font-size: var(--sd-size-sm);
+  font-weight: var(--sd-weight-semibold);
+  cursor: pointer;
+  transition: var(--sd-trans-fast);
+  white-space: nowrap;
+}
+
+.sd-c-tabs__btn:hover {
+  color: var(--sd-color-text-primary);
+}
+
+.sd-c-tabs__btn.active {
+  background: var(--sd-grad-primary);
+  color: var(--sd-color-black);
+  box-shadow: var(--sd-shadow-cyan);
+}
+
+/* Feature Grid (Welcome Page) */
+.sd-c-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sd-space-3);
+  width: 100%;
+}
+
+.sd-c-feature-card {
+  background: var(--sd-color-surface);
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-xl);
+  padding: var(--sd-space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sd-space-3);
+  cursor: pointer;
+  transition: var(--sd-trans-normal);
+}
+
+.sd-c-feature-card:active {
+  transform: scale(0.97);
+}
+
+.sd-c-feature-card.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+
+.sd-c-feature-card.drag-over {
+  border-color: var(--sd-color-cyan);
+  background: var(--sd-color-surface-hover);
+  box-shadow: var(--sd-shadow-glow);
+  transform: scale(1.02);
+}
+
+.sd-c-feature-card:last-child:nth-child(odd) {
+  grid-column: span 2;
+}

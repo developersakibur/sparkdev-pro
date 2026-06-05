@@ -1,0 +1,29 @@
+/* Global Scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--sd-color-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sd-color-border);
+  border-radius: var(--sd-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sd-color-border-hover);
+}
+
+/* Base Typography Helpers */
+h1 { font-size: var(--sd-size-2xl); font-weight: var(--sd-weight-semibold); color: var(--sd-color-cyan); }
+h2 { font-size: var(--sd-size-xl); font-weight: var(--sd-weight-semibold); }
+h3 { font-size: var(--sd-size-md); font-weight: var(--sd-weight-semibold); }
+p { font-size: var(--sd-size-md); color: var(--sd-color-text-secondary); }
+
+/* Animation Keyframes */
+@keyframes sd-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

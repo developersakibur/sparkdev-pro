@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SparkDev Pro</title>
+  <!-- SparkDev Pro CSS Framework (ITCSS + BEM) -->
+  <link rel="stylesheet" href="styles/main.css">
+
+  <!-- Module-specific overrides -->
+  <link rel="stylesheet" href="modules/clamp/style.css">
+  <link rel="stylesheet" href="modules/webp/style.css">
+  <link rel="stylesheet" href="modules/svg/style.css">
+  <link rel="stylesheet" href="modules/wp-tools/style.css">
+  <link rel="stylesheet" href="modules/pass/style.css">
+  <link rel="stylesheet" href="modules/color/style.css">
+  <link rel="stylesheet" href="modules/font/style.css">
+  <link rel="stylesheet" href="modules/text/style.css">
+  <link rel="stylesheet" href="modules/settings/style.css">
+</head>
+<body>
+  <!-- Welcome Page -->
+  <div id="welcome-page" class="sd-l-shell" style="align-items: center; text-align: center; padding: 20px 10px;">
+    <div class="sd-u-mb-5">
+      <img src="assets/icons/logo.svg" alt="SparkDev Pro Logo" style="width: 48px; height: 48px; margin: 0 auto 12px; filter: drop-shadow(0 0 8px var(--sd-color-cyan-glow));">
+      <h1 style="background: var(--sd-grad-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">SparkDev Pro</h1>
+    </div>
+    <p class="sd-u-color-secondary sd-u-mb-8" style="font-size: 13px;">The Unified Developer Workspace</p>
+    
+    <div class="sd-c-feature-grid" id="featureGrid">
+      <!-- Dynamic features will be injected here -->
+    </div>
+  </div>
+
+  <!-- Main App Shell -->
+  <div id="main-app" class="sd-l-shell" style="display: none;">
+    <div class="sd-c-tabs">
+      <button class="sd-c-tabs__btn active" id="homeBtn" title="Home" style="border-right: 1px solid var(--sd-color-border); border-radius: 8px 0 0 8px; margin-right: 4px; padding: 0 10px;">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </button>
+      <div class="sd-c-tabs__nav" id="tabsNav">
+        <!-- Dynamic tabs will be injected here -->
+      </div>
+    </div>
+
+    <div id="app-content">
+      <!-- Module templates will be injected here dynamically -->
+    </div>
+  </div>
+
+  <!-- Framework Dependencies -->
+  <script src="assets/libs/jszip.min.js"></script>
+  <script src="core/tab-manager.js"></script>
+</body>
+</html>

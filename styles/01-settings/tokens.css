@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap");
+
+:root {
+  /* Colors */
+  --sd-color-black: #0a0a0b;
+  --sd-color-surface: #141416;
+  --sd-color-surface-hover: #18181b;
+  --sd-color-border: #27272a;
+  --sd-color-border-hover: #3f3f46;
+  
+  --sd-color-cyan: #00ffff;
+  --sd-color-cyan-dim: rgba(0, 255, 255, 0.1);
+  --sd-color-cyan-glow: rgba(0, 255, 255, 0.3);
+  --sd-color-blue: #06b6d4;
+  
+  --sd-color-text-primary: #e5e5e5;
+  --sd-color-text-secondary: #a1a1aa;
+  --sd-color-text-muted: #71717a;
+  --sd-color-text-dim: #52525b;
+  
+  --sd-color-success: #10b981;
+  --sd-color-error: #f87171;
+  
+  /* Gradients */
+  --sd-grad-primary: linear-gradient(135deg, var(--sd-color-cyan) 0%, var(--sd-color-blue) 100%);
+
+  /* Spacing Scale (Modular) */
+  --sd-space-1: 4px;
+  --sd-space-2: 8px;
+  --sd-space-3: 12px;
+  --sd-space-4: 16px;
+  --sd-space-5: 20px;
+  --sd-space-6: 24px;
+  --sd-space-8: 32px;
+  --sd-space-10: 40px;
+
+  /* Typography */
+  --sd-font-main: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --sd-font-mono: "JetBrains Mono", monospace;
+  
+  --sd-size-xs: 10px;
+  --sd-size-sm: 11px;
+  --sd-size-md: 13px;
+  --sd-size-base: 14px;
+  --sd-size-lg: 16px;
+  --sd-size-xl: 18px;
+  --sd-size-2xl: 20px;
+  
+  --sd-weight-normal: 400;
+  --sd-weight-medium: 500;
+  --sd-weight-semibold: 600;
+  --sd-weight-bold: 700;
+
+  /* Radii */
+  --sd-radius-sm: 6px;
+  --sd-radius-md: 8px;
+  --sd-radius-lg: 10px;
+  --sd-radius-xl: 12px;
+  --sd-radius-full: 9999px;
+
+  /* Transitions */
+  --sd-trans-fast: all 0.2s ease;
+  --sd-trans-normal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Shadows */
+  --sd-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --sd-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --sd-shadow-cyan: 0 4px 12px rgba(34, 211, 238, 0.2);
+  --sd-shadow-glow: 0 0 20px rgba(34, 211, 238, 0.1);
+}

@@ -1,0 +1,112 @@
+/* Module Containers */
+.sd-c-card {
+  position: relative; /* Contain absolute children like file inputs */
+  background: var(--sd-color-surface);
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-xl);
+  padding: var(--sd-space-4);
+  transition: var(--sd-trans-fast);
+}
+
+.sd-c-card:hover {
+  border-color: var(--sd-color-border-hover);
+  background: var(--sd-color-surface-hover);
+  box-shadow: var(--sd-shadow-glow);
+}
+
+.sd-c-card--dashed {
+  border-style: dashed;
+  text-align: center;
+  cursor: pointer;
+}
+
+.sd-c-card--dashed:hover {
+  border-color: var(--sd-color-cyan);
+}
+
+/* Result Display / Wells */
+.sd-c-well {
+  background: var(--sd-color-surface);
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-lg);
+  padding: var(--sd-space-4);
+  font-family: var(--sd-font-mono);
+  font-size: var(--sd-size-base);
+  color: var(--sd-color-cyan);
+  text-align: center;
+  word-break: break-all;
+  cursor: pointer;
+  transition: var(--sd-trans-fast);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sd-c-well:hover {
+  border-color: var(--sd-color-cyan);
+  background: var(--sd-color-surface-hover);
+  box-shadow: var(--sd-shadow-glow);
+}
+
+.sd-c-well:active {
+  transform: scale(0.98);
+}
+
+.sd-c-well--success {
+  background: var(--sd-grad-primary) !important;
+  color: var(--sd-color-black) !important;
+  border-color: var(--sd-color-cyan);
+}
+
+/* Settings List / Accordion Item */
+.sd-c-setting-item {
+  background: var(--sd-color-surface);
+  border: 1px solid var(--sd-color-border);
+  border-radius: var(--sd-radius-lg);
+  overflow: hidden;
+  transition: var(--sd-trans-fast);
+  margin-bottom: var(--sd-space-2);
+}
+
+.sd-c-setting-item__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sd-space-3);
+  cursor: pointer;
+  user-select: none;
+}
+
+.sd-c-setting-item__header:hover {
+  background: var(--sd-color-surface-hover);
+}
+
+.sd-c-setting-item__title {
+  display: flex;
+  align-items: center;
+  gap: var(--sd-space-2);
+  font-size: var(--sd-size-md);
+  font-weight: var(--sd-weight-semibold);
+  color: var(--sd-color-text-primary);
+}
+
+.sd-c-setting-item__title svg {
+  color: var(--sd-color-cyan);
+}
+
+.sd-c-setting-item__content {
+  padding: var(--sd-space-3);
+  background: rgba(0,0,0,0.1);
+  border-top: 1px solid var(--sd-color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sd-space-3);
+}
+
+/* Modifier for disabled content */
+.sd-c-setting-item--disabled .sd-c-setting-item__content {
+  opacity: 0.4;
+  pointer-events: none;
+  filter: grayscale(1);
+}
