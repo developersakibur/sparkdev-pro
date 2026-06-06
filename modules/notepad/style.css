@@ -1,0 +1,93 @@
+.np-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px;
+  background: var(--sd-color-black-light);
+  border: 1px solid var(--sd-color-border);
+  border-radius: 8px 8px 0 0;
+}
+
+.np-toolbar__group {
+  display: flex;
+  gap: 2px;
+  padding-right: 6px;
+  margin-right: 4px;
+  border-right: 1px solid var(--sd-color-border);
+}
+
+.np-toolbar__group:last-child {
+  border-right: none;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+.np-toolbar__btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--sd-color-text-primary);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.np-toolbar__btn:hover {
+  background: rgba(0, 242, 255, 0.1);
+  color: var(--sd-color-cyan);
+}
+
+.np-toolbar__btn.active {
+  background: var(--sd-color-cyan);
+  color: var(--sd-color-black);
+}
+
+.np-toolbar__color-wrapper {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--sd-color-border);
+  margin-top: 2px;
+}
+
+#npColorPicker {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.np-editor {
+  min-height: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 12px;
+  background: var(--sd-color-black);
+  border: 1px solid var(--sd-color-border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  color: var(--sd-color-text-primary);
+  font-size: 13px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.np-editor:focus {
+  border-color: var(--sd-color-cyan-glow);
+}
+
+.np-editor[placeholder]:empty:before {
+  content: attr(placeholder);
+  color: var(--sd-color-text-muted);
+  cursor: text;
+}

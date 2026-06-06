@@ -26,74 +26,103 @@ High-efficiency image conversion and compression powered by `OffscreenCanvas`.
 
 ### 3. 🛡️ SVG Vault (Icon Modulator)
 Transform flat icons into brand-ready assets in seconds.
-*   **Container Shaping:** Wrap any SVG path into Square, Squircle, Circle, or Shield geometries.
-*   **Dynamic Coloration:** Automatically parses and replaces fill/stroke attributes with brand colors.
-*   **Visual Filters:** Native SVG `feDropShadow` integration with blur and offset controls.
+*   **Shape Morphing:** Wrap any SVG path into **Polygons** (Square, Circle, Shield) or organic **Blobs**.
+*   **Advanced Backgrounds:** Support for solid colors and complex gradients (Linear/Radial) with opacity control.
+*   **Visual Filters:** Native SVG `feDropShadow` integration with blur, offset, and flood-opacity controls.
+*   **Smart Aspect Ratio:** Lock or unlock aspect ratios for precise sizing control.
 
 ### 4. 🔠 Text Transformer (Case Converter)
 A professional-grade text processing suite for copywriters and developers.
-*   **8 Conversion Modes:** Sentence case, lower case, UPPER CASE, Capitalized Case, Title Case (smart filtering), aLtErNaTiNg cAsE, InVeRsE CaSe, and URL Slug-ify.
+*   **8 Conversion Modes:** Sentence case, lower case, UPPER CASE, Capitalized Case, Title Case (with smart word filtering), aLtErNaTiNg cAsE, InVeRsE CaSe, and URL Slug-ify.
 *   **Live Statistics:** Real-time character and word counting.
 *   **Persistence:** Automatically saves your last input to namespaced storage.
-*   **Action Suite:** Quick Copy-to-Clipboard, Download as `.txt`, and Clear.
 
-### 5. 🎨 Color (Advanced Picker & Palette)
-A professional-grade color management system with screen-picking capabilities.
-*   **EyeDropper API:** High-precision pixel picking from anywhere on your screen with a refined "shrunk" popup UX.
-*   **Advanced Scroll-Aware Picker:** High-performance element picking that supports real-time page scrolling with automatic viewport re-capture.
-*   **History & Favorites:** Store the last 20 picked colors with drag-and-drop reordering for favorites.
-*   **Custom Naming:** Assign names to colors (e.g., "Brand Primary") for better organization.
+### 📝 SparkPad (Rich Note Manager)
+A dedicated document editor for capturing client requirements and project notes.
+*   **Rich Formatting:** Support for Bold, Italic, Underline, and custom Text Coloration.
+*   **Document Structure:** Easily create bullet lists and insert hyperlinks.
+*   **Auto-Persistence:** Your notes are saved instantly as you type.
+*   **HTML Export:** Download your formatted notes as .html files for sharing.
 
-### 6. 🔍 Font (Advanced Finder)
+### 🎨 Color (Advanced Picker & Palette)
+*   **Dual-Mode Picking:** Choose between the native **EyeDropper API** (for quick picking) or the **Advanced Live Picker** (for zoomed, high-precision selection).
+*   **History & Favorites:** Store the last 20 picked colors. Features drag-and-drop reordering for favorites and custom naming (e.g., "Brand Primary").
+
+### 🔍 Font (Advanced Finder)
 Identify and analyze typography on any webpage with surgical precision.
-*   **Shadow DOM Isolation:** The UI is completely encapsulated, ensuring no style conflicts with host websites.
-*   **Dual-Layer Positioning:** Hover tooltips follow the viewport, while pinned cards scroll naturally with content.
-*   **Multi-Mode Pinning:** Capture and compare multiple font data cards simultaneously.
-*   **Detailed Metrics:** View Family, Size, Weight, Line-height, and Hex color.
+*   **Shadow DOM Isolation:** UI is encapsulated to prevent style conflicts with host sites.
+*   **Pinned Cards:** Capture and compare multiple font data cards simultaneously.
 
-### 7. ⚡ WP Quick Tools
-The Swiss-army knife for WordPress and Elementor developers.
-*   **Aggressive NC Tools:** Bypass server-side caches (Cloudflare/Varnish) using a 50-character random string, timestamped versions, and debug parameters.
+### ⚡ WP Quick Tools
+*   **No-Cache (NC) Tools:** Bypass server-side caches using aggressive 50-character random strings and timestamped versions.
 *   **Elementor Optimization:** Toggle the Elementor loader panel visibility per-domain.
 *   **Environment Toggling:** Fast access to `/wp-admin/`, site-health, and diagnostic tools.
-*   **Instant Diagnostics:** Built-in deep links to Google PageSpeed and DNS propagation checkers.
-
-### 🔑 Pass Gen
-Secure, entropy-based credential generator with visual feedback.
-*   **Extended Security:** Support for up to 128-character complex passwords.
-*   **Mouse-Wheel Support:** Intuitive length adjustment via scrolling.
 
 ---
 
-## 🛠️ Technical Architecture
+## 📖 User Guide: How to Use SparkDev Pro
 
-SparkDev Pro is built with a focus on performance, scalability, and clean data management.
+### 📐 Clamp Generator
+1.  **Input:** Enter your **Max Size** first. The tool will automatically suggest a **Min Size** based on your selected type (Text or Spacing).
+2.  **Adjust:** Change the Viewport Min/Max widths in the config panel (cog icon).
+3.  **Preview:** Use the slider at the bottom to see how the value scales between your viewport limits.
+4.  **Copy:** Click the result box to copy the `clamp()` or `calc(-1 * clamp())` code.
 
-### 🏗️ UI Framework (ITCSS + BEM)
-The extension uses a professional CSS architecture:
-*   **01 Settings:** Global tokens and brand variables.
-*   **02 Generic:** Resets and base element styling.
-*   **04 Components:** Modular, BEM-namespaced UI elements (`sd-c-*`).
+### 🖼️ WebP Pro
+1.  **Upload:** Drag images into the dashed area or click to browse.
+2.  **Configure:** Set your **Target Quality** and **Max Size (KB)**. The engine will find the best compression to stay under your limit.
+3.  **Zip:** Enable the "Zip Toggle" to download all processed images as a single `.zip` file. You can set a custom filename prefix.
+4.  **Convert:** Hit "Convert & Download" to process all images.
 
-### 🚀 Performance & Scalability
-*   **Dynamic Lazy-Loading:** Module templates and scripts are loaded "Just-in-Time" when a tab is activated, reducing initial memory footprint.
-*   **Modular Content Scripts:** Feature-specific logic (Font, Color, WebP) is split into isolated scripts for better stability and easier debugging.
-*   **Service Worker Migration:** Heavy storage cleanup and migration logic run only during installation/updates via the background service worker.
+### 🛡️ SVG Vault
+1.  **Paste:** Drop your raw SVG code into the input area.
+2.  **Style:** 
+    *   **Icon:** Enable "Icon Color" to force a specific color onto all SVG paths.
+    *   **Shape:** Choose between **Polygon** (set sides and roundness) or **Blob** (set complexity and contrast). Use "Shuffle" for new blob variations.
+    *   **Background:** Toggle gradients and adjust angles/stops for a premium look.
+3.  **Export:** Copy the resulting SVG code or download it directly as a `.svg` file.
 
-### 💾 Namespaced Storage
-Data is managed via a professional namespaced architecture in `chrome.storage.local`:
-*   **`app_state`:** Global UI preferences.
-*   **`mod_*`:** Isolated storage for each module (e.g., `mod_text`, `mod_clamp`).
+### 🔠 Text Transformer
+1.  **Paste:** Type or paste your text into the main area.
+2.  **Convert:** Click any case button (e.g., "Title Case", "Slug"). The converted text is **automatically copied** to your clipboard.
+3.  **Download:** Use the download icon to save your transformed text as a `.txt` file.
+
+### 🎨 Color Picker
+1.  **Pick:** Click "Pick Color". 
+    *   *Default:* The popup shrinks, and the cursor becomes a crosshair.
+    *   *Advanced:* If enabled in Settings, a live magnifying glass appears on the page.
+2.  **Manage:** In the history table, you can **Drag** the handle to reorder, click the **Heart** to favorite, or **Name** the color for future reference.
+3.  **Clean:** Use the trash icon at the top to clear all non-favorited history.
+
+### ⚡ WP Quick Tools
+1.  **Shortcuts:** Click "WP-Admin" to jump to the dashboard of the current site.
+2.  **No-Cache:** Use "NC Normal" or "NC Incognito" to open the current page with cache-busting parameters (`?nc=...&ver=...`).
+3.  **Diagnostics:** Use "Speed" (Google PageSpeed) or "DNS" to analyze the current domain instantly.
+4.  **Tab Position:** Use the "Before/After" toggle to control where new tabs opened by this tool appear.
+
+### 🔍 Font Finder
+1.  **Activate:** Switch to the Font tab and click "Enable Font Finder".
+2.  **Inspect:** Hover over any text on the page to see its properties.
+3.  **Pin:** Click on an element to pin a permanent data card. You can pin multiple cards to compare styles.
 
 ---
 
-## 🚀 Installation
+## ⚙️ Global Preferences (Settings)
+*   **Advanced Color Picker:** Enables a zoomed, high-precision picker instead of the native browser dropper.
+*   **Copy Link Text:** Adds a "Copy Link Text" option to your browser's right-click menu when clicking on links.
+*   **Enable Right-Click:** Force-enables the right-click menu on websites that attempt to disable it.
 
-### Local Setup (Developer Mode)
-1. Clone the repository or download the folder.
-2. Open Chrome and navigate to `chrome://extensions/`.
-3. Enable **"Developer mode"** (top right).
-4. Click **"Load unpacked"** and select the `sparkdev-pro` directory.
+---
+
+## 🏗️ Technical Architecture
+
+### UI Framework (ITCSS + BEM)
+*   **Inverted Triangle CSS:** Follows a strict hierarchy (Settings → Generic → Layout → Components → Utilities).
+*   **Namespaced BEM:** All components use the `sd-c-*` prefix to prevent collisions.
+
+### Performance & Scalability
+*   **Dynamic Lazy-Loading:** Modules are loaded "Just-in-Time" when activated, keeping the initial memory footprint low.
+*   **Service Worker Migration:** Automatic storage cleanup and migration logic handles legacy data formats during updates.
 
 ---
 

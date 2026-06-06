@@ -1,0 +1,45 @@
+<div class="sd-l-header">
+  <h1>SparkPad</h1>
+  <div class="sd-u-flex" style="gap: 8px;">
+    <button class="sd-c-btn sd-c-btn--ghost-cyan sd-c-btn--icon" id="npDownloadBtn" title="Download Note">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+    </button>
+    <button class="sd-c-btn sd-c-btn--ghost-cyan sd-c-btn--icon" id="npClearBtn" title="Clear Note">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+    </button>
+  </div>
+</div>
+
+<div class="sd-l-container">
+  <!-- Editor Toolbar -->
+  <div class="np-toolbar sd-u-mb-2">
+    <div class="np-toolbar__group">
+      <button class="np-toolbar__btn" data-cmd="bold" title="Bold"><b>B</b></button>
+      <button class="np-toolbar__btn" data-cmd="italic" title="Italic"><i>I</i></button>
+      <button class="np-toolbar__btn" data-cmd="underline" title="Underline"><u>U</u></button>
+    </div>
+    <div class="np-toolbar__group">
+      <button class="np-toolbar__btn" data-cmd="justifyLeft" title="Align Left">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="17" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="17" y1="18" x2="3" y2="18"></line></svg>
+      </button>
+      <button class="np-toolbar__btn" data-cmd="justifyCenter" title="Align Center">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="10" x2="6" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="18" y1="18" x2="6" y2="18"></line></svg>
+      </button>
+    </div>
+    <div class="np-toolbar__group">
+      <button class="np-toolbar__btn" data-cmd="insertUnorderedList" title="Bullet List">•</button>
+      <button class="np-toolbar__btn" data-cmd="createLink" title="Insert Link">🔗</button>
+      <div class="np-toolbar__color-wrapper">
+        <input type="color" id="npColorPicker" value="#00f2ff" title="Text Color">
+      </div>
+    </div>
+  </div>
+
+  <!-- Note Content Area -->
+  <div id="npEditor" contenteditable="true" class="np-editor" placeholder="Start typing client info..."></div>
+
+  <div class="sd-u-flex sd-u-justify-between sd-u-mt-2" style="font-size: 10px; color: var(--sd-color-text-muted);">
+    <span id="npStatus">All changes saved</span>
+    <span id="npWordCount">0 words</span>
+  </div>
+</div>
