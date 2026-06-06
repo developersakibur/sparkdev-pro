@@ -28,11 +28,6 @@
   gap: var(--sd-space-4);
 }
 
-.sd-c-setting-item.is-open {
-  border-color: var(--sd-color-cyan);
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.05);
-}
-
 #svgLockAR {
   border-radius: var(--sd-radius-md);
   transition: var(--sd-trans-fast);

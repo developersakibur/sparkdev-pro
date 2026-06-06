@@ -3,9 +3,7 @@
     const textInput = document.getElementById('textInput');
     const charCountEl = document.getElementById('textCharCount');
     const wordCountEl = document.getElementById('textWordCount');
-    const copyBtn = document.getElementById('textCopyBtn');
     const downloadBtn = document.getElementById('textDownloadBtn');
-    const clearBtn = document.getElementById('textClearBtn');
     const feedbackEl = document.getElementById('textFeedback');
     const conversionBtns = document.querySelectorAll('.text-conv-btn');
 
@@ -46,10 +44,6 @@
     }
 
     function showFeedback(msg, isError = false) {
-      feedbackEl.textContent = msg;
-      feedbackEl.classList.remove('sd-u-hide', 'sd-c-well--success', 'sd-c-well--error');
-      feedbackEl.classList.add(isError ? 'sd-c-well--error' : 'sd-c-well--success');
-      setTimeout(() => feedbackEl.classList.add('sd-u-hide'), 2000);
     }
 
     async function saveState() {
@@ -78,19 +72,18 @@
     conversionBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const type = btn.dataset.case;
-        if (!textInput.value.trim()) return showFeedback("Enter some text first!", true);
+        if (!textInput.value.trim()) return;
         
         textInput.value = CONVERSIONS[type](textInput.value);
         updateStats();
         saveState();
-        showFeedback(`${btn.textContent} applied!`);
-      });
-    });
+        
+        // Auto-copy to clipboard
+        navigator.clipboard.writeText(textInput.value);
 
-    copyBtn.addEventListener('click', () => {
-      if (!textInput.value) return showFeedback("Nothing to copy!", true);
-      navigator.clipboard.writeText(textInput.value).then(() => {
-        showFeedback("Copied to clipboard!");
+        // Visual feedback
+        btn.classList.add('text-conv-btn--active');
+        setTimeout(() => btn.classList.remove('text-conv-btn--active'), 2000);
       });
     });
 
@@ -107,14 +100,6 @@
       a.click();
       URL.revokeObjectURL(url);
       showFeedback("Download started!");
-    });
-
-    clearBtn.addEventListener('click', () => {
-      if (!textInput.value) return;
-      textInput.value = "";
-      updateStats();
-      saveState();
-      showFeedback("Text cleared");
     });
 
     loadState();

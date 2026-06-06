@@ -58,11 +58,9 @@
 
       fontClearBtn.addEventListener('click', () => {
         if (history.length === 0) return;
-        if (confirm('Clear all captured font history?')) {
-          history = [];
-          saveHistory();
-          renderHistory();
-        }
+        history = [];
+        saveHistory();
+        renderHistory();
       });
 
       chrome.runtime.onMessage.addListener((msg) => {

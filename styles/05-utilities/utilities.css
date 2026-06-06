@@ -21,6 +21,12 @@
 .sd-u-p-3 { padding: var(--sd-space-3); }
 .sd-u-p-4 { padding: var(--sd-space-4); }
 
+/* Gap Utilities */
+.sd-u-gap-1 { gap: var(--sd-space-1); }
+.sd-u-gap-2 { gap: var(--sd-space-2); }
+.sd-u-gap-3 { gap: var(--sd-space-3); }
+.sd-u-gap-4 { gap: var(--sd-space-4); }
+
 /* Typography Utilities */
 .sd-u-text-center { text-align: center; }
 .sd-u-text-right { text-align: right; }

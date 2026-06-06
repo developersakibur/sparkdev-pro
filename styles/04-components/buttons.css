@@ -52,6 +52,16 @@
   background: var(--sd-color-cyan-dim);
 }
 
+.sd-c-btn--ghost-cyan {
+  background: var(--sd-color-cyan-dim);
+  color: var(--sd-color-text-primary);
+}
+
+.sd-c-btn--ghost-cyan:hover {
+  background: var(--sd-color-cyan) !important;
+  color: var(--sd-color-black) !important;
+}
+
 .sd-c-btn--icon {
   padding: var(--sd-space-2);
   width: 32px;

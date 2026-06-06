@@ -16,3 +16,9 @@
   font-weight: 500;
   text-transform: none; /* Keep labels as-is */
 }
+
+.text-conv-btn--active {
+  background-color: var(--sd-color-cyan) !important;
+  color: var(--sd-color-black) !important;
+  transition: background-color 0.2s ease;
+}
