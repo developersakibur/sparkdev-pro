@@ -131,7 +131,7 @@
         ...fontData
       });
 
-      if (history.length > 50) history = history.slice(0, 50);
+      if (history.length > 99) history = history.slice(0, 99);
 
       saveHistory();
       renderHistory();
@@ -146,16 +146,17 @@
 
       noFontHistoryEl.style.display = 'none';
       
-      fontHistoryBody.innerHTML = history.map((item, index) => `
-        <tr>
-          <td class="sd-u-p-0 sd-u-text-center sd-u-color-muted" style="padding-left: 10px;">${history.length - index}</td>
-          <td><span class="font-family-text" title="${item.family}">${item.family}</span></td>
-          <td class="font-detail-text">${item.size}</td>
-          <td class="font-detail-text">${item.weight}</td>
-          <td class="font-detail-text">${item.lh}</td>
-          <td class="font-detail-text" style="color: ${item.color}; padding-right: 10px;">${item.color}</td>
-        </tr>
-      `).join('');
+      fontHistoryBody.innerHTML = history.map((item, index) => {
+        return `
+          <tr>
+            <td><span class="font-family-text" title="${item.family}">${item.family}</span></td>
+            <td class="font-detail-text">${item.size}</td>
+            <td class="font-detail-text">${item.weight}</td>
+            <td class="font-detail-text">${item.lh}</td>
+            <td class="font-detail-text" style="padding-right: 10px;">${item.color}</td>
+          </tr>
+        `;
+      }).join('');
     }
 
     init();

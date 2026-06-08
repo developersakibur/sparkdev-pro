@@ -104,7 +104,7 @@
 
       <div class="sd-l-stack">
         <div class="sd-l-flex-between sd-u-mb-1"><span class="sd-u-color-dim" style="font-size: 10px;">Padding</span><span class="sd-u-color-cyan sd-u-font-mono" id="svgBgPaddingVal" style="font-size: 10px;">20</span></div>
-        <input type="range" id="svgBgPadding" min="0" max="80" value="20" class="sd-c-slider">
+        <input type="range" id="svgBgPadding" min="0" max="200" value="20" class="sd-c-slider">
       </div>
 
       <div class="sd-l-stack">
@@ -132,20 +132,29 @@
       </label>
     </div>
     <div class="sd-c-setting-item__content" id="svgShapeContent" style="display: none;">
-      <div class="sd-c-segmented sd-u-mb-3">
-        <button class="sd-c-segmented__btn active" id="shapeModePolygon">Polygon</button>
-        <button class="sd-c-segmented__btn" id="shapeModeBlob">Blob</button>
+      <div class="sd-l-grid-3 sd-u-mb-3" id="svgShapePicker">
+        <button class="sd-c-btn sd-c-btn--secondary active" data-shape="circle" title="Circle">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/></svg>
+        </button>
+        <button class="sd-c-btn sd-c-btn--secondary" data-shape="square" title="Square">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+        </button>
+        <button class="sd-c-btn sd-c-btn--secondary" data-shape="pentagon" title="Pentagon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2 2 9.5 5.5 21h13L22 9.5Z"/></svg>
+        </button>
+        <button class="sd-c-btn sd-c-btn--secondary" data-shape="hexagon" title="Hexagon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2 3 7v10l9 5 9-5V7Z"/></svg>
+        </button>
+        <button class="sd-c-btn sd-c-btn--secondary" data-shape="octagon" title="Octagon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 2h8l6 6v8l-6 6H8l-6-6V8Z"/></svg>
+        </button>
+        <button class="sd-c-btn sd-c-btn--secondary" data-shape="blob" title="Blob">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2c4.4 0 8 2 8 6s-2 6-2 10-4 4-8 4-8-2-8-6 2-10 10-14Z" opacity="0.8"/></svg>
+        </button>
       </div>
 
       <!-- Polygon Controls -->
       <div id="svgPolygonControls" class="sd-l-stack">
-        <div class="sd-l-stack sd-u-mb-3">
-          <div class="sd-l-flex-between sd-u-mb-1">
-            <span class="sd-u-color-dim" style="font-size: 10px;">Sides</span>
-            <span class="sd-u-color-cyan sd-u-font-mono" id="svgShapeSidesVal" style="font-size: 10px;">4</span>
-          </div>
-          <input type="range" id="svgShapeSides" min="3" max="12" value="4" class="sd-c-slider">
-        </div>
         <div class="sd-l-stack">
           <div class="sd-l-flex-between sd-u-mb-1">
             <span class="sd-u-color-dim" style="font-size: 10px;">Roundness</span>

@@ -66,7 +66,12 @@ function initFontFinderUI() {
       .sd-tooltip__label { color: rgba(255,255,255,0.5); font-size: 11px; }
       .sd-tooltip__value { font-family: monospace; font-weight: 600; color: #eee; }
       .sd-overlay { position: fixed; pointer-events: none; background: rgba(0, 242, 255, 0.1); border: 1.5px solid #00f2ff; border-radius: 4px; z-index: 50; transition: all 0.1s ease; box-sizing: border-box; display: none; }
-      .sd-pinned-card { position: absolute; pointer-events: auto; background: rgba(15, 15, 15, 0.98); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 200; min-width: 200px; font-family: Inter, sans-serif; color: #fff; backdrop-filter: blur(10px); }
+      .sd-pinned-card {
+        position: absolute; pointer-events: auto; background: rgba(10, 10, 10, 0.95); color: #fff;
+        padding: 12px 16px; border-radius: 12px; font-size: 12px; font-family: Inter, system-ui, sans-serif;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1); line-height: 1.5;
+        backdrop-filter: blur(12px); z-index: 200; min-width: 180px;
+      }
       .sd-pinned-card__close { position: absolute; top: 8px; right: 8px; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #888; border-radius: 50%; background: rgba(255,255,255,0.05); font-size: 14px; }
       .sd-pinned-card__close:hover { background: rgba(255,0,0,0.2); color: #ff4d4d; }
       .sd-exit-btn { position: fixed; top: 20px; right: 20px; padding: 10px 18px; background: #ff4d4d; color: #fff; border-radius: 50px; font-size: 13px; font-weight: 700; cursor: pointer; pointer-events: auto; z-index: 2147483647; box-shadow: 0 4px 15px rgba(255, 77, 77, 0.4); display: flex; align-items: center; gap: 8px; border: none; transition: all 0.2s ease; font-family: Inter, sans-serif; }

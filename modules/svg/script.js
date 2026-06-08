@@ -1,7 +1,7 @@
 (function() {
   'use strict';
   window.initSvg = function() {
-    let shapeMode = 'polygon'; // 'polygon' or 'blob'
+    let currentShape = 'circle'; 
     let blobSeed = Math.random();
     let arLocked = true;
     let baseWidth = 0, baseHeight = 0;
@@ -34,11 +34,9 @@
       bgRotation: document.getElementById('svgBgRotation'),
       bgOpacity: document.getElementById('svgBgOpacity'),
       shapeEnabled: document.getElementById('svgShapeEnabled'),
-      shapeModePolygon: document.getElementById('shapeModePolygon'),
-      shapeModeBlob: document.getElementById('shapeModeBlob'),
+      shapePicker: document.getElementById('svgShapePicker'),
       polyControls: document.getElementById('svgPolygonControls'),
       blobControls: document.getElementById('svgBlobControls'),
-      shapeSides: document.getElementById('svgShapeSides'),
       shapeRoundness: document.getElementById('svgShapeRoundness'),
       shapeComplexity: document.getElementById('svgShapeComplexity'),
       shapeContrast: document.getElementById('svgShapeContrast'),
@@ -125,25 +123,19 @@
         saveSettings();
       });
 
-      // Shape Mode Toggles
-      els.shapeModePolygon.addEventListener('click', () => {
-        shapeMode = 'polygon';
-        els.shapeModePolygon.classList.add('active');
-        els.shapeModeBlob.classList.remove('active');
-        els.polyControls.style.display = 'flex';
-        els.blobControls.style.display = 'none';
-        updatePreview();
-        saveSettings();
-      });
-
-      els.shapeModeBlob.addEventListener('click', () => {
-        shapeMode = 'blob';
-        els.shapeModeBlob.classList.add('active');
-        els.shapeModePolygon.classList.remove('active');
-        els.blobControls.style.display = 'flex';
-        els.polyControls.style.display = 'none';
-        updatePreview();
-        saveSettings();
+      // Shape Picker
+      els.shapePicker.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          els.shapePicker.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentShape = btn.dataset.shape;
+          
+          els.polyControls.style.display = (currentShape !== 'blob' && currentShape !== 'circle') ? 'flex' : 'none';
+          els.blobControls.style.display = currentShape === 'blob' ? 'flex' : 'none';
+          
+          updatePreview();
+          saveSettings();
+        });
       });
 
       els.shuffleBlob.addEventListener('click', () => {
@@ -176,8 +168,11 @@
       const points = [];
       const roundness = (radius * (roundnessPercent / 100)) * 0.5;
 
+      let startAngle = -Math.PI / 2;
+      if (sides === 4) startAngle -= Math.PI / 4;
+
       for (let i = 0; i < sides; i++) {
-        const angle = (i * 2 * Math.PI) / sides - Math.PI / 2;
+        const angle = (i * 2 * Math.PI) / sides + startAngle;
         points.push({
           x: center + radius * Math.cos(angle),
           y: center + radius * Math.sin(angle)
@@ -210,7 +205,7 @@
 
     function getBlobPath(size, complexity, contrast, seed) {
       const center = size / 2;
-      const radius = size / 2.5;
+      const radius = size / 2.1; // Fill more space, leaving a small buffer
       const points = [];
       const rng = (i) => {
         const x = Math.sin(seed + i) * 10000;
@@ -219,7 +214,7 @@
 
       for (let i = 0; i < complexity; i++) {
         const angle = (i * 2 * Math.PI) / complexity;
-        const distortion = 1 + (rng(i) - 0.5) * (contrast / 100) * 1.5;
+        const distortion = 1 + (rng(i) - 0.5) * (contrast / 100) * 0.8; 
         const r = radius * distortion;
         points.push({
           x: center + r * Math.cos(angle),
@@ -340,10 +335,13 @@
 
       let shapePath = null;
       if (els.shapeEnabled.checked) {
-        if (shapeMode === 'polygon') {
-          shapePath = getPolygonPath(size, parseInt(els.shapeSides.value), parseInt(els.shapeRoundness.value));
-        } else {
+        if (currentShape === 'circle') {
+          shapePath = `M ${size/2}, 0 a ${size/2},${size/2} 0 1,1 0,${size} a ${size/2},${size/2} 0 1,1 0,-${size}`;
+        } else if (currentShape === 'blob') {
           shapePath = getBlobPath(size, parseInt(els.shapeComplexity.value), parseInt(els.shapeContrast.value), blobSeed);
+        } else {
+          const sidesMap = { square: 4, pentagon: 5, hexagon: 6, octagon: 8 };
+          shapePath = getPolygonPath(size, sidesMap[currentShape] || 4, parseInt(els.shapeRoundness.value));
         }
       }
 
@@ -364,7 +362,7 @@
       const labelMappings = [
         ['gradAngle', '°'], ['gradStop1', '%'], ['gradStop2', '%'], 
         ['bgPadding', ''], ['bgRotation', '°'], ['bgOpacity', '%'],
-        ['shapeSides', ''], ['shapeRoundness', '%'], 
+        ['shapeRoundness', '%'], 
         ['shapeComplexity', ''], ['shapeContrast', '%'],
         ['shadowBlur', ''], ['shadowOpacity', '%'], ['shadowOffsetX', ''], ['shadowOffsetY', '']
       ];
@@ -414,7 +412,7 @@
     function saveSettings() {
       const settings = {
         input: els.input.value,
-        shapeMode,
+        currentShape,
         blobSeed,
         colorEnabled: els.colorEnabled.checked,
         iconColor: els.iconColor.value,
@@ -436,7 +434,6 @@
         bgRotation: els.bgRotation.value,
         bgOpacity: els.bgOpacity.value,
         shapeEnabled: els.shapeEnabled.checked,
-        shapeSides: els.shapeSides.value,
         shapeRoundness: els.shapeRoundness.value,
         shapeComplexity: els.shapeComplexity.value,
         shapeContrast: els.shapeContrast.value,
@@ -465,7 +462,7 @@
         }
 
         els.input.value = s.input || defaultSvg;
-        shapeMode = s.shapeMode || 'polygon';
+        currentShape = s.currentShape || 'circle';
         blobSeed = s.blobSeed || Math.random();
         els.colorEnabled.checked = s.colorEnabled ?? true;
         els.iconColor.value = s.iconColor || '#ffffff';
@@ -487,7 +484,6 @@
         els.bgRotation.value = s.bgRotation || 0;
         els.bgOpacity.value = s.bgOpacity || 100;
         els.shapeEnabled.checked = s.shapeEnabled ?? false;
-        els.shapeSides.value = s.shapeSides || 4;
         els.shapeRoundness.value = s.shapeRoundness || 10;
         els.shapeComplexity.value = s.shapeComplexity || 6;
         els.shapeContrast.value = s.shapeContrast || 30;
@@ -504,10 +500,12 @@
         els.lockAR.style.color = arLocked ? 'var(--sd-color-cyan)' : 'var(--sd-color-text-muted)';
         els.lockAR.querySelector('input').checked = arLocked;
         
-        els.shapeModePolygon.classList.toggle('active', shapeMode === 'polygon');
-        els.shapeModeBlob.classList.toggle('active', shapeMode === 'blob');
-        els.polyControls.style.display = shapeMode === 'polygon' ? 'flex' : 'none';
-        els.blobControls.style.display = shapeMode === 'blob' ? 'flex' : 'none';
+        els.shapePicker.querySelectorAll('button').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.shape === currentShape);
+        });
+        
+        els.polyControls.style.display = (currentShape !== 'blob' && currentShape !== 'circle') ? 'flex' : 'none';
+        els.blobControls.style.display = currentShape === 'blob' ? 'flex' : 'none';
 
         document.querySelectorAll('#svgGradientSettings .sd-c-segmented__btn').forEach(btn => {
           btn.classList.toggle('active', btn.dataset.type === els.gradType);

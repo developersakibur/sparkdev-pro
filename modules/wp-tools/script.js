@@ -160,16 +160,5 @@
 
     document.getElementById('normalVisitBtn')?.addEventListener('click', () => openNoCache(false));
     document.getElementById('incognitoBtn')?.addEventListener('click', () => openNoCache(true));
-
-    // --- Freepik Tool ---
-    const copyBtn = document.getElementById('copyUrlBtn');
-    if (copyBtn) {
-      copyBtn.addEventListener('click', async () => {
-        const t = await getCurrentTab();
-        navigator.clipboard.writeText(t.url);
-        copyBtn.textContent = 'URL Copied!';
-        setTimeout(() => copyBtn.textContent = 'Copy URL | Freepik Tool', 1000);
-      });
-    }
   };
 })();

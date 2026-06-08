@@ -185,7 +185,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       }
 
       history.unshift({ id: Date.now(), ...msg.fontData });
-      if (history.length > 50) history.splice(50);
+      if (history.length > 99) history.splice(99);
       
       data.history = history;
       chrome.storage.local.set({ mod_font: data }, () => {
