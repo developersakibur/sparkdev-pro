@@ -52,20 +52,36 @@
 .sd-c-feature-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--sd-space-3);
+  gap: var(--sd-space-2);
   width: 100%;
 }
 
 .sd-c-feature-card {
   background: var(--sd-color-surface);
   border: 1px solid var(--sd-color-border);
-  border-radius: var(--sd-radius-xl);
-  padding: var(--sd-space-3);
+  border-radius: var(--sd-radius-lg);
+  padding: var(--sd-space-2);
   display: flex;
   align-items: center;
-  gap: var(--sd-space-3);
+  gap: var(--sd-space-2);
   cursor: pointer;
   transition: var(--sd-trans-normal);
+}
+
+.sd-c-feature-card:hover {
+  border-color: var(--sd-color-cyan);
+  background: var(--sd-color-surface-hover);
+  box-shadow: var(--sd-shadow-cyan);
+  transform: translateY(-2px);
+}
+
+.sd-c-feature-card:hover div:first-child {
+  transform: scale(1.1);
+  color: var(--sd-color-cyan) !important;
+}
+
+.sd-c-feature-card div:first-child {
+  transition: var(--sd-trans-fast);
 }
 
 .sd-c-feature-card:active {

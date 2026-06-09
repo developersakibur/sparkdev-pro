@@ -18,33 +18,6 @@ const FEATURES = [
     icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>'
   },
   { 
-    id: 'tab-svg', 
-    label: 'Svg', 
-    desc: 'Icon Vault', 
-    template: 'modules/svg/template.html',
-    script: 'modules/svg/script.js',
-    init: () => window.initSvg && window.initSvg(),
-    icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.62 1.97V21a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5.43a2 2 0 0 0-1.62-1.97z"></path><path d="M12 22V11"></path><path d="M8 14h8"></path></svg>'
-  },
-  { 
-    id: 'tab-wp', 
-    label: 'WP Tools', 
-    desc: 'Quick Shortcuts', 
-    template: 'modules/wp-tools/template.html',
-    script: 'modules/wp-tools/script.js',
-    init: () => window.initWP && window.initWP(),
-    icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>'
-  },
-  { 
-    id: 'tab-pass', 
-    label: 'Pass', 
-    desc: 'Secure Generator', 
-    template: 'modules/pass/template.html',
-    script: 'modules/pass/script.js',
-    init: () => window.initPass && window.initPass(),
-    icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>'
-  },
-  { 
     id: 'tab-color', 
     label: 'Color', 
     desc: 'EyeDropper Tool', 
@@ -63,6 +36,24 @@ const FEATURES = [
     icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"></path><path d="M9 20h6"></path><path d="M12 4v16"></path></svg>'
   },
   { 
+    id: 'tab-wp', 
+    label: 'WP Tools', 
+    desc: 'Quick Shortcuts', 
+    template: 'modules/wp-tools/template.html',
+    script: 'modules/wp-tools/script.js',
+    init: () => window.initWP && window.initWP(),
+    icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>'
+  },
+  { 
+    id: 'tab-svg', 
+    label: 'Svg', 
+    desc: 'Icon Vault', 
+    template: 'modules/svg/template.html',
+    script: 'modules/svg/script.js',
+    init: () => window.initSvg && window.initSvg(),
+    icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.62 1.97V21a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V5.43a2 2 0 0 0-1.62-1.97z"></path><path d="M12 22V11"></path><path d="M8 14h8"></path></svg>'
+  },
+  { 
     id: 'tab-text', 
     label: 'Text', 
     desc: 'Case Transformer', 
@@ -79,6 +70,15 @@ const FEATURES = [
     script: 'modules/notepad/script.js',
     init: () => window.initNotepad && window.initNotepad(),
     icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>'
+  },
+  { 
+    id: 'tab-pass', 
+    label: 'Pass', 
+    desc: 'Secure Generator', 
+    template: 'modules/pass/template.html',
+    script: 'modules/pass/script.js',
+    init: () => window.initPass && window.initPass(),
+    icon: '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>'
   },
   { 
     id: 'tab-settings', 
@@ -149,12 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
       card.draggable = true;
       card.dataset.id = feature.id;
       card.innerHTML = `
-        <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: var(--sd-color-black); border-radius: 8px; color: var(--sd-color-cyan); flex-shrink: 0; pointer-events: none;">
-          ${feature.icon}
+        <div style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: var(--sd-color-black); border-radius: 6px; color: var(--sd-color-cyan); flex-shrink: 0; pointer-events: none;">
+          ${feature.icon.replace('width="24"', 'width="16"').replace('height="24"', 'height="16"')}
         </div>
         <div style="flex: 1; min-width: 0; text-align: left; pointer-events: none;">
-          <h3 style="font-size: 13px; font-weight: 600; color: var(--sd-color-text-primary); margin-bottom: 2px;">${feature.label}</h3>
-          <p style="font-size: 10px; color: var(--sd-color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${feature.desc}</p>
+          <h3 style="font-size: 12px; font-weight: 600; color: var(--sd-color-text-primary); margin-bottom: 0;">${feature.label}</h3>
+          <p style="font-size: 9px; color: var(--sd-color-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${feature.desc}</p>
         </div>
       `;
       

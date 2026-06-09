@@ -1,7 +1,34 @@
 <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="128" height="128" rx="24" fill="#0A0A0B"/>
-  <path d="M64 15L106.435 39.5V88.5L64 113L21.5647 88.5V39.5L64 15Z" fill="#00FFFF" fill-opacity="0.1" stroke="#00FFFF" stroke-width="4"/>
-  <path d="M55 45L40 64H58L53 83L68 64H50L55 45Z" fill="#00FFFF"/>
-  <path d="M80 50L85 55L80 60" stroke="#00FFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M80 68L85 73L80 78" stroke="#00FFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Professional Hexagonal Shield with Depth -->
+  <defs>
+    <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00FFFF" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="128" height="128" rx="32" fill="#0A0A0B"/>
+  
+  <!-- Outer Hexagon Frame -->
+  <path d="M64 20L102.1 42V86L64 108L25.9 86V42L64 20Z" stroke="url(#logo-grad)" stroke-width="2" stroke-opacity="0.2"/>
+  <path d="M64 25L97.77 44.5V83.5L64 103L30.23 83.5V44.5L64 25Z" fill="url(#logo-grad)" fill-opacity="0.05" stroke="url(#logo-grad)" stroke-width="4" filter="url(#glow)"/>
+
+  <!-- Unified Workspace Symbol: Spark + Brackets -->
+  <g transform="translate(42, 44) scale(0.35)">
+    <!-- Brackets < > -->
+    <path d="M40 30L10 60L40 90" stroke="url(#logo-grad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M90 30L120 60L90 90" stroke="url(#logo-grad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    
+    <!-- Central Spark -->
+    <path d="M65 10L55 55H75L65 110" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- Technical Accents -->
+  <circle cx="64" cy="20" r="3" fill="#00FFFF" />
+  <circle cx="102.1" cy="42" r="2" fill="#00FFFF" fill-opacity="0.5" />
+  <circle cx="25.9" cy="42" r="2" fill="#00FFFF" fill-opacity="0.5" />
 </svg>
