@@ -1,44 +1,8 @@
 /* 
-   SVG Modulator Module Styles
+   SVG Module Styles
    Standardized via sd- framework.
 */
 
-.sd-l-sticky-top {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--sd-color-black);
-}
-
-.sd-c-setting-item {
-  flex-shrink: 0;
-  margin-bottom: 0 !important;
-}
-
-
-.sd-c-setting-item__header {
-  min-height: 44px;
-}
-
-.sd-c-setting-item__content {
-  border-top: 1px solid var(--sd-color-border);
-  padding: var(--sd-space-4);
-  background: rgba(255, 255, 255, 0.02);
-  flex-direction: column;
-  gap: var(--sd-space-4);
-}
-
-#svgLockAR {
-  border-radius: var(--sd-radius-md);
-  transition: var(--sd-trans-fast);
-  width: 90px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#svgLockAR:hover {
-  color: var(--sd-color-cyan) !important;
-  background: var(--sd-color-cyan-dim);
+#svgPreviewBox svg {
+  color: var( --sd-color-text-primary);
 }
